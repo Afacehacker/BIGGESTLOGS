@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ShieldCheck, ChevronLeft, UploadCloud, Info, Check, Zap } from 'lucide-react';
+import { ShieldCheck, ChevronLeft, UploadCloud, Info, Check, Zap, Copy } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import API from '../services/api';
 import { AuthContext } from '../context/AuthContext';
@@ -19,6 +19,14 @@ const ProductDetail = () => {
     const [paymentProof, setPaymentProof] = useState('');
     const [uploadingReceipt, setUploadingReceipt] = useState(false);
     const [placingOrder, setPlacingOrder] = useState(false);
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText('7025860259');
+        setCopied(true);
+        toast.success('Account number copied!');
+        setTimeout(() => setCopied(false), 2000);
+    };
 
     useEffect(() => {
         const fetchAccount = async () => {
@@ -190,17 +198,24 @@ const ProductDetail = () => {
                                     <div className="bg-white/5 p-4 rounded-xl border border-white/5">
                                         <h4 className="font-bold text-sm mb-2 text-white/80">Step 1: Make Payment</h4>
                                         <p className="text-xs text-gray-400 mb-4 whitespace-pre-line leading-relaxed">
-                                            Transfer exactly <strong>₦{account.price}</strong> to the account provided below on our Telegram channel or Admin line directly.
+                                            Transfer exactly <strong>₦{account.price}</strong> to the account provided below.
                                         </p>
                                         <div className="bg-dark-bg/50 p-3 rounded-lg border border-white/5 mb-4">
                                             <p className="text-gray-300 text-sm flex justify-between border-b border-white/5 pb-2 mb-2">
                                                 <span>Account Name:</span>
                                                 <span className="font-bold text-white">Boluwatife Ogunmuyiwa</span>
                                             </p>
-                                            <p className="text-gray-300 text-sm flex justify-between border-b border-white/5 pb-2 mb-2">
+                                            <div className="text-gray-300 text-sm flex justify-between border-b border-white/5 pb-2 mb-2 items-center">
                                                 <span>Account Number:</span>
-                                                <span className="font-bold text-primary-light text-lg">7025860259</span>
-                                            </p>
+                                                <div
+                                                    onClick={handleCopy}
+                                                    className="flex items-center gap-2 cursor-pointer group bg-black/20 hover:bg-black/40 px-3 py-1.5 rounded-lg transition-colors border border-white/5"
+                                                    title="Click to copy"
+                                                >
+                                                    <span className="font-bold text-primary-light text-lg">7025860259</span>
+                                                    {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} className="text-gray-500 group-hover:text-white transition-colors" />}
+                                                </div>
+                                            </div>
                                             <p className="text-gray-300 text-sm flex justify-between">
                                                 <span>Bank Name:</span>
                                                 <span className="font-bold text-white">MOMO PSB</span>
