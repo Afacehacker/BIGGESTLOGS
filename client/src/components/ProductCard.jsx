@@ -53,7 +53,7 @@ const ProductCard = ({ account }) => {
             <div className="mt-auto flex items-center justify-between pt-6 border-t border-white/5">
                 <div>
                     <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Starting At</p>
-                    <p className="text-xl font-bold text-white">${account.price}</p>
+                    <p className="text-xl font-bold text-white">₦{account.price}</p>
                 </div>
 
                 <Link

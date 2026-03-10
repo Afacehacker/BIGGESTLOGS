@@ -88,7 +88,7 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Price ($)</label>
+                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Price (₦)</label>
                             <input
                                 required
                                 type="number"

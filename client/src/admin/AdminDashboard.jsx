@@ -108,7 +108,7 @@ const OverviewTab = ({ orders, accounts }) => {
         <div className="p-8">
             <h2 className="text-2xl font-bold mb-8">Performance Stats</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <StatCard label="Total Revenue" value={`$${revenue}`} color="text-green-400" />
+                <StatCard label="Total Revenue" value={`₦${revenue}`} color="text-green-400" />
                 <StatCard label="Pending Orders" value={orders.filter(o => o.status === 'pending').length} color="text-yellow-400" />
                 <StatCard label="Active Listings" value={accounts.length} color="text-primary-light" />
             </div>
@@ -178,7 +178,7 @@ const AccountsTab = ({ accounts, onDelete, onAdd }) => (
                         <img src={acc.image} className="w-12 h-12 rounded-lg object-cover" />
                         <div>
                             <p className="font-bold text-sm">{acc.title}</p>
-                            <p className="text-xs text-gray-500">${acc.price} • Stock: {acc.stock}</p>
+                            <p className="text-xs text-gray-500">₦{acc.price} • Stock: {acc.stock}</p>
                         </div>
                     </div>
                     <div className="flex gap-2">

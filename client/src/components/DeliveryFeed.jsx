@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import { Package, MapPin, ExternalLink } from 'lucide-react';
 
 const deliveries = [
-    { id: 1, user: 'U***91', platform: 'Instagram', price: '$45.00', time: '2 mins ago' },
-    { id: 2, user: 'D***k2', platform: 'Twitter (X)', price: '$120.00', time: '5 mins ago' },
-    { id: 3, user: 'K***s1', platform: 'Facebook', price: '$85.00', time: '8 mins ago' },
+    { id: 1, user: 'U***91', platform: 'Instagram', price: '₦45,000', time: '2 mins ago' },
+    { id: 2, user: 'D***k2', platform: 'Twitter (X)', price: '₦120,000', time: '5 mins ago' },
+    { id: 3, user: 'K***s1', platform: 'Facebook', price: '₦85,000', time: '8 mins ago' },
 ];
 
 const DeliveryFeed = () => {
