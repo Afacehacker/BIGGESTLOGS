@@ -95,17 +95,17 @@ const ProductDetail = () => {
                 
                 {/* Product Main Display */}
                 <div className="bg-white rounded-[20px] p-2 border border-gray-100 shadow-sm mb-6">
-                    <div className={`${platColor} w-full h-40 rounded-[14px] flex items-center justify-center relative overflow-hidden`}>
+                    <div className={`${platColor} w-full rounded-[14px] flex items-center justify-center relative overflow-hidden`}>
                         <img 
                             src={account.image || 'https://via.placeholder.com/600'} 
                             alt={account.title} 
-                            className="w-full h-full object-cover mix-blend-overlay opacity-80"
+                            className="w-full max-h-[350px] object-contain bg-black/10"
                         />
-                        <div className="absolute inset-x-4 bottom-4 flex justify-between items-end drop-shadow-md">
-                            <span className="bg-white text-black font-extrabold text-[10px] px-2 py-1 rounded tracking-widest uppercase">
+                        <div className="absolute inset-x-4 top-4 flex justify-between items-start drop-shadow-md">
+                            <span className="bg-white text-black font-extrabold text-[10px] px-2 py-1 rounded tracking-widest uppercase shadow-sm">
                                 {account.platform}
                             </span>
-                            <span className="bg-green-500 text-white font-extrabold text-[10px] px-2 py-1 rounded tracking-normal flex items-center gap-1">
+                            <span className="bg-green-500 text-white font-extrabold text-[10px] px-2 py-1 rounded tracking-normal flex items-center gap-1 shadow-sm border border-green-400">
                                 <CheckCircle size={12}/> {account.quality}%
                             </span>
                         </div>
