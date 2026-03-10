@@ -116,7 +116,7 @@ const Home = () => {
                                 {/* View All Button */}
                                 {groupedAccounts[groupName].length > 5 && (
                                     <div className="mt-4 mb-8">
-                                        <Link to="/shop" className="block w-full text-center bg-[#524df9] hover:bg-blue-600 transition-colors text-white py-4 rounded-[16px] shadow-lg font-bold text-[16px]">
+                                        <Link to="/shop" className="block w-full text-center bg-[#1b2331] hover:bg-black transition-colors text-white py-4 rounded-xl shadow-md font-black uppercase text-[13px] tracking-widest">
                                             View All {groupName}
                                         </Link>
                                     </div>
@@ -130,7 +130,7 @@ const Home = () => {
 
             {/* Floating Telegram Button */}
             <a href="https://t.me/everythinglogs1" target="_blank" rel="noopener noreferrer" 
-                className="fixed bottom-[110px] right-6 md:right-10 bg-[#0088cc] p-4 rounded-full shadow-2xl z-50 hover:scale-110 transition-transform flex items-center justify-center border-4 border-blue-50">
+                className="fixed bottom-[110px] right-6 md:right-10 bg-[#0088cc] hover:bg-[#0077b5] transition-colors p-4 rounded-2xl shadow-lg z-50 flex items-center justify-center border-2 border-blue-50">
                 <Send size={28} className="text-white -ml-1 mt-1" fill="currentColor" />
             </a>
             

@@ -19,7 +19,7 @@ const Navbar = () => {
             <nav className="bg-white sticky top-0 z-50 px-4 py-3 border-b border-gray-100 shadow-sm flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <Link to="/" className="text-2xl font-black tracking-tighter flex items-center gap-1 group">
-                        <div className="bg-gradient-to-tr from-blue-600 to-cyan-400 text-white p-1 rounded-lg shadow-lg group-hover:scale-110 transition-transform">
+                        <div className="bg-gradient-to-tr from-blue-600 to-cyan-400 text-white p-1 rounded-lg shadow-sm">
                             <Rocket size={20} fill="currentColor" />
                         </div>
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-blue-400">
@@ -67,26 +67,26 @@ const Navbar = () => {
                         <span className="text-[10px] whitespace-nowrap">Home</span>
                     </Link>
 
+                    <Link to="/shop" className={`flex flex-col items-center gap-1 ${location.pathname === '/shop' ? 'text-gray-800' : 'text-gray-400'}`}>
+                        <div className="p-1">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-store"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>
+                        </div>
+                        <span className="text-[10px] whitespace-nowrap">Shop</span>
+                    </Link>
+
                     <Link to="/wallet" className={`flex flex-col items-center gap-1 ${location.pathname === '/wallet' ? 'text-gray-800' : 'text-gray-400'}`}>
                         <div className="p-1">
                             <Download strokeWidth={2} size={22} className="rotate-180" />
                         </div>
-                        <span className="text-[10px] whitespace-nowrap">Fund Wallet</span>
+                        <span className="text-[10px] whitespace-nowrap">Wallet</span>
                     </Link>
 
                     <Link to="/dashboard" className={`flex flex-col items-center gap-1 ${location.pathname === '/dashboard' ? 'text-gray-800' : 'text-gray-400'}`}>
                         <div className="p-1">
-                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-receipt-text"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+                           <LayoutDashboard strokeWidth={2} size={22} />
                         </div>
                         <span className="text-[10px] whitespace-nowrap">Orders</span>
                     </Link>
-
-                    <a href="https://t.me/everythinglogs1" target="_blank" rel="noreferrer" className="flex flex-col items-center gap-1 text-gray-400">
-                        <div className="p-1">
-                            <HelpCircle strokeWidth={2} size={22} />
-                        </div>
-                        <span className="text-[10px] whitespace-nowrap">Contact</span>
-                    </a>
 
                     {user ? (
                         <button onClick={handleLogout} className="flex flex-col items-center gap-1 text-gray-400">
@@ -103,13 +103,6 @@ const Navbar = () => {
                             <span className="text-[10px] whitespace-nowrap">Log In</span>
                         </Link>
                     )}
-                </div>
-
-                {/* Pill loggsplug.shop style */}
-                <div className="mt-1 flex justify-center pb-2">
-                    <div className="bg-white border border-gray-200 rounded-full px-6 py-1 text-[11px] font-bold text-black shadow-sm">
-                        biggestlogs.shop
-                    </div>
                 </div>
             </div>
         </>

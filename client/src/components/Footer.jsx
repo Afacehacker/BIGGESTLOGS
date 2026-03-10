@@ -7,7 +7,7 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20 text-center md:text-left">
                 <div className="col-span-1 md:col-span-2">
                     <Link to="/" className="text-3xl font-black mb-6 flex items-center gap-1 group w-max">
-                        <div className="bg-gradient-to-tr from-blue-600 to-cyan-400 text-white p-2 rounded-xl shadow-lg group-hover:scale-110 transition-transform">
+                        <div className="bg-gradient-to-tr from-blue-600 to-cyan-400 text-white p-2 rounded-xl shadow-sm">
                             <Rocket size={24} fill="currentColor" />
                         </div>
                         <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-blue-400">
