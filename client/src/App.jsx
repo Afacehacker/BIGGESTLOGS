@@ -22,7 +22,7 @@ function App() {
         <Router>
             <ThemeProvider>
                 <AuthProvider>
-                    <div className="min-h-screen bg-white dark:bg-dark-bg text-gray-900 dark:text-white transition-colors duration-300 flex flex-col">
+                    <div className="min-h-screen bg-[#faf9f6] dark:bg-dark-bg text-gray-900 dark:text-white transition-colors duration-300 flex flex-col">
                         <Toaster
                             position="top-right"
                             toastOptions={{

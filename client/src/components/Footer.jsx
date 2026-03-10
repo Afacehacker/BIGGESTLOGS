@@ -59,7 +59,7 @@ const Footer = () => {
 const SocialIcon = ({ icon, href }) => (
     <a
         href={href}
-        className="w-12 h-12 glass rounded-2xl flex items-center justify-center bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-white hover:bg-primary hover:text-white transition-all transform hover:scale-110"
+        className="w-12 h-12 glass rounded-2xl flex items-center justify-center bg-[#faf9f6] dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-white hover:bg-primary hover:text-white transition-all transform hover:scale-110"
     >
         {icon}
     </a>

@@ -10,7 +10,7 @@ import FAQ from '../components/FAQ';
 
 const Home = () => {
     return (
-        <div className="relative overflow-hidden bg-white dark:bg-dark-bg transition-colors duration-300">
+        <div className="relative overflow-hidden bg-[#faf9f6] dark:bg-dark-bg transition-colors duration-300">
             <LivePurchaseNotification />
 
             {/* Hero Section */}
@@ -65,7 +65,7 @@ const Home = () => {
                         <DeliveryFeed />
 
                         {/* Status Badge */}
-                        <div className="absolute -bottom-8 -right-8 glass p-8 rounded-[2rem] border-primary/30 shadow-2xl animate-float bg-white/10 backdrop-blur-xl">
+                        <div className="absolute -bottom-8 -right-8 glass p-8 rounded-[2rem] border-primary/30 shadow-2xl animate-float bg-[#faf9f6]/10 backdrop-blur-xl">
                             <div className="flex items-center gap-5">
                                 <div className="relative">
                                     <div className="bg-green-500 w-4 h-4 rounded-full shadow-[0_0_15px_#22c55e]" />
@@ -143,7 +143,7 @@ const Home = () => {
 const FeatureBox = ({ icon, title, desc }) => (
     <motion.div
         whileHover={{ y: -10 }}
-        className="glass-card !p-12 border-gray-200 dark:border-white/5 bg-white dark:bg-white/5 group hover:bg-primary/5 transition-all"
+        className="glass-card !p-12 border-gray-200 dark:border-white/5 bg-[#faf9f6] dark:bg-white/5 group hover:bg-primary/5 transition-all"
     >
         <div className="mb-8 text-primary group-hover:scale-110 transition-transform duration-300">
             {icon}

@@ -64,7 +64,7 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-            <div className="bg-white dark:bg-[#1e293b] w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl animate-fade-in relative border border-gray-200 dark:border-white/10">
+            <div className="bg-[#faf9f6] dark:bg-[#1e293b] w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl animate-fade-in relative border border-gray-200 dark:border-white/10">
                 <div className="p-6 border-b border-gray-200 dark:border-white/10 flex justify-between items-center">
                     <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Add New Listing</h2>
                     <button onClick={onClose} className="p-2 text-gray-500 hover:text-red-500 rounded-full hover:bg-red-500/10 transition-colors">

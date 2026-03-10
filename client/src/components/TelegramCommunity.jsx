@@ -83,7 +83,7 @@ const TelegramCommunity = () => {
 };
 
 const CommunityFeature = ({ icon, title, desc }) => (
-    <div className="glass p-8 rounded-3xl border-gray-200 dark:border-white/5 bg-white dark:bg-white/5 hover:bg-gray-50 dark:hover:bg-white/10 transition-all shadow-sm">
+    <div className="glass p-8 rounded-3xl border-gray-200 dark:border-white/5 bg-[#faf9f6] dark:bg-white/5 hover:bg-[#f5f4f0] dark:hover:bg-white/10 transition-all shadow-sm">
         <div className="mb-6">{icon}</div>
         <h4 className="font-bold text-gray-900 dark:text-white text-base mb-2">{title}</h4>
         <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-medium">{desc}</p>
