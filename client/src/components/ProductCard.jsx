@@ -16,13 +16,13 @@ const ProductCard = ({ account }) => {
             </div>
 
             {/* Image Container */}
-            <div className="relative h-48 mb-6 overflow-hidden rounded-xl bg-dark-bg/50 border border-white/5">
+            <div className="relative h-48 mb-6 overflow-hidden rounded-xl bg-gray-100 dark:bg-dark-bg/50 border border-gray-200 dark:border-white/5">
                 <img
                     src={account.image || 'https://via.placeholder.com/300x200'}
                     alt={account.title}
                     className="w-full h-full object-contain p-2 opacity-90 group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-bg to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-100 dark:from-dark-bg to-transparent opacity-60" />
 
                 {/* Quality Badge */}
                 <div className="absolute bottom-3 left-3 flex items-center gap-1 bg-green-500/20 text-green-400 px-2 py-0.5 rounded text-[10px] font-bold border border-green-500/30">
@@ -32,17 +32,17 @@ const ProductCard = ({ account }) => {
 
             {/* Content */}
             <div className="flex-grow">
-                <h3 className="text-lg font-bold mb-2 group-hover:text-primary-light transition-colors line-clamp-1">
+                <h3 className="text-lg font-bold mb-2 text-gray-900 dark:text-white group-hover:text-primary-light transition-colors line-clamp-1">
                     {account.title}
                 </h3>
-                <p className="text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed font-medium">
                     {account.description}
                 </p>
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-6">
                     {account.badges?.map((badge, i) => (
-                        <span key={i} className="text-[10px] bg-white/5 px-2 py-0.5 rounded uppercase font-bold text-gray-400 border border-white/5 tracking-wider">
+                        <span key={i} className="text-[10px] bg-gray-200 dark:bg-white/5 px-2 py-0.5 rounded uppercase font-bold text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-white/5 tracking-wider">
                             {badge}
                         </span>
                     ))}
@@ -50,10 +50,10 @@ const ProductCard = ({ account }) => {
             </div>
 
             {/* Footer */}
-            <div className="mt-auto flex items-center justify-between pt-6 border-t border-white/5">
+            <div className="mt-auto flex items-center justify-between pt-6 border-t border-gray-200 dark:border-white/5">
                 <div>
                     <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Starting At</p>
-                    <p className="text-xl font-bold text-white">₦{account.price}</p>
+                    <p className="text-xl font-bold text-gray-900 dark:text-white">₦{account.price}</p>
                 </div>
 
                 <Link

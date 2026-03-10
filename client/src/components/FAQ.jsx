@@ -28,20 +28,20 @@ const FAQ = () => {
         <section className="py-24 px-6">
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
+                    <h2 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3 text-gray-900 dark:text-white">
                         <HelpCircle className="text-primary" /> FREQUENTLY <span className="text-primary-light">ASKED</span>
                     </h2>
-                    <p className="text-gray-400">Everything you need to know about our trading process.</p>
+                    <p className="text-gray-500 dark:text-gray-400">Everything you need to know about our trading process.</p>
                 </div>
 
                 <div className="space-y-4">
                     {faqs.map((faq, i) => (
-                        <div key={i} className="glass rounded-3xl overflow-hidden border-white/5 bg-white/5">
+                        <div key={i} className="glass rounded-3xl overflow-hidden border-gray-200 dark:border-white/5 bg-[#faf9f6]/80 dark:bg-white/5">
                             <button
                                 onClick={() => setSelected(selected === i ? null : i)}
-                                className="w-full flex items-center justify-between p-8 text-left hover:bg-white/5 transition-all"
+                                className="w-full flex items-center justify-between p-8 text-left hover:bg-gray-100 dark:hover:bg-white/5 transition-all"
                             >
-                                <span className="font-bold text-lg">{faq.q}</span>
+                                <span className="font-bold text-lg text-gray-900 dark:text-white">{faq.q}</span>
                                 <div className="p-2 rounded-full bg-primary/10 text-primary">
                                     {selected === i ? <Minus size={20} /> : <Plus size={20} />}
                                 </div>
@@ -53,7 +53,7 @@ const FAQ = () => {
                                         initial={{ height: 0, opacity: 0 }}
                                         animate={{ height: 'auto', opacity: 1 }}
                                         exit={{ height: 0, opacity: 0 }}
-                                        className="px-8 pb-8 text-gray-400 leading-relaxed"
+                                        className="px-8 pb-8 text-gray-600 dark:text-gray-400 leading-relaxed font-medium"
                                     >
                                         {faq.a}
                                     </motion.div>

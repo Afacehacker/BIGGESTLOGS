@@ -21,7 +21,7 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto flex justify-between items-center">
                 <Link to="/" className="text-2xl font-bold tracking-tighter flex items-center gap-2">
                     <span className="bg-primary px-2 py-1 rounded text-white shadow-lg shadow-primary/30">BIGGEST</span>
-                    <span className="text-white">LOGS</span>
+                    <span className="text-gray-900 dark:text-white">LOGS</span>
                 </Link>
 
                 {/* Desktop Links */}

@@ -37,7 +37,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto border-t border-gray-200 dark:border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-8 text-gray-400 text-sm font-medium">
+            <div className="max-w-7xl mx-auto border-t border-gray-200 dark:border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-8 text-gray-500 dark:text-gray-400 text-sm font-medium">
                 <div className="flex items-center gap-6">
                     <p>© 2026 BIGGESTLOGS®.</p>
                     <div className="hidden md:flex gap-6">

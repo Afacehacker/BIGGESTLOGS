@@ -36,8 +36,8 @@ const Shop = () => {
             {/* Header */}
             <div className="flex flex-col md:row justify-between items-end gap-8 mb-16 px-4 py-8 glass rounded-3xl">
                 <div>
-                    <h1 className="text-4xl font-bold mb-2">Marketplace</h1>
-                    <p className="text-gray-400">Discover verified accounts and high-quality digital assets.</p>
+                    <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white">Marketplace</h1>
+                    <p className="text-gray-500 dark:text-gray-400">Discover verified accounts and high-quality digital assets.</p>
                 </div>
 
                 <div className="flex gap-4 w-full md:w-auto">
@@ -69,7 +69,7 @@ const Shop = () => {
                                 <button
                                     key={p}
                                     onClick={() => setFilters({ ...filters, platform: p })}
-                                    className={`w-full text-left px-4 py-2 rounded-xl transition-all ${filters.platform === p ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'hover:bg-white/5 text-gray-400'}`}
+                                    className={`w-full text-left px-4 py-2 rounded-xl transition-all ${filters.platform === p ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'hover:bg-gray-100 dark:hover:bg-white/5 text-gray-600 dark:text-gray-400 font-medium'}`}
                                 >
                                     {p}
                                 </button>
@@ -84,7 +84,7 @@ const Shop = () => {
                                 <button
                                     key={t}
                                     onClick={() => setFilters({ ...filters, type: t })}
-                                    className={`px-4 py-2 rounded-xl text-sm transition-all ${filters.type === t ? 'bg-primary text-white' : 'glass hover:bg-white/10 text-gray-400'}`}
+                                    className={`px-4 py-2 rounded-xl text-sm transition-all ${filters.type === t ? 'bg-primary text-white' : 'glass hover:bg-gray-100 dark:hover:bg-white/10 text-gray-600 dark:text-gray-400 font-medium'}`}
                                 >
                                     {t}
                                 </button>
@@ -108,9 +108,9 @@ const Shop = () => {
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-20 glass rounded-3xl">
-                            <ShoppingBag size={48} className="mx-auto mb-4 text-gray-600" />
-                            <p className="text-gray-400 text-lg">No assets found matching your filters.</p>
+                        <div className="text-center py-20 glass rounded-3xl bg-[#faf9f6]/90 dark:bg-white/5 border border-gray-200 dark:border-white/5">
+                            <ShoppingBag size={48} className="mx-auto mb-4 text-gray-400 dark:text-gray-600" />
+                            <p className="text-gray-600 dark:text-gray-400 text-lg">No assets found matching your filters.</p>
                             <button
                                 onClick={() => setFilters({ platform: 'all', type: 'all', search: '' })}
                                 className="mt-4 text-primary underline"

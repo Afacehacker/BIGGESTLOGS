@@ -29,7 +29,7 @@ const LivePurchaseNotification = () => {
                     initial={{ x: -100, opacity: 0 }}
                     animate={{ x: 20, opacity: 1 }}
                     exit={{ x: -100, opacity: 0 }}
-                    className="fixed bottom-10 left-0 z-[60] glass-card !p-4 flex items-center gap-4 bg-dark-bg/90 border-primary/30"
+                    className="fixed bottom-10 left-0 z-[60] glass-card !p-4 flex items-center gap-4 bg-white/90 dark:bg-dark-bg/90 border-primary/30"
                 >
                     <div className="bg-primary/20 p-2 rounded-full">
                         <ShoppingCart size={20} className="text-primary-light" />
