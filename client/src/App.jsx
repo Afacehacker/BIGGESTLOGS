@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import API from './services/api';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
@@ -18,6 +20,19 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 
 function App() {
+    // Keep Render Backend Awake while the tab is open
+    useEffect(() => {
+        const pingServer = () => {
+            API.get('/ping').catch(() => { });
+        };
+        // Ping immediately on load
+        pingServer();
+
+        // Ping every 10 minutes (600000ms) to prevent render from sleeping
+        const interval = setInterval(pingServer, 600000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <Router>
             <ThemeProvider>

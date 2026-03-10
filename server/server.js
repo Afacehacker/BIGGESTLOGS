@@ -30,6 +30,11 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 
+// Health check endpoint for keeping the server awake
+app.get('/api/ping', (req, res) => {
+    res.status(200).json({ status: 'alive', time: new Date() });
+});
+
 // --- Production Setup ---
 if (process.env.NODE_ENV === 'production') {
     const __dirname = path.resolve();
