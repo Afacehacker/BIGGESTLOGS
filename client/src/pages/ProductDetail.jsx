@@ -192,9 +192,20 @@ const ProductDetail = () => {
                                         <p className="text-xs text-gray-400 mb-4 whitespace-pre-line leading-relaxed">
                                             Transfer exactly <strong>₦{account.price}</strong> to the account provided below on our Telegram channel or Admin line directly.
                                         </p>
-                                        <a href="https://t.me/everythinglogs1" target="_blank" rel="noreferrer" className="text-sm text-primary hover:underline font-bold flex items-center gap-1">
-                                            <Zap size={14} /> Get Payment Details via Telegram
-                                        </a>
+                                        <div className="bg-dark-bg/50 p-3 rounded-lg border border-white/5 mb-4">
+                                            <p className="text-gray-300 text-sm flex justify-between border-b border-white/5 pb-2 mb-2">
+                                                <span>Account Name:</span>
+                                                <span className="font-bold text-white">Boluwatife Ogunmuyiwa</span>
+                                            </p>
+                                            <p className="text-gray-300 text-sm flex justify-between border-b border-white/5 pb-2 mb-2">
+                                                <span>Account Number:</span>
+                                                <span className="font-bold text-primary-light text-lg">7025860259</span>
+                                            </p>
+                                            <p className="text-gray-300 text-sm flex justify-between">
+                                                <span>Bank Name:</span>
+                                                <span className="font-bold text-white">MOMO PSB</span>
+                                            </p>
+                                        </div>
                                     </div>
 
                                     <div>
