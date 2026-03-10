@@ -40,7 +40,7 @@ const LivePurchaseNotification = () => {
                             <span className="font-bold">{notification.name}</span> just bought an
                             <span className="text-accent-neon ml-1">{notification.platform}</span> account
                         </p>
-                        <p className="text-[10px] text-gray-400 mt-1 italic">Verified 2 minutes ago</p>
+                        <p className="text-[10px] text-gray-600 dark:text-gray-400 mt-1 italic">Verified 2 minutes ago</p>
                     </div>
                 </motion.div>
             )}

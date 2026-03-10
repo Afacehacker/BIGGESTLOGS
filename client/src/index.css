@@ -21,7 +21,7 @@ body {
     }
 
     .glass-card {
-        @apply glass rounded-3xl p-8 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1;
+        @apply glass rounded-3xl p-8 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1 bg-white/80 dark:bg-white/10;
     }
 
     .neon-text {
@@ -38,7 +38,7 @@ body {
     }
 
     .input-field {
-        @apply bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all;
+        @apply bg-[#f8fafc] dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500;
     }
 }
 

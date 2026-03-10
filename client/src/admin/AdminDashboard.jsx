@@ -59,8 +59,8 @@ const AdminDashboard = () => {
         <div className="pt-24 pb-32 px-6 max-w-7xl mx-auto">
             <div className="mb-12 flex justify-between items-center">
                 <div>
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Management Hub</h1>
-                    <p className="text-gray-400">Total control over orders and assets.</p>
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-white/60 bg-clip-text text-transparent">Management Hub</h1>
+                    <p className="text-gray-600 dark:text-gray-400">Total control over orders and assets.</p>
                 </div>
                 <button onClick={fetchData} className="glass p-3 rounded-xl hover:text-primary border-primary/20">
                     <RefreshCw size={20} className={loading ? 'animate-spin' : ''} />
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
 const TabButton = ({ id, active, set, icon, label, count }) => (
     <button
         onClick={() => set(id)}
-        className={`w-full flex items-center justify-between px-6 py-4 rounded-2xl transition-all ${active === id ? 'bg-primary text-white shadow-xl shadow-primary/20 scale-105 z-10' : 'hover:bg-white/5 text-gray-400'}`}
+        className={`w-full flex items-center justify-between px-6 py-4 rounded-2xl transition-all ${active === id ? 'bg-primary text-white shadow-xl shadow-primary/20 scale-105 z-10' : 'hover:bg-gray-100 dark:hover:bg-white/5 text-gray-600 dark:text-gray-400'}`}
     >
         <div className="flex items-center gap-3">
             {icon}
@@ -117,7 +117,7 @@ const OverviewTab = ({ orders, accounts }) => {
 };
 
 const StatCard = ({ label, value, color }) => (
-    <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
+    <div className="bg-white dark:bg-white/5 p-6 rounded-2xl border border-gray-200 dark:border-white/5 shadow-sm">
         <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">{label}</p>
         <p className={`text-4xl font-bold ${color}`}>{value}</p>
     </div>
@@ -126,7 +126,7 @@ const StatCard = ({ label, value, color }) => (
 const OrdersTab = ({ orders, onUpdate }) => (
     <div className="overflow-x-auto">
         <table className="w-full text-left">
-            <thead className="bg-white/5 text-gray-400 uppercase text-[10px] font-bold tracking-widest">
+            <thead className="bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 uppercase text-[10px] font-bold tracking-widest">
                 <tr>
                     <th className="px-6 py-4">Order ID</th>
                     <th className="px-6 py-4">Asset</th>
@@ -135,9 +135,9 @@ const OrdersTab = ({ orders, onUpdate }) => (
                     <th className="px-6 py-4">Action</th>
                 </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-gray-200 dark:divide-white/5">
                 {orders.map(order => (
-                    <tr key={order._id} className="hover:bg-white/5 transition-colors">
+                    <tr key={order._id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                         <td className="px-6 py-4 font-mono text-sm">{order.orderId}</td>
                         <td className="px-6 py-4">
                             <p className="text-sm font-bold">{order.account?.title}</p>
@@ -173,16 +173,16 @@ const AccountsTab = ({ accounts, onDelete, onAdd }) => (
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {accounts.map(acc => (
-                <div key={acc._id} className="p-4 bg-white/5 rounded-xl border border-white/5 flex items-center justify-between">
+                <div key={acc._id} className="p-4 bg-white dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/5 flex items-center justify-between shadow-sm">
                     <div className="flex items-center gap-4">
                         <img src={acc.image} className="w-12 h-12 rounded-lg object-cover" />
                         <div>
-                            <p className="font-bold text-sm">{acc.title}</p>
+                            <p className="font-bold text-sm text-gray-900 dark:text-white">{acc.title}</p>
                             <p className="text-xs text-gray-500">₦{acc.price} • Stock: {acc.stock}</p>
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <button className="p-2 text-gray-400 hover:text-white"><Edit size={16} /></button>
+                        <button className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white"><Edit size={16} /></button>
                         <button onClick={() => onDelete(acc._id)} className="p-2 text-red-500 hover:text-red-600"><Trash2 size={16} /></button>
                     </div>
                 </div>

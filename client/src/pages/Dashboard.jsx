@@ -39,7 +39,7 @@ const Dashboard = () => {
             <div className="flex flex-col md:row justify-between items-end gap-6 mb-12">
                 <div>
                     <h1 className="text-4xl font-bold mb-2">Hello, {user.name}</h1>
-                    <p className="text-gray-400">Track your orders and access your digital vault.</p>
+                    <p className="text-gray-600 dark:text-gray-400">Track your orders and access your digital vault.</p>
                 </div>
                 <div className="flex gap-4">
                     <div className="glass px-6 py-3 rounded-2xl flex items-center gap-3">
@@ -72,13 +72,13 @@ const Dashboard = () => {
                             >
                                 <div className="flex flex-col md:row justify-between items-start md:items-center gap-6">
                                     <div className="flex gap-6 items-center">
-                                        <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center text-primary-light border border-white/5">
+                                        <div className="w-16 h-16 bg-gray-100 dark:bg-white/5 rounded-2xl flex items-center justify-center text-primary-dark dark:text-primary-light border border-gray-200 dark:border-white/5">
                                             {order.account?.platform[0] || 'L'}
                                         </div>
                                         <div>
                                             <h3 className="font-bold text-lg">{order.account?.title || 'Account Removed'}</h3>
-                                            <p className="text-sm text-gray-400 flex items-center gap-2">
-                                                Order ID: <span className="text-white font-mono">{order.orderId}</span>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+                                                Order ID: <span className="text-gray-900 dark:text-white font-mono">{order.orderId}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -94,13 +94,13 @@ const Dashboard = () => {
                                 </div>
 
                                 {order.status === 'completed' && order.account && (
-                                    <div className="mt-8 pt-6 border-t border-white/5 bg-white/5 rounded-2xl p-6 relative overflow-hidden">
-                                        <div className="absolute top-0 right-0 p-2 opacity-5">
+                                    <div className="mt-8 pt-6 border-t border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-white/5 rounded-2xl p-6 relative overflow-hidden">
+                                        <div className="absolute top-0 right-0 p-2 opacity-10 dark:opacity-5">
                                             <ShieldCheck size={100} />
                                         </div>
-                                        <p className="text-xs font-bold text-primary-light uppercase tracking-widest mb-4">Digital Vault Unlocked</p>
-                                        <div className="flex items-center justify-between gap-4 bg-dark-bg/50 p-4 rounded-xl border border-white/10">
-                                            <code className="text-accent-neon font-mono truncate mr-4">
+                                        <p className="text-xs font-bold text-primary-dark dark:text-primary-light uppercase tracking-widest mb-4">Digital Vault Unlocked</p>
+                                        <div className="flex items-center justify-between gap-4 bg-white dark:bg-dark-bg/50 p-4 rounded-xl border border-gray-200 dark:border-white/10">
+                                            <code className="text-gray-900 dark:text-accent-neon font-mono truncate mr-4">
                                                 {order.account.credentials}
                                             </code>
                                             <button
@@ -117,7 +117,7 @@ const Dashboard = () => {
                                 )}
 
                                 {order.status === 'pending' && (
-                                    <div className="mt-6 pt-4 border-t border-white/5 flex items-center gap-2 text-yellow-500 text-xs">
+                                    <div className="mt-6 pt-4 border-t border-gray-200 dark:border-white/5 flex items-center gap-2 text-yellow-600 dark:text-yellow-500 text-xs font-bold">
                                         <Clock size={16} /> Payment verification in progress. Please wait up to 30 mins.
                                     </div>
                                 )}

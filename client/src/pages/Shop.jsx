@@ -98,7 +98,7 @@ const Shop = () => {
                     {loading ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {[1, 2, 3, 4].map(i => (
-                                <div key={i} className="glass-card h-80 animate-pulse bg-white/5" />
+                                <div key={i} className="glass-card h-80 animate-pulse bg-gray-100 dark:bg-white/5" />
                             ))}
                         </div>
                     ) : accounts.length > 0 ? (

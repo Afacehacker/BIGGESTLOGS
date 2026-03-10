@@ -35,14 +35,14 @@ const Register = () => {
                         <UserPlus className="text-primary" size={32} />
                     </div>
                     <h2 className="text-3xl font-bold mb-2">Create Account</h2>
-                    <p className="text-gray-400">Join the elite trading community today.</p>
+                    <p className="text-gray-600 dark:text-gray-400">Join the elite trading community today.</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
-                        <label className="text-xs font-bold uppercase tracking-widest text-gray-400 ml-1">Full Name</label>
+                        <label className="text-xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 ml-1">Full Name</label>
                         <div className="relative">
-                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400" size={18} />
                             <input
                                 type="text"
                                 className="input-field w-full pl-12 h-12"
@@ -55,9 +55,9 @@ const Register = () => {
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-xs font-bold uppercase tracking-widest text-gray-400 ml-1">Email Address</label>
+                        <label className="text-xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 ml-1">Email Address</label>
                         <div className="relative">
-                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400" size={18} />
                             <input
                                 type="email"
                                 className="input-field w-full pl-12 h-12"
@@ -70,9 +70,9 @@ const Register = () => {
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-xs font-bold uppercase tracking-widest text-gray-400 ml-1">Password</label>
+                        <label className="text-xs font-bold uppercase tracking-widest text-gray-600 dark:text-gray-400 ml-1">Password</label>
                         <div className="relative">
-                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400" size={18} />
                             <input
                                 type="password"
                                 className="input-field w-full pl-12 h-12"
@@ -89,8 +89,8 @@ const Register = () => {
                     </button>
                 </form>
 
-                <p className="text-center mt-8 text-gray-400 text-sm">
-                    Already have an account? <Link to="/login" className="text-primary-light hover:underline">Login here</Link>
+                <p className="text-center mt-8 text-gray-600 dark:text-gray-400 text-sm">
+                    Already have an account? <Link to="/login" className="text-primary-light hover:underline dark:text-primary-light text-primary-dark">Login here</Link>
                 </p>
             </motion.div>
         </div>

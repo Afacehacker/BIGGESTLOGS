@@ -134,15 +134,15 @@ const ProductDetail = () => {
                             Account Details
                         </h2>
                         <ul className="space-y-3 text-sm text-gray-400">
-                            <li className="flex justify-between items-center py-2 border-b border-white/5">
+                            <li className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-white/5">
                                 <span>Platform</span>
-                                <span className="font-bold text-white uppercase">{account.platform}</span>
+                                <span className="font-bold text-gray-900 dark:text-white uppercase">{account.platform}</span>
                             </li>
-                            <li className="flex justify-between items-center py-2 border-b border-white/5">
+                            <li className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-white/5">
                                 <span>Type</span>
-                                <span className="font-bold text-white">{account.type}</span>
+                                <span className="font-bold text-gray-900 dark:text-white">{account.type}</span>
                             </li>
-                            <li className="flex justify-between items-center py-2 border-b border-white/5">
+                            <li className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-white/5">
                                 <span>Quality Score</span>
                                 <span className="font-bold text-green-400">{account.quality}%</span>
                             </li>
@@ -173,7 +173,7 @@ const ProductDetail = () => {
                         <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight">{account.title}</h1>
                         <p className="text-gray-500 text-lg leading-relaxed mb-6">{account.description}</p>
 
-                        <div className="text-4xl font-bold text-white mb-8 border-b border-white/10 pb-8">
+                        <div className="text-4xl font-bold text-gray-900 dark:text-white mb-8 border-b border-gray-200 dark:border-white/10 pb-8">
                             ₦{account.price}
                         </div>
                     </div>
@@ -195,30 +195,30 @@ const ProductDetail = () => {
                         ) : (
                             <form onSubmit={handlePurchase} className="space-y-6">
                                 <div className="space-y-4">
-                                    <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-                                        <h4 className="font-bold text-sm mb-2 text-white/80">Step 1: Make Payment</h4>
-                                        <p className="text-xs text-gray-400 mb-4 whitespace-pre-line leading-relaxed">
-                                            Transfer exactly <strong>₦{account.price}</strong> to the account provided below.
+                                    <div className="bg-white dark:bg-white/5 p-4 rounded-xl border border-gray-200 dark:border-white/5">
+                                        <h4 className="font-bold text-sm mb-2 text-gray-900 dark:text-white/80">Step 1: Make Payment</h4>
+                                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-4 whitespace-pre-line leading-relaxed">
+                                            Transfer exactly <strong className="text-gray-900 dark:text-white">₦{account.price}</strong> to the account provided below.
                                         </p>
-                                        <div className="bg-dark-bg/50 p-3 rounded-lg border border-white/5 mb-4">
-                                            <p className="text-gray-300 text-sm flex justify-between border-b border-white/5 pb-2 mb-2">
+                                        <div className="bg-gray-50 dark:bg-dark-bg/50 p-3 rounded-lg border border-gray-200 dark:border-white/5 mb-4">
+                                            <p className="text-gray-600 dark:text-gray-300 text-sm flex justify-between border-b border-gray-200 dark:border-white/5 pb-2 mb-2">
                                                 <span>Account Name:</span>
-                                                <span className="font-bold text-white">Boluwatife Ogunmuyiwa</span>
+                                                <span className="font-bold text-gray-900 dark:text-white">Boluwatife Ogunmuyiwa</span>
                                             </p>
-                                            <div className="text-gray-300 text-sm flex justify-between border-b border-white/5 pb-2 mb-2 items-center">
+                                            <div className="text-gray-600 dark:text-gray-300 text-sm flex justify-between border-b border-gray-200 dark:border-white/5 pb-2 mb-2 items-center">
                                                 <span>Account Number:</span>
                                                 <div
                                                     onClick={handleCopy}
-                                                    className="flex items-center gap-2 cursor-pointer group bg-black/20 hover:bg-black/40 px-3 py-1.5 rounded-lg transition-colors border border-white/5"
+                                                    className="flex items-center gap-2 cursor-pointer group bg-gray-200 dark:bg-black/20 hover:bg-gray-300 dark:hover:bg-black/40 px-3 py-1.5 rounded-lg transition-colors border border-gray-300 dark:border-white/5"
                                                     title="Click to copy"
                                                 >
-                                                    <span className="font-bold text-primary-light text-lg">7025860259</span>
-                                                    {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} className="text-gray-500 group-hover:text-white transition-colors" />}
+                                                    <span className="font-bold text-primary-dark dark:text-primary-light text-lg">7025860259</span>
+                                                    {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} className="text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" />}
                                                 </div>
                                             </div>
-                                            <p className="text-gray-300 text-sm flex justify-between">
+                                            <p className="text-gray-600 dark:text-gray-300 text-sm flex justify-between">
                                                 <span>Bank Name:</span>
-                                                <span className="font-bold text-white">MOMO PSB</span>
+                                                <span className="font-bold text-gray-900 dark:text-white">MOMO PSB</span>
                                             </p>
                                         </div>
                                     </div>
@@ -226,8 +226,8 @@ const ProductDetail = () => {
 
 
                                     <div>
-                                        <label className="block text-sm font-bold text-gray-300 mb-2">Step 2: Upload Payment Proof</label>
-                                        <div className="relative border-2 border-dashed border-white/20 rounded-2xl p-6 hover:border-primary/50 transition-colors text-center bg-white/5">
+                                        <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Step 2: Upload Payment Proof</label>
+                                        <div className="relative border-2 border-dashed border-gray-400 dark:border-white/20 rounded-2xl p-6 hover:border-primary/50 transition-colors text-center bg-white dark:bg-white/5">
                                             <input
                                                 type="file"
                                                 accept="image/*"

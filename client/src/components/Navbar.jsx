@@ -37,7 +37,7 @@ const Navbar = () => {
                                 <LayoutDashboard size={18} /> Dashboard
                             </Link>
                             {user.isAdmin && (
-                                <Link to="/admin" className="text-accent-neon hover:text-white transition-colors font-bold">Admin Panel</Link>
+                                <Link to="/admin" className="text-primary hover:text-primary-dark dark:text-accent-neon dark:hover:text-white transition-colors font-bold">Admin Panel</Link>
                             )}
                             <button
                                 onClick={handleLogout}
