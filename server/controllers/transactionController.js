@@ -56,8 +56,11 @@ const updateDepositStatus = async (req, res) => {
         transaction.status = status;
 
         if (status === 'approved') {
-            transaction.user.balance += transaction.amount;
-            await transaction.user.save();
+            const userToUpdate = await User.findById(transaction.user._id);
+            if (userToUpdate) {
+                userToUpdate.balance += transaction.amount;
+                await userToUpdate.save();
+            }
         }
 
         const updatedTransaction = await transaction.save();

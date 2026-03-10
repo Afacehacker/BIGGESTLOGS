@@ -6,7 +6,7 @@ import { Copy, PlusCircle, CheckCircle, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Wallet = () => {
-    const { user } = useContext(AuthContext);
+    const { user, fetchUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const [amount, setAmount] = useState('');
     const [paymentProof, setPaymentProof] = useState('');
@@ -36,7 +36,8 @@ const Wallet = () => {
             return;
         }
         fetchTransactions();
-    }, [user, navigate]);
+        if (fetchUser) fetchUser(); // Ensure balance is updated when opening wallet
+    }, [navigate]);
 
     const uploadFileHandler = async (e) => {
         const file = e.target.files[0];

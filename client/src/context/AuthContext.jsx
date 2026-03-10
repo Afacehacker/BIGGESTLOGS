@@ -7,10 +7,25 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const fetchUser = async () => {
+        try {
+            const { data } = await API.get('/users/profile');
+            setUser(prev => {
+                if (!prev) return data;
+                const updatedUser = { ...prev, ...data };
+                localStorage.setItem('userInfo', JSON.stringify(updatedUser));
+                return updatedUser;
+            });
+        } catch (error) {
+            console.error('Failed to fetch user:', error);
+        }
+    };
+
     useEffect(() => {
         const userInfo = localStorage.getItem('userInfo');
         if (userInfo) {
             setUser(JSON.parse(userInfo));
+            fetchUser(); // Sync with DB
         }
         setLoading(false);
     }, []);
@@ -35,7 +50,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+        <AuthContext.Provider value={{ user, login, register, logout, loading, fetchUser }}>
             {children}
         </AuthContext.Provider>
     );
