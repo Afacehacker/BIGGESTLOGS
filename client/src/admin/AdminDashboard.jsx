@@ -13,6 +13,7 @@ const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState('overview');
     const [orders, setOrders] = useState([]);
     const [accounts, setAccounts] = useState([]);
+    const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
@@ -25,8 +26,10 @@ const AdminDashboard = () => {
         try {
             const { data: oData } = await API.get('/orders');
             const { data: aData } = await API.get('/accounts');
+            const { data: tData } = await API.get('/transactions');
             setOrders(oData);
             setAccounts(aData);
+            setTransactions(tData);
         } catch (error) {
             toast.error('Failed to fetch admin data');
         }
@@ -43,6 +46,16 @@ const AdminDashboard = () => {
         }
     };
 
+    const handleDepositStatus = async (id, status) => {
+        try {
+            await API.put(`/transactions/${id}/status`, { status });
+            toast.success(`Deposit ${status} successfully`);
+            fetchData();
+        } catch (error) {
+            toast.error('Failed to update deposit');
+        }
+    };
+
     const handleDeleteAccount = async (id) => {
         if (window.confirm('Are you sure you want to delete this listing?')) {
             try {
@@ -56,14 +69,14 @@ const AdminDashboard = () => {
     };
 
     return (
-        <div className="pt-24 pb-32 px-6 max-w-7xl mx-auto">
+        <div className="pt-24 pb-32 px-6 max-w-7xl mx-auto bg-[#f8fafc] min-h-screen text-gray-900">
             <div className="mb-12 flex justify-between items-center">
                 <div>
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-500 dark:from-white dark:to-white/60 bg-clip-text text-transparent">Management Hub</h1>
-                    <p className="text-gray-600 dark:text-gray-400">Total control over orders and assets.</p>
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-900 to-blue-500 bg-clip-text text-transparent tracking-tight">Management Hub</h1>
+                    <p className="text-gray-500 font-medium">Total control over orders, assets, and deposits.</p>
                 </div>
-                <button onClick={fetchData} className="glass p-3 rounded-xl hover:text-primary border-primary/20">
-                    <RefreshCw size={20} className={loading ? 'animate-spin' : ''} />
+                <button onClick={fetchData} className="bg-white p-3 rounded-xl shadow-sm hover:text-blue-600 border border-gray-100 transition-colors">
+                    <RefreshCw size={20} className={loading ? 'animate-spin border-blue-600' : ''} />
                 </button>
             </div>
 
@@ -72,14 +85,15 @@ const AdminDashboard = () => {
                 <div className="lg:col-span-1 space-y-2">
                     <TabButton id="overview" active={activeTab} set={setActiveTab} icon={<BarChart3 size={18} />} label="Overview" />
                     <TabButton id="orders" active={activeTab} set={setActiveTab} icon={<ShoppingCart size={18} />} label="Orders" count={orders.filter(o => o.status === 'pending').length} />
+                    <TabButton id="deposits" active={activeTab} set={setActiveTab} icon={<Users size={18} />} label="Deposits" count={transactions?.filter(t => t.status === 'pending').length} />
                     <TabButton id="accounts" active={activeTab} set={setActiveTab} icon={<Tag size={18} />} label="Inventory" />
-                    <TabButton id="users" active={activeTab} set={setActiveTab} icon={<Users size={18} />} label="User Base" />
                 </div>
 
                 {/* Content */}
-                <div className="lg:col-span-4 glass-card min-h-[600px]">
-                    {activeTab === 'overview' && <OverviewTab orders={orders} accounts={accounts} />}
+                <div className="lg:col-span-4 bg-white rounded-3xl min-h-[600px] border border-gray-100 shadow-sm overflow-hidden">
+                    {activeTab === 'overview' && <OverviewTab orders={orders} accounts={accounts} transactions={transactions} />}
                     {activeTab === 'orders' && <OrdersTab orders={orders} onUpdate={handleStatusUpdate} />}
+                    {activeTab === 'deposits' && <DepositsTab transactions={transactions} onUpdate={handleDepositStatus} />}
                     {activeTab === 'accounts' && <AccountsTab accounts={accounts} onDelete={handleDeleteAccount} onAdd={() => setIsAddModalOpen(true)} />}
                 </div>
             </div>
@@ -169,25 +183,67 @@ const AccountsTab = ({ accounts, onDelete, onAdd }) => (
     <div className="p-6">
         <div className="flex justify-between items-center mb-8">
             <h2 className="text-xl font-bold">Inventory List</h2>
-            <button onClick={onAdd} className="btn-primary flex items-center gap-2 py-2 px-6 text-sm"><Plus size={16} /> ADD LISTING</button>
+            <button onClick={onAdd} className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg flex items-center gap-2 py-3 px-6 text-sm font-bold transition-colors"><Plus size={16} /> ADD LISTING</button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {accounts.map(acc => (
-                <div key={acc._id} className="p-4 bg-white dark:bg-white/5 rounded-xl border border-gray-200 dark:border-white/5 flex items-center justify-between shadow-sm">
+                <div key={acc._id} className="p-4 bg-[#f8fafc] rounded-xl border border-gray-100 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-center gap-4">
-                        <img src={acc.image} className="w-12 h-12 rounded-lg object-cover" />
+                        <img src={acc.image || 'https://via.placeholder.com/150'} className="w-12 h-12 rounded-lg object-cover border border-gray-200" />
                         <div>
-                            <p className="font-bold text-sm text-gray-900 dark:text-white">{acc.title}</p>
-                            <p className="text-xs text-gray-500">₦{acc.price} • Stock: {acc.stock}</p>
+                            <p className="font-bold text-sm text-black line-clamp-1">{acc.title}</p>
+                            <p className="text-xs text-gray-500 font-medium">₦{acc.price} • Stock: {acc.stock}</p>
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <button className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white"><Edit size={16} /></button>
-                        <button onClick={() => onDelete(acc._id)} className="p-2 text-red-500 hover:text-red-600"><Trash2 size={16} /></button>
+                        <button onClick={() => onDelete(acc._id)} className="p-2 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-colors"><Trash2 size={16} /></button>
                     </div>
                 </div>
             ))}
         </div>
+    </div>
+);
+
+const DepositsTab = ({ transactions, onUpdate }) => (
+    <div className="overflow-x-auto p-4">
+        <h2 className="text-xl font-bold mb-6 px-2">Wallet Funding Requests</h2>
+        <table className="w-full text-left bg-white border border-gray-100 rounded-xl">
+            <thead className="bg-[#f8fafc] text-gray-400 uppercase text-[10px] font-bold tracking-widest border-b border-gray-100">
+                <tr>
+                    <th className="px-6 py-4 rounded-tl-xl">User</th>
+                    <th className="px-6 py-4">Amount</th>
+                    <th className="px-6 py-4">Status</th>
+                    <th className="px-6 py-4">Proof</th>
+                    <th className="px-6 py-4 rounded-tr-xl">Action</th>
+                </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+                {transactions?.map(tx => (
+                    <tr key={tx._id} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-6 py-4">
+                            <p className="text-sm font-bold text-gray-900">{tx.user?.name}</p>
+                            <p className="text-[10px] text-gray-500 font-medium">{tx.user?.email}</p>
+                        </td>
+                        <td className="px-6 py-4 font-bold text-gray-900 tracking-tight">₦{tx.amount.toLocaleString()}</td>
+                        <td className="px-6 py-4">
+                            <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${tx.status === 'completed' || tx.status === 'approved' ? 'bg-green-100 text-green-700' : tx.status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'
+                                }`}>{tx.status}</span>
+                        </td>
+                        <td className="px-6 py-4 text-blue-600 underline font-semibold text-sm">
+                            {tx.paymentProof ? <a href={tx.paymentProof} target="_blank" className="flex items-center gap-1 hover:text-blue-800"><ExternalLink size={14} /> View</a> : 'None'}
+                        </td>
+                        <td className="px-6 py-4 flex gap-2">
+                            {tx.status === 'pending' && (
+                                <>
+                                    <button onClick={() => onUpdate(tx._id, 'approved')} className="bg-green-100 text-green-600 p-2 rounded-lg hover:bg-green-500 hover:text-white transition-colors" title="Approve"><Check size={16} /></button>
+                                    <button onClick={() => onUpdate(tx._id, 'rejected')} className="bg-red-100 text-red-600 p-2 rounded-lg hover:bg-red-500 hover:text-white transition-colors" title="Reject"><X size={16} /></button>
+                                </>
+                            )}
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
     </div>
 );
 

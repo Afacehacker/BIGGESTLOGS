@@ -14,6 +14,7 @@ import ProductDetail from './pages/ProductDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Wallet from './pages/Wallet';
 import AdminDashboard from './admin/AdminDashboard';
 
 import ProtectedRoute from './components/ProtectedRoute';
@@ -60,6 +61,11 @@ function App() {
                                 <Route path="/dashboard" element={
                                     <ProtectedRoute>
                                         <Dashboard />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="/wallet" element={
+                                    <ProtectedRoute>
+                                        <Wallet />
                                     </ProtectedRoute>
                                 } />
                                 <Route path="/admin/*" element={

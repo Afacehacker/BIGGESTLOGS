@@ -115,9 +115,9 @@ const Home = () => {
                                 {/* View All Button */}
                                 {groupedAccounts[groupName].length > 5 && (
                                     <div className="mt-4 mb-8">
-                                        <button className="w-full bg-[#524df9] hover:bg-blue-600 transition-colors text-white py-4 rounded-[16px] shadow-lg font-bold text-[16px]">
-                                            View All
-                                        </button>
+                                        <Link to="/shop" className="block w-full text-center bg-[#524df9] hover:bg-blue-600 transition-colors text-white py-4 rounded-[16px] shadow-lg font-bold text-[16px]">
+                                            View All {groupName}
+                                        </Link>
                                     </div>
                                 )}
                             </div>

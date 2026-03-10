@@ -1,27 +1,51 @@
 const Order = require('../models/Order');
 const Account = require('../models/Account');
 
-// @desc    Create new order
-// @route   POST /api/orders
 const addOrderItems = async (req, res) => {
-    const { accountId, paymentMethod, paymentProof } = req.body;
+    const { accountId } = req.body;
+    const User = require('../models/User'); // Include User model
+    const Transaction = require('../models/Transaction');
 
     const account = await Account.findById(accountId);
     if (!account || account.stock <= 0) {
-        res.status(400).json({ message: 'Account out of stock or not found' });
-        return;
+        return res.status(400).json({ message: 'Account out of stock or not found' });
     }
 
+    const user = await User.findById(req.user._id);
+
+    // Check balance
+    if (user.balance < account.price) {
+        return res.status(400).json({ message: 'Insufficient balance to purchase this listing. Please fund your wallet.' });
+    }
+
+    // Deduct Balance
+    user.balance -= account.price;
+    await user.save();
+
+    // Deduct Stock
+    account.stock -= 1;
+    await account.save();
+
+    // Create Order
     const order = new Order({
         user: req.user._id,
         account: accountId,
         orderId: 'LOG-' + Math.random().toString(36).substr(2, 9).toUpperCase(),
-        paymentMethod,
-        paymentProof,
-        status: 'pending'
+        paymentMethod: 'wallet',
+        status: 'completed',
+        deliveredAt: Date.now()
+    });
+    const createdOrder = await order.save();
+
+    // Create Purchase Transaction
+    await Transaction.create({
+        user: req.user._id,
+        amount: account.price,
+        type: 'purchase',
+        status: 'completed',
+        description: `Purchased ${account.title}`
     });
 
-    const createdOrder = await order.save();
     res.status(201).json(createdOrder);
 };
 

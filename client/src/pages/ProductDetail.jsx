@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ShieldCheck, ChevronLeft, UploadCloud, Info, Check, Zap, Copy } from 'lucide-react';
+import { ArrowLeft, Wallet, CheckCircle, ChevronRight, HelpCircle, User as UserIcon } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import API from '../services/api';
 import { AuthContext } from '../context/AuthContext';
@@ -13,20 +12,16 @@ const ProductDetail = () => {
 
     const [account, setAccount] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    // Payment State
-    const [paymentMethod] = useState('Bank Transfer');
-    const [paymentProof, setPaymentProof] = useState('');
-    const [uploadingReceipt, setUploadingReceipt] = useState(false);
     const [placingOrder, setPlacingOrder] = useState(false);
-    const [copied, setCopied] = useState(false);
+    
+    // User latest data to get exact balance
+    const [currentUser, setCurrentUser] = useState(user);
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText('7025860259');
-        setCopied(true);
-        toast.success('Account number copied!');
-        setTimeout(() => setCopied(false), 2000);
-    };
+    useEffect(() => {
+        if(user) {
+            API.get('/users/profile').then(res => setCurrentUser(res.data)).catch(() => {});
+        }
+    }, [user]);
 
     useEffect(() => {
         const fetchAccount = async () => {
@@ -34,7 +29,7 @@ const ProductDetail = () => {
                 const { data } = await API.get(`/accounts/${id}`);
                 setAccount(data);
             } catch (error) {
-                toast.error('Account not found or removed');
+                toast.error('Account not found');
                 navigate('/shop');
             }
             setLoading(false);
@@ -42,52 +37,29 @@ const ProductDetail = () => {
         fetchAccount();
     }, [id, navigate]);
 
-    const handleReceiptUpload = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const uploadData = new FormData();
-        uploadData.append('image', file);
-        setUploadingReceipt(true);
-
-        try {
-            const { data } = await API.post('/upload', uploadData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            setPaymentProof(data);
-            toast.success('Receipt Uploaded successfully');
-        } catch (error) {
-            toast.error('Failed to upload receipt');
-        } finally {
-            setUploadingReceipt(false);
-        }
-    };
-
-    const handlePurchase = async (e) => {
-        e.preventDefault();
-
+    const handlePurchase = async () => {
         if (!user) {
             toast.error('Please login to continue');
             navigate('/login');
             return;
         }
 
-        if (!paymentProof) {
-            toast.error('Please upload your payment receipt');
+        if(currentUser.balance < account.price) {
+            toast.error('Insufficient balance to complete purchase. Fund wallet first.');
+            navigate('/wallet');
             return;
         }
 
         setPlacingOrder(true);
         try {
-            await API.post('/orders', {
-                accountId: account._id,
-                paymentMethod,
-                paymentProof,
-            });
-            toast.success('Order placed successfully! Awaiting verification.');
+            await API.post('/orders', { accountId: account._id });
+            toast.success('Purchase successful! Item in your Orders.');
+            
+            // Re-fetch user so balance updates locally
+            const res = await API.get('/users/profile');
+            setCurrentUser(res.data);
             navigate('/dashboard');
+            
         } catch (error) {
             toast.error(error.response?.data?.message || 'Failed to place order');
         } finally {
@@ -96,175 +68,127 @@ const ProductDetail = () => {
     };
 
     if (loading) {
-        return (
-            <div className="pt-32 pb-20 flex justify-center items-center min-h-[60vh]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            </div>
-        );
+        return <div className="pt-32 pb-20 text-center font-bold text-gray-500 animate-pulse">Loading Asset...</div>;
     }
 
     if (!account) return null;
 
+    // Pick a quick color depending on platform
+    let platColor = 'bg-blue-600';
+    if(account.platform.toLowerCase().includes('twitter')) platColor = 'bg-black';
+    if(account.platform.toLowerCase().includes('instagram')) platColor = 'bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600';
+    if(account.platform.toLowerCase().includes('tools')) platColor = 'bg-indigo-500';
+
     return (
-        <div className="pt-24 pb-32 px-6 max-w-7xl mx-auto">
-            <Link to="/shop" className="inline-flex items-center text-gray-500 hover:text-white transition-colors mb-8 group">
-                <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-                <span>Back to Marketplace</span>
-            </Link>
+        <div className="bg-[#f8fafc] min-h-screen text-gray-900 pb-32">
+            
+            {/* Nav Header */}
+            <div className="bg-white px-4 py-3 border-b border-gray-100 flex items-center justify-between sticky top-[60px] z-40">
+                <button onClick={() => navigate(-1)} className="p-2 rounded-full hover:bg-gray-100 transition-colors shrink-0">
+                    <ArrowLeft size={20} />
+                </button>
+                <h2 className="font-bold text-[16px] truncate px-4">{account.title}</h2>
+                <div className="w-9 shrink-0" /> {/* Spacer */}
+            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                {/* Left side: Image and details */}
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="space-y-6"
-                >
-                    <div className="bg-gray-100 dark:bg-dark-bg/50 rounded-3xl p-4 border border-gray-200 dark:border-white/10 flex items-center justify-center min-h-[400px]">
-                        {/* object-contain ensures the image is ALWAYS shown fully without cropping */}
-                        <img
-                            src={account.image || 'https://via.placeholder.com/600'}
-                            alt={account.title}
-                            className="max-w-full max-h-[500px] object-contain rounded-xl shadow-2xl"
+            <div className="max-w-lg mx-auto pt-4 px-4">
+                
+                {/* Product Main Display */}
+                <div className="bg-white rounded-[20px] p-2 border border-gray-100 shadow-sm mb-6">
+                    <div className={`${platColor} w-full h-40 rounded-[14px] flex items-center justify-center relative overflow-hidden`}>
+                        <img 
+                            src={account.image || 'https://via.placeholder.com/600'} 
+                            alt={account.title} 
+                            className="w-full h-full object-cover mix-blend-overlay opacity-80"
                         />
-                    </div>
-
-                    <div className="glass-card">
-                        <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                            <Info className="text-primary" size={20} />
-                            Account Details
-                        </h2>
-                        <ul className="space-y-3 text-sm text-gray-400">
-                            <li className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-white/5">
-                                <span>Platform</span>
-                                <span className="font-bold text-gray-900 dark:text-white uppercase">{account.platform}</span>
-                            </li>
-                            <li className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-white/5">
-                                <span>Type</span>
-                                <span className="font-bold text-gray-900 dark:text-white">{account.type}</span>
-                            </li>
-                            <li className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-white/5">
-                                <span>Quality Score</span>
-                                <span className="font-bold text-green-400">{account.quality}%</span>
-                            </li>
-                            <li className="flex justify-between items-center py-2">
-                                <span>Status</span>
-                                <span className={`font-bold ${account.stock > 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                    {account.stock > 0 ? 'In Stock' : 'Out of Stock'}
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </motion.div>
-
-                {/* Right side: Purchase Flow */}
-                <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="space-y-8"
-                >
-                    <div>
-                        <div className="flex flex-wrap gap-2 mb-4">
-                            {account.badges?.map((badge, i) => (
-                                <span key={i} className="text-[10px] bg-primary/20 text-primary-light px-3 py-1 rounded-full uppercase font-bold tracking-wider border border-primary/30">
-                                    {badge}
-                                </span>
-                            ))}
-                        </div>
-                        <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight">{account.title}</h1>
-                        <p className="text-gray-500 text-lg leading-relaxed mb-6">{account.description}</p>
-
-                        <div className="text-4xl font-bold text-gray-900 dark:text-white mb-8 border-b border-gray-200 dark:border-white/10 pb-8">
-                            ₦{account.price}
+                        <div className="absolute inset-x-4 bottom-4 flex justify-between items-end drop-shadow-md">
+                            <span className="bg-white text-black font-extrabold text-[10px] px-2 py-1 rounded tracking-widest uppercase">
+                                {account.platform}
+                            </span>
+                            <span className="bg-green-500 text-white font-extrabold text-[10px] px-2 py-1 rounded tracking-normal flex items-center gap-1">
+                                <CheckCircle size={12}/> {account.quality}%
+                            </span>
                         </div>
                     </div>
 
-                    <div className="bg-gradient-to-br from-primary/10 to-transparent p-6 rounded-3xl border border-primary/20">
-                        <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                            <ShieldCheck className="text-primary" /> Purchase This Account
-                        </h3>
+                    <div className="p-4 space-y-4">
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <h1 className="text-xl font-black text-[#1f2231] leading-tight mb-2">{account.title}</h1>
+                                <p className="text-gray-500 text-sm leading-relaxed">{account.description}</p>
+                            </div>
+                        </div>
 
-                        {account.stock <= 0 ? (
-                            <div className="bg-red-500/10 text-red-500 p-4 rounded-xl text-center font-bold">
-                                Temporarily out of stock! Check back later.
+                        {/* Price Details Block */}
+                        <div className="bg-[#f8fafc] rounded-[16px] p-4 border border-gray-200">
+                            <div className="flex justify-between items-center mb-2">
+                                <span className="text-sm font-semibold text-gray-500">Unit Price</span>
+                                <span className="font-black text-2xl tracking-tight text-[#1f2231]">₦{account.price.toLocaleString()}</span>
                             </div>
-                        ) : !user ? (
-                            <div className="text-center bg-white/5 p-6 rounded-2xl">
-                                <p className="mb-4 text-gray-400">Create an account or login to complete your purchase securely.</p>
-                                <Link to="/login" className="btn-primary w-full py-3 inline-block">Login to Purchase</Link>
+                            <div className="flex justify-between items-center">
+                                <span className="text-sm font-semibold text-gray-500">Available Stock</span>
+                                <span className={`font-bold text-sm px-2 py-0.5 rounded ${account.stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                    {account.stock} Pcs
+                                </span>
                             </div>
-                        ) : (
-                            <form onSubmit={handlePurchase} className="space-y-6">
-                                <div className="space-y-4">
-                                    <div className="bg-white dark:bg-white/5 p-4 rounded-xl border border-gray-200 dark:border-white/5">
-                                        <h4 className="font-bold text-sm mb-2 text-gray-900 dark:text-white/80">Step 1: Make Payment</h4>
-                                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-4 whitespace-pre-line leading-relaxed">
-                                            Transfer exactly <strong className="text-gray-900 dark:text-white">₦{account.price}</strong> to the account provided below.
-                                        </p>
-                                        <div className="bg-gray-50 dark:bg-dark-bg/50 p-3 rounded-lg border border-gray-200 dark:border-white/5 mb-4">
-                                            <p className="text-gray-600 dark:text-gray-300 text-sm flex justify-between border-b border-gray-200 dark:border-white/5 pb-2 mb-2">
-                                                <span>Account Name:</span>
-                                                <span className="font-bold text-gray-900 dark:text-white">Boluwatife Ogunmuyiwa</span>
-                                            </p>
-                                            <div className="text-gray-600 dark:text-gray-300 text-sm flex justify-between border-b border-gray-200 dark:border-white/5 pb-2 mb-2 items-center">
-                                                <span>Account Number:</span>
-                                                <div
-                                                    onClick={handleCopy}
-                                                    className="flex items-center gap-2 cursor-pointer group bg-gray-200 dark:bg-black/20 hover:bg-gray-300 dark:hover:bg-black/40 px-3 py-1.5 rounded-lg transition-colors border border-gray-300 dark:border-white/5"
-                                                    title="Click to copy"
-                                                >
-                                                    <span className="font-bold text-primary-dark dark:text-primary-light text-lg">7025860259</span>
-                                                    {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} className="text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white transition-colors" />}
-                                                </div>
-                                            </div>
-                                            <p className="text-gray-600 dark:text-gray-300 text-sm flex justify-between">
-                                                <span>Bank Name:</span>
-                                                <span className="font-bold text-gray-900 dark:text-white">MOMO PSB</span>
-                                            </p>
-                                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Checkout Block */}
+                <div className="bg-white rounded-[20px] p-5 border border-gray-100 shadow-sm">
+                    {account.stock <= 0 ? (
+                        <div className="text-center font-bold text-red-500 py-4 opacity-70">
+                            Sold Out
+                        </div>
+                    ) : !user ? (
+                        <div className="text-center">
+                            <UserIcon className="mx-auto mb-2 text-gray-300" size={32} />
+                            <p className="text-gray-500 font-medium mb-4">Login to your account to purchase.</p>
+                            <Link to="/login" className="block w-full bg-[#1b2331] text-white py-4 rounded-xl font-bold">
+                                Login Now
+                            </Link>
+                        </div>
+                    ) : (
+                        <div>
+                            {/* Wallet Info Summary */}
+                            <div className="flex items-center justify-between mb-6 pb-6 border-b border-gray-100 cursor-pointer" onClick={() => navigate('/wallet')}>
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-blue-50 text-blue-600 p-3 rounded-full">
+                                        <Wallet size={20} />
                                     </div>
-
-
-
                                     <div>
-                                        <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Step 2: Upload Payment Proof</label>
-                                        <div className="relative border-2 border-dashed border-gray-400 dark:border-white/20 rounded-2xl p-6 hover:border-primary/50 transition-colors text-center bg-white dark:bg-white/5">
-                                            <input
-                                                type="file"
-                                                accept="image/*"
-                                                required={!paymentProof}
-                                                onChange={handleReceiptUpload}
-                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                                            />
-                                            {uploadingReceipt ? (
-                                                <div className="text-primary text-sm font-bold animate-pulse">Uploading receipt...</div>
-                                            ) : paymentProof ? (
-                                                <div className="text-green-500 tracking-wider flex items-center justify-center gap-2 font-bold text-sm">
-                                                    <Check size={18} /> Receipt successfully attached
-                                                </div>
-                                            ) : (
-                                                <div className="text-gray-400 flex flex-col items-center">
-                                                    <UploadCloud size={32} className="mb-2 text-gray-500" />
-                                                    <span className="text-sm">Click or drag a screenshot of your transfer</span>
-                                                </div>
-                                            )}
-                                        </div>
+                                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">My Balance</p>
+                                        <p className="font-bold text-lg text-[#1f2231]">₦{currentUser?.balance?.toLocaleString() || '0'}</p>
                                     </div>
                                 </div>
+                                <ChevronRight size={20} className="text-gray-300" />
+                            </div>
 
+                            {/* Buy Logic */}
+                            {currentUser?.balance < account.price ? (
+                                <div>
+                                    <div className="flex items-center justify-center gap-2 text-red-500 font-bold mb-4 bg-red-50 py-3 rounded-xl border border-red-100 text-sm">
+                                        <HelpCircle size={16} /> Insufficient Funds
+                                    </div>
+                                    <Link to="/wallet" className="block w-full text-center bg-[#3b82f6] text-white py-4 rounded-[14px] font-bold shadow-lg shadow-blue-500/30">
+                                        Fund Wallet Now
+                                    </Link>
+                                </div>
+                            ) : (
                                 <button
-                                    type="submit"
-                                    disabled={placingOrder || uploadingReceipt || !paymentProof}
-                                    className="btn-primary w-full py-4 text-base tracking-wider disabled:opacity-50"
+                                    onClick={handlePurchase}
+                                    disabled={placingOrder}
+                                    className="w-full bg-[#1b2331] hover:bg-black transition-colors text-white py-4 rounded-[14px] font-bold shadow-lg disabled:opacity-50 flex items-center justify-center gap-2"
                                 >
-                                    {placingOrder ? 'Processing...' : 'Submit Order For Verification'}
+                                    {placingOrder ? 'Processing...' : `Pay exactly ₦${account.price.toLocaleString()}`}
+                                    {!placingOrder && <ChevronRight size={18} />}
                                 </button>
-                                <p className="text-[10px] text-gray-500 text-center uppercase tracking-widest mt-4 flex justify-center items-center gap-1">
-                                    <ShieldCheck size={12} /> Protected by Escrow Security
-                                </p>
-                            </form>
-                        )}
-                    </div>
-                </motion.div>
+                            )}
+                        </div>
+                    )}
+                </div>
+                
             </div>
         </div>
     );

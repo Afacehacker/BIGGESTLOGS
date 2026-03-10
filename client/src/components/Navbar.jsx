@@ -18,8 +18,13 @@ const Navbar = () => {
             {/* Top Navbar */}
             <nav className="bg-white sticky top-0 z-50 px-4 py-3 border-b border-gray-100 shadow-sm flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <Link to="/" className="text-2xl font-bold tracking-tight text-primary flex items-center gap-[2px]">
-                        biggestlogs<span className="text-3xl leading-none text-primary mt-1">.</span> 
+                    <Link to="/" className="text-2xl font-black tracking-tighter flex items-center gap-1 group">
+                        <div className="bg-gradient-to-tr from-blue-600 to-cyan-400 text-white p-1 rounded-lg shadow-lg group-hover:scale-110 transition-transform">
+                            <Rocket size={20} fill="currentColor" />
+                        </div>
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-blue-400">
+                            BIGGEST<span className="text-[#1f2231]">LOGS</span>
+                        </span>
                     </Link>
                 </div>
 
@@ -34,7 +39,7 @@ const Navbar = () => {
                     {/* Wallet Balance Widget */}
                     <div className="flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-full shadow-inner border border-gray-100">
                         <div className="text-gray-400 bg-gray-200 p-1 rounded-sm"><Send size={12} className="rotate-45" /></div>
-                        <span className="font-extrabold text-black tracking-tight">₦0.00</span>
+                        <span className="font-extrabold text-black tracking-tight">₦{user?.balance?.toLocaleString() || '0.00'}</span>
                     </div>
                 </div>
             </nav>
