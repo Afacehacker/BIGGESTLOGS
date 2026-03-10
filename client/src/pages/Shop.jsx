@@ -32,90 +32,94 @@ const Shop = () => {
     };
 
     return (
-        <div className="pt-24 pb-32 px-6 max-w-7xl mx-auto">
-            {/* Header */}
-            <div className="flex flex-col md:row justify-between items-end gap-8 mb-16 px-4 py-8 glass rounded-3xl">
-                <div>
-                    <h1 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white">Marketplace</h1>
-                    <p className="text-gray-500 dark:text-gray-400">Discover verified accounts and high-quality digital assets.</p>
-                </div>
-
-                <div className="flex gap-4 w-full md:w-auto">
-                    <div className="relative flex-grow md:w-80">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
-                        <input
-                            type="text"
-                            placeholder="Search assets..."
-                            className="input-field pl-12 w-full h-12"
-                            value={filters.search}
-                            onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                        />
+        <div className="bg-[#f8fafc] min-h-screen text-gray-900 pb-32">
+            
+            {/* Header Content */}
+            <div className="px-5 pt-8 max-w-lg mx-auto mb-6">
+                <div className="flex justify-between items-center mb-6">
+                    <div>
+                        <h1 className="text-2xl font-black text-[#1f2231] tracking-tight mb-1">Marketplace</h1>
+                        <p className="text-gray-500 text-sm font-medium">Verified accounts & details.</p>
                     </div>
-                    <button onClick={fetchAccounts} className="glass p-3 rounded-xl hover:text-primary transition-colors">
-                        <RefreshCw size={20} className={loading ? 'animate-spin' : ''} />
+                    <button onClick={fetchAccounts} className="bg-white border border-gray-200 p-3 rounded-[12px] shadow-sm text-gray-400 hover:text-blue-600 transition-colors">
+                        <RefreshCw size={20} className={loading ? 'animate-spin border-blue-600' : ''} />
                     </button>
                 </div>
-            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-                {/* Sidebar Filters */}
-                <aside className="lg:col-span-1 space-y-10">
-                    <div>
-                        <h3 className="text-sm font-bold uppercase tracking-widest text-primary-light mb-6 flex items-center gap-2">
-                            <Filter size={16} /> Filter by Platform
-                        </h3>
-                        <div className="space-y-3">
-                            {platforms.map(p => (
-                                <button
-                                    key={p}
-                                    onClick={() => setFilters({ ...filters, platform: p })}
-                                    className={`w-full text-left px-4 py-2 rounded-xl transition-all ${filters.platform === p ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'hover:bg-gray-100 dark:hover:bg-white/5 text-gray-600 dark:text-gray-400 font-medium'}`}
-                                >
-                                    {p}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
+                {/* Search Bar */}
+                <div className="relative mb-6">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                    <input
+                        type="text"
+                        placeholder="Search assets..."
+                        className="w-full bg-white border border-gray-100 rounded-[14px] pl-12 pr-4 py-4 text-black font-bold focus:outline-none focus:border-blue-500 shadow-sm transition-colors"
+                        value={filters.search}
+                        onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                    />
+                </div>
 
-                    <div>
-                        <h3 className="text-sm font-bold uppercase tracking-widest text-primary-light mb-6">Type</h3>
-                        <div className="flex flex-wrap gap-2">
-                            {types.map(t => (
-                                <button
-                                    key={t}
-                                    onClick={() => setFilters({ ...filters, type: t })}
-                                    className={`px-4 py-2 rounded-xl text-sm transition-all ${filters.type === t ? 'bg-primary text-white' : 'glass hover:bg-gray-100 dark:hover:bg-white/10 text-gray-600 dark:text-gray-400 font-medium'}`}
-                                >
-                                    {t}
-                                </button>
-                            ))}
-                        </div>
+                {/* Filters - Type Slider (Horizontal Scroll) */}
+                <div className="mb-4">
+                    <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none snap-x">
+                        {types.map(t => (
+                            <button
+                                key={t}
+                                onClick={() => setFilters({ ...filters, type: t })}
+                                className={`shrink-0 snap-start px-5 py-2.5 rounded-[12px] text-xs font-bold transition-all shadow-sm ${
+                                    filters.type === t ? 'bg-[#1b2331] text-white' : 'bg-white text-gray-500 border border-gray-100 hover:bg-gray-50'
+                                }`}
+                            >
+                                {t}
+                            </button>
+                        ))}
                     </div>
-                </aside>
+                </div>
+
+                {/* Filters - Platform Chips */}
+                <div className="mb-8 bg-white p-3 rounded-[16px] border border-gray-100 shadow-sm">
+                    <div className="flex items-center gap-1 mb-3 ml-1">
+                        <Filter size={14} className="text-blue-500" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#1f2231]">Platforms</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        {platforms.map(p => (
+                            <button
+                                key={p}
+                                onClick={() => setFilters({ ...filters, platform: p })}
+                                className={`px-3 py-1.5 rounded-[8px] text-[11px] font-bold transition-colors ${
+                                    filters.platform === p ? 'bg-blue-50 text-blue-600 border border-blue-200' : 'bg-[#f8fafc] text-gray-500 border border-gray-100 hover:bg-gray-100'
+                                }`}
+                            >
+                                {p}
+                            </button>
+                        ))}
+                    </div>
+                </div>
 
                 {/* Product Grid */}
-                <div className="lg:col-span-3">
+                <div>
                     {loading ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-4">
                             {[1, 2, 3, 4].map(i => (
-                                <div key={i} className="glass-card h-80 animate-pulse bg-gray-100 dark:bg-white/5" />
+                                <div key={i} className="bg-white rounded-[20px] h-32 animate-pulse border border-gray-100" />
                             ))}
                         </div>
                     ) : accounts.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="space-y-4">
                             {accounts.map(account => (
                                 <ProductCard key={account._id} account={account} />
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-20 glass rounded-3xl bg-[#faf9f6]/90 dark:bg-white/5 border border-gray-200 dark:border-white/5">
-                            <ShoppingBag size={48} className="mx-auto mb-4 text-gray-400 dark:text-gray-600" />
-                            <p className="text-gray-600 dark:text-gray-400 text-lg">No assets found matching your filters.</p>
+                        <div className="text-center py-16 bg-white rounded-[20px] border border-gray-100 mt-6">
+                            <ShoppingBag size={48} className="mx-auto mb-4 text-gray-300" />
+                            <p className="text-[#1f2231] font-bold text-lg mb-1">No Assets Found</p>
+                            <p className="text-gray-500 text-sm mb-4">Try adjusting your filters.</p>
                             <button
                                 onClick={() => setFilters({ platform: 'all', type: 'all', search: '' })}
-                                className="mt-4 text-primary underline"
+                                className="text-blue-600 font-bold bg-blue-50 px-6 py-2 rounded-lg inline-block hover:bg-blue-100 transition-colors"
                             >
-                                Clear all filters
+                                Clear Filters
                             </button>
                         </div>
                     )}
