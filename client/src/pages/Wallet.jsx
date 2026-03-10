@@ -16,9 +16,9 @@ const Wallet = () => {
 
     // Hardcoded Admin Details
     const adminBank = {
-        bankName: 'Opay / Moniepoint',
-        accountName: 'BOLD INVESTMENT',
-        accountNumber: '8100223344'
+        bankName: 'MOMO PSB',
+        accountName: 'boluwatife ogunmuyiwa',
+        accountNumber: '7025860259'
     };
 
     const fetchTransactions = async () => {
