@@ -15,7 +15,7 @@ const ProductDetail = () => {
     const [loading, setLoading] = useState(true);
 
     // Payment State
-    const [paymentMethod, setPaymentMethod] = useState('Crypto (USDT/BTC)');
+    const [paymentMethod] = useState('Bank Transfer');
     const [paymentProof, setPaymentProof] = useState('');
     const [uploadingReceipt, setUploadingReceipt] = useState(false);
     const [placingOrder, setPlacingOrder] = useState(false);
@@ -223,17 +223,7 @@ const ProductDetail = () => {
                                         </div>
                                     </div>
 
-                                    <div>
-                                        <label className="block text-sm font-bold text-gray-300 mb-2">Payment Method</label>
-                                        <select
-                                            value={paymentMethod}
-                                            onChange={(e) => setPaymentMethod(e.target.value)}
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:border-primary transition-colors outline-none cursor-pointer"
-                                        >
-                                            <option value="Bank Transfer">Bank Transfer (Naira)</option>
-                                            <option value="Crypto (USDT/BTC)">Crypto (USDT / BTC)</option>
-                                        </select>
-                                    </div>
+
 
                                     <div>
                                         <label className="block text-sm font-bold text-gray-300 mb-2">Step 2: Upload Payment Proof</label>
