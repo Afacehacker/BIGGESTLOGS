@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ShieldCheck, Send, Twitter, Github } from 'lucide-react';
+import { ShieldCheck, Send, Twitter, Github, Rocket } from 'lucide-react';
 
 const Footer = () => {
     return (
