@@ -15,8 +15,31 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
         image: ''
     });
     const [loading, setLoading] = useState(false);
+    const [uploading, setUploading] = useState(false);
 
     if (!isOpen) return null;
+
+    const uploadFileHandler = async (e) => {
+        const file = e.target.files[0];
+        const uploadData = new FormData();
+        uploadData.append('image', file);
+        setUploading(true);
+
+        try {
+            const { data } = await API.post('/upload', uploadData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            setFormData({ ...formData, image: data });
+            toast.success('Image Uploaded');
+            setUploading(false);
+        } catch (error) {
+            toast.error('Image upload failed');
+            setUploading(false);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -112,15 +135,17 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Image URL</label>
+                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Image Upload</label>
                             <input
-                                required
-                                type="url"
-                                className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
-                                placeholder="Direct image link"
-                                value={formData.image}
-                                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                                required={!formData.image}
+                                type="file"
+                                id="image-file"
+                                accept="image/*"
+                                className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-primary file:text-white cursor-pointer"
+                                onChange={uploadFileHandler}
                             />
+                            {uploading && <p className="text-xs text-primary mt-1">Uploading image...</p>}
+                            {formData.image && <p className="text-xs text-green-500 mt-1">Image ready</p>}
                         </div>
                     </div>
 
@@ -150,8 +175,8 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
                         <button type="button" onClick={onClose} className="px-6 py-3 rounded-xl font-bold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
                             Cancel
                         </button>
-                        <button disabled={loading} type="submit" className="btn-primary py-3 px-8 text-sm">
-                            {loading ? 'Adding...' : 'Add to Market'}
+                        <button disabled={loading || uploading} type="submit" className="btn-primary py-3 px-8 text-sm">
+                            {(loading || uploading) ? 'Please wait...' : 'Add to Market'}
                         </button>
                     </div>
                 </form>
