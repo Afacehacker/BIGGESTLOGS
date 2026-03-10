@@ -3,7 +3,7 @@ import { ShieldCheck, Send, Twitter, Github } from 'lucide-react';
 
 const Footer = () => {
     return (
-        <footer className="bg-gray-50 dark:bg-dark-bg/80 border-t border-gray-200 dark:border-white/5 pt-24 pb-12 px-6 transition-colors duration-300">
+        <footer className="hidden md:block bg-gray-50 dark:bg-dark-bg/80 border-t border-gray-200 dark:border-white/5 pt-24 pb-12 px-6 transition-colors duration-300">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20 text-center md:text-left">
                 <div className="col-span-1 md:col-span-2">
                     <Link to="/" className="text-3xl font-black mb-8 block tracking-tighter">

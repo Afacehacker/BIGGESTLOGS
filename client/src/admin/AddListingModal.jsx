@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast';
 const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
     const [formData, setFormData] = useState({
         title: '',
-        platform: 'instagram',
+        platform: 'Instagram',
         type: 'Aged',
         description: '',
         price: '',
@@ -52,7 +52,7 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
             onClose();
             // Reset form
             setFormData({
-                title: '', platform: 'instagram', type: 'Aged',
+                title: '', platform: 'Instagram', type: 'Aged',
                 description: '', price: '', stock: '1', credentials: '', image: ''
             });
         } catch (error) {
@@ -92,10 +92,11 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
                                 value={formData.platform}
                                 onChange={(e) => setFormData({ ...formData, platform: e.target.value })}
                             >
-                                <option value="instagram">Instagram</option>
-                                <option value="twitter">Twitter (X)</option>
-                                <option value="facebook">Facebook</option>
-                                <option value="tiktok">TikTok</option>
+                                <option value="Instagram">Instagram</option>
+                                <option value="Twitter (X)">Twitter (X)</option>
+                                <option value="Facebook">Facebook</option>
+                                <option value="TikTok">TikTok</option>
+                                <option value="Tools">Tools</option>
                             </select>
                         </div>
 

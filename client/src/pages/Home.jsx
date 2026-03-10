@@ -1,155 +1,140 @@
-import { motion } from 'framer-motion';
-import { ShieldCheck, Zap, ArrowRight, Send } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import TrustBadges from '../components/TrustBadges';
-import LivePurchaseNotification from '../components/LivePurchaseNotification';
-import DeliveryFeed from '../components/DeliveryFeed';
-import TelegramCommunity from '../components/TelegramCommunity';
-import HowItWorks from '../components/HowItWorks';
-import FAQ from '../components/FAQ';
+import { useState, useEffect, useContext } from 'react';
+import API from '../services/api';
+import ProductCard from '../components/ProductCard';
+import { AuthContext } from '../context/AuthContext';
+import { Send } from 'lucide-react';
 
 const Home = () => {
+    const { user } = useContext(AuthContext);
+    const [accounts, setAccounts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchAccounts = async () => {
+            try {
+                const { data } = await API.get('/accounts', { params: { platform: 'all', type: 'all' } });
+                setAccounts(data);
+            } catch (error) {
+                console.error(error);
+            }
+            setLoading(false);
+        };
+        fetchAccounts();
+    }, []);
+
+    // Group accounts by platform or type
+    const groupedAccounts = accounts.reduce((acc, current) => {
+        // Group by platform using uppercase to match the blue bars
+        const group = current.platform.toUpperCase();
+        if (!acc[group]) acc[group] = [];
+        acc[group].push(current);
+        return acc;
+    }, {});
+
+
+    // Fake recent orders
+    const recentOrders = [
+        { name: 'onii..', item: 'EXPRESS VPN FOR...', price: '₦1,500', time: '1 minute ago' },
+        { name: 'mary..', item: 'PURE UK 🇬🇧 EMPTY...', price: '₦1,500', time: '3 minutes ago' },
+        { name: 'Ligh..', item: 'RANDOM FACEBOOK...', price: '₦2,500', time: '6 minutes ago' }
+    ];
+
     return (
-        <div className="relative overflow-hidden bg-[#faf9f6] dark:bg-dark-bg transition-colors duration-300">
-            <LivePurchaseNotification />
+        <div className="bg-[#f8fafc] min-h-screen text-gray-900 pb-32">
+            
+            {/* Header Content */}
+            <div className="px-5 pt-8 max-w-lg mx-auto">
+                <h1 className="text-xl font-bold uppercase tracking-tight text-[#4f0c86]">
+                    <span className="text-blue-700">HI </span>
+                    {user ? user.name : 'GUEST'},
+                </h1>
 
-            {/* Hero Section */}
-            <section className="relative pt-32 pb-32 px-6 max-w-7xl mx-auto overflow-visible">
-                {/* Glow Effects */}
-                <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/20 rounded-full blur-[120px] -z-0" />
-                <div className="absolute top-1/2 -right-24 w-64 h-64 bg-accent-glow/20 rounded-full blur-[100px] -z-0" />
+                {/* Categories Dropdown Filter */}
+                <div className="mt-3">
+                    <select className="w-full bg-[#1b2331] text-white text-[15px] rounded-[12px] px-4 py-4 appearance-none outline-none font-medium">
+                        <option>Categories</option>
+                        {Object.keys(groupedAccounts).map((cat, i) => (
+                            <option key={i} value={cat}>{cat}</option>
+                        ))}
+                    </select>
+                </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
+                {/* Recent Order Status */}
+                <div className="mt-6 mb-4">
+                    <div className="bg-[#596168] rounded-[10px] text-center py-3 text-white font-bold tracking-widest text-sm shadow-sm">
+                        RECENT ORDER
+                    </div>
+                </div>
 
-
-                        <h1 className="text-5xl md:text-8xl font-bold leading-[1.0] mb-8 tracking-tighter text-gray-900 dark:text-white">
-                            THE <span className="text-primary-light neon-text underline decoration-primary/30">BIGGEST</span><br />
-                            SOURCE <span className="text-gray-400 dark:text-gray-500 italic font-light">&</span> HUB
-                        </h1>
-
-                        <p className="text-gray-600 dark:text-gray-400 text-lg mb-10 max-w-lg leading-relaxed">
-                            Premium social media assets, aged accounts, and high-follower profiles.
-                            Backed by <span className="text-primary dark:text-white font-bold">100% Escrow Protection</span> and automatic delivery.
-                        </p>
-
-                        <div className="flex flex-col sm:flex-row gap-6">
-                            <Link to="/shop" className="btn-primary group flex items-center justify-center gap-3 px-12 py-5 text-lg">
-                                ENTER MARKET <ArrowRight size={22} className="group-hover:translate-x-2 transition-transform" />
-                            </Link>
-                            <a
-                                href="https://t.me/everythinglogs1"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="btn-outline flex items-center justify-center gap-3 px-12 py-5 text-lg border-gray-300 dark:border-primary text-gray-700 dark:text-primary hover:bg-primary hover:text-white transition-all"
-                            >
-                                <Send size={20} className="text-[#0088cc]" /> TELEGRAM FEED
-                            </a>
+                {/* Recent Order List */}
+                <div className="bg-white border border-gray-100 rounded-[14px] shadow-sm mb-10 overflow-hidden">
+                    <div className="flex justify-between px-5 py-4 border-b border-gray-100 font-bold text-lg">
+                        <span>Item</span>
+                        <span>Time</span>
+                    </div>
+                    <div className="max-h-56 overflow-hidden relative p-1">
+                        <div className="animate-pulse absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10">
+                            {/* Visual effect for scroll list */}
                         </div>
-                    </motion.div>
-
-                    {/* Featured Feed */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="relative"
-                    >
-                        <DeliveryFeed />
-
-                        {/* Status Badge */}
-                        <div className="absolute -bottom-8 -right-8 glass p-8 rounded-[2rem] border-primary/30 shadow-2xl animate-float bg-[#faf9f6]/10 backdrop-blur-xl">
-                            <div className="flex items-center gap-5">
-                                <div className="relative">
-                                    <div className="bg-green-500 w-4 h-4 rounded-full shadow-[0_0_15px_#22c55e]" />
-                                    <div className="absolute inset-x-0 inset-y-0 bg-green-500/50 rounded-full animate-ping" />
-                                </div>
+                        {recentOrders.map((order, index) => (
+                            <div key={index} className="flex justify-between items-center px-4 py-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
                                 <div>
-                                    <p className="text-2xl font-black text-gray-900 dark:text-white">5,124</p>
-                                    <p className="text-gray-500 dark:text-gray-400 text-[10px] uppercase font-bold tracking-[0.2em]">TRADERS ONLINE</p>
+                                    <p className="text-gray-500 text-[13px] mb-1">{order.name}, <span className="text-pink-600 font-semibold text-[13px]">just purchase</span></p>
+                                    <p className="text-gray-600 text-[13px] font-bold uppercase">{order.item} <span className="text-black ml-1">{order.price}</span></p>
                                 </div>
+                                <span className="text-gray-400 text-sm whitespace-nowrap pl-4">{order.time}</span>
                             </div>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Trust Meter */}
-            <section className="px-6 max-w-7xl mx-auto pb-32">
-                <TrustBadges />
-            </section>
-
-            {/* Detail Section: How It Works */}
-            <HowItWorks />
-
-            {/* Detail Section: Why Choose Us */}
-            <section className="py-32 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                        <FeatureBox
-                            icon={<ShieldCheck size={48} />}
-                            title="Escrow Security"
-                            desc="Your payment is only released to the vendor after you've successfully logged in and secured the credentials."
-                        />
-                        <FeatureBox
-                            icon={<Zap size={48} />}
-                            title="Instant Delivery"
-                            desc="No waiting for emails. Credentials appear in your private vault immediately upon payment clearance."
-                        />
-                        <FeatureBox
-                            icon={<Send size={48} className="text-[#0088cc]" />}
-                            title="Support Channel"
-                            desc="Got issues? Our Telegram community and support team are available 24/7 for any complaints."
-                        />
+                        ))}
                     </div>
                 </div>
-            </section>
 
-            {/* Detailed Community Section */}
-            <TelegramCommunity />
+                {/* Explore Product Tag */}
+                <h2 className="text-xl font-extrabold text-[#1f2231] tracking-tight mb-4 border-l-4 border-yellow-400 pl-3">
+                    Explore Product 👈
+                </h2>
 
-            {/* Detailed FAQ */}
-            <FAQ />
+                {/* Products Grouped */}
+                {loading ? (
+                    <div className="py-20 text-center text-gray-500">Loading products...</div>
+                ) : (
+                    <div className="space-y-8">
+                        {Object.keys(groupedAccounts).map((groupName, idx) => (
+                            <div key={idx}>
+                                {/* Group Header */}
+                                <div className="bg-[#3b427b] text-white rounded-[10px] px-4 py-3 font-semibold text-sm mb-4 uppercase tracking-wider shadow-sm">
+                                    {groupName} ACCOUNTS/TOOLS
+                                </div>
+                                
+                                {/* Products */}
+                                <div className="space-y-4">
+                                    {groupedAccounts[groupName].slice(0, 5).map(acc => (
+                                        <ProductCard key={acc._id} account={acc} />
+                                    ))}
+                                </div>
 
-            {/* CTA Section */}
-            <section className="py-32 px-6">
-                <div className="max-w-5xl mx-auto glass rounded-[3rem] p-16 text-center border-primary/20 bg-gradient-to-t from-primary/5 to-transparent">
-                    <h2 className="text-4xl md:text-6xl font-bold mb-8 italic tracking-tighter text-gray-900 dark:text-white">READY TO <span className="text-primary-light">SCALE?</span></h2>
-                    <p className="text-gray-500 dark:text-gray-400 text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
-                        Join the thousand traders who rely on BIGGESTLOGS for their digital infrastructure.
-                        For any inquiries or complaints, contact us on Telegram.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                        <Link to="/register" className="btn-primary px-16 py-6 text-xl rounded-2xl">
-                            CREATE AN ACCOUNT
-                        </Link>
-                        <a href="https://t.me/everythinglogs1" target="_blank" rel="noopener noreferrer" className="glass px-16 py-6 text-xl rounded-2xl flex items-center justify-center gap-3 border-gray-200 dark:border-white/10 text-gray-900 dark:text-white">
-                            <Send size={24} className="text-[#0088cc]" /> SUPPORT / FEED
-                        </a>
+                                {/* View All Button */}
+                                {groupedAccounts[groupName].length > 5 && (
+                                    <div className="mt-4 mb-8">
+                                        <button className="w-full bg-[#524df9] hover:bg-blue-600 transition-colors text-white py-4 rounded-[16px] shadow-lg font-bold text-[16px]">
+                                            View All
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </div>
-                </div>
-            </section>
+                )}
+                
+            </div>
+
+            {/* Floating Telegram Button */}
+            <a href="https://t.me/everythinglogs1" target="_blank" rel="noopener noreferrer" 
+                className="fixed bottom-[110px] right-6 md:right-10 bg-[#0088cc] p-4 rounded-full shadow-2xl z-50 hover:scale-110 transition-transform flex items-center justify-center border-4 border-blue-50">
+                <Send size={28} className="text-white -ml-1 mt-1" fill="currentColor" />
+            </a>
+            
         </div>
     );
 };
-
-const FeatureBox = ({ icon, title, desc }) => (
-    <motion.div
-        whileHover={{ y: -10 }}
-        className="glass-card !p-12 border-gray-200 dark:border-white/5 bg-[#faf9f6] dark:bg-white/5 group hover:bg-primary/5 transition-all"
-    >
-        <div className="mb-8 text-primary group-hover:scale-110 transition-transform duration-300">
-            {icon}
-        </div>
-        <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">{title}</h3>
-        <p className="text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-            {desc}
-        </p>
-    </motion.div>
-);
 
 export default Home;

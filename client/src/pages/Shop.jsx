@@ -13,7 +13,7 @@ const Shop = () => {
         search: ''
     });
 
-    const platforms = ['all', 'Instagram', 'Twitter (X)', 'Facebook', 'TikTok', 'Snapchat', 'Discord'];
+    const platforms = ['all', 'Instagram', 'Twitter (X)', 'Facebook', 'TikTok', 'Snapchat', 'Discord', 'Tools'];
     const types = ['all', 'Aged', 'Verified', 'High Follower', 'Premium'];
 
     useEffect(() => {
