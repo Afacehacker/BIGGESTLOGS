@@ -13,6 +13,9 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './admin/AdminDashboard';
 
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
+
 function App() {
     return (
         <Router>
@@ -37,8 +40,16 @@ function App() {
                                 <Route path="/shop" element={<Shop />} />
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/register" element={<Register />} />
-                                <Route path="/dashboard" element={<Dashboard />} />
-                                <Route path="/admin/*" element={<AdminDashboard />} />
+                                <Route path="/dashboard" element={
+                                    <ProtectedRoute>
+                                        <Dashboard />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="/admin/*" element={
+                                    <AdminRoute>
+                                        <AdminDashboard />
+                                    </AdminRoute>
+                                } />
                             </Routes>
                         </main>
                         <Footer />
