@@ -20,7 +20,7 @@ const ProductCard = ({ account }) => {
                 <img
                     src={account.image || 'https://via.placeholder.com/300x200'}
                     alt={account.title}
-                    className="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-contain p-2 opacity-90 group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-bg to-transparent opacity-60" />
 

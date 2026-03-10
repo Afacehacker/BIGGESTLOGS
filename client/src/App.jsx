@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 // Pages
 import Home from './pages/Home';
 import Shop from './pages/Shop';
+import ProductDetail from './pages/ProductDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -38,6 +39,7 @@ function App() {
                             <Routes>
                                 <Route path="/" element={<Home />} />
                                 <Route path="/shop" element={<Shop />} />
+                                <Route path="/shop/:id" element={<ProductDetail />} />
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/register" element={<Register />} />
                                 <Route path="/dashboard" element={
