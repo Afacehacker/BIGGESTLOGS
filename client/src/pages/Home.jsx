@@ -25,10 +25,7 @@ const Home = () => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full py-1.5 px-4 mb-8">
-                            <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                            <span className="text-primary-light text-xs font-bold uppercase tracking-widest">v2.0 LIVE STATUS: STABLE</span>
-                        </div>
+
 
                         <h1 className="text-5xl md:text-8xl font-bold leading-[1.0] mb-8 tracking-tighter text-gray-900 dark:text-white">
                             THE <span className="text-primary-light neon-text underline decoration-primary/30">BIGGEST</span><br />
