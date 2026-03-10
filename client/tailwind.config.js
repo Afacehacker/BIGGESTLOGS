@@ -9,14 +9,14 @@ export default {
         extend: {
             colors: {
                 primary: {
-                    light: '#a855f7',
-                    DEFAULT: '#7e22ce',
-                    dark: '#581c87',
+                    light: '#22d3ee',
+                    DEFAULT: '#06b6d4',
+                    dark: '#0891b2',
                 },
                 secondary: '#ffffff',
                 accent: {
-                    neon: '#d8b4fe',
-                    glow: '#9333ea',
+                    neon: '#67e8f9',
+                    glow: '#00bcd4',
                 },
                 dark: {
                     bg: '#0f172a',
@@ -29,8 +29,8 @@ export default {
             },
             keyframes: {
                 'glow-pulse': {
-                    '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(168, 85, 247, 0.5)' },
-                    '50%': { opacity: 0.8, boxShadow: '0 0 40px rgba(168, 85, 247, 0.8)' },
+                    '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(34, 211, 238, 0.5)' },
+                    '50%': { opacity: 0.8, boxShadow: '0 0 40px rgba(34, 211, 238, 0.8)' },
                 },
                 'float': {
                     '0%, 100%': { transform: 'translateY(0)' },
