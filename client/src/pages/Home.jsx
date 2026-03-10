@@ -4,11 +4,13 @@ import API from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { AuthContext } from '../context/AuthContext';
 import { Send } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 const Home = () => {
     const { user } = useContext(AuthContext);
     const [accounts, setAccounts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [recentOrders, setRecentOrders] = useState([]);
 
     useEffect(() => {
         const fetchAccounts = async () => {
@@ -33,12 +35,73 @@ const Home = () => {
     }, {});
 
 
-    // Fake recent orders
-    const recentOrders = [
-        { name: 'onii..', item: 'EXPRESS VPN FOR...', price: '₦1,500', time: '1 minute ago' },
-        { name: 'mary..', item: 'PURE UK 🇬🇧 EMPTY...', price: '₦1,500', time: '3 minutes ago' },
-        { name: 'Ligh..', item: 'RANDOM FACEBOOK...', price: '₦2,500', time: '6 minutes ago' }
-    ];
+    // Generate initial live orders based on actual products
+    useEffect(() => {
+        if (accounts.length > 0 && recentOrders.length === 0) {
+            const fakeNames = ['alex..', 'mary..', 'john..', 'sarah..', 'mike..', 'emmy..', 'david..', 'paul..', 'lucy..', 'tobi..'];
+            
+            // Randomly pick 3 accounts to form the initial list
+            const initialOrders = Array.from({ length: 3 }).map((_, i) => {
+                const randomAccount = accounts[Math.floor(Math.random() * accounts.length)];
+                return {
+                    id: Date.now() + i,
+                    name: fakeNames[Math.floor(Math.random() * fakeNames.length)],
+                    item: (randomAccount.title).substring(0, 20) + '...',
+                    price: `₦${randomAccount.price.toLocaleString()}`,
+                    time: `${(i + 1) * 3} mins ago`
+                };
+            });
+            setRecentOrders(initialOrders);
+        }
+    }, [accounts]);
+
+    // Interval to push a new purchase every 40 seconds
+    useEffect(() => {
+        if (accounts.length === 0) return;
+        
+        const fakeNames = ['chris..', 'kemi..', 'tunde..', 'susan..', 'femi..', 'ayo..', 'lisa..', 'peter..', 'chuks..', 'zainab..'];
+
+        const intervalId = setInterval(() => {
+            const randomAccount = accounts[Math.floor(Math.random() * accounts.length)];
+            const newName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+            const newItemTitle = (randomAccount.title).substring(0, 20) + '...';
+            
+            const newOrder = {
+                id: Date.now(),
+                name: newName,
+                item: newItemTitle,
+                price: `₦${randomAccount.price.toLocaleString()}`,
+                time: 'Just now'
+            };
+
+            // Update list, keep only top 5
+            setRecentOrders(prev => {
+                return [newOrder, ...prev].slice(0, 5); 
+            });
+
+            // Fire floating side message notification
+            toast.custom((t) => (
+                <div className={`${t.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'} transition-all duration-300 max-w-sm w-full bg-white shadow-xl rounded-2xl pointer-events-auto flex p-4 border border-gray-100`}>
+                    <div className="flex-1 w-0 flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center shrink-0 border border-blue-100">
+                            <span className="text-xl">🛒</span>
+                        </div>
+                        <div className="ml-1 flex-1">
+                            <p className="text-sm font-bold text-gray-900 leading-tight">
+                                {newName.replace('..', '')} <span className="text-blue-600 font-extrabold text-[12px] uppercase tracking-widest ml-1">Bought!</span>
+                            </p>
+                            <p className="mt-1 text-[13px] text-gray-500 font-medium truncate">
+                                {randomAccount.title}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            ), { duration: 5000, position: 'bottom-left' });
+
+        }, 40000); // 40 seconds
+
+        return () => clearInterval(intervalId);
+    }, [accounts]);
 
     return (
         <div className="bg-[#f8fafc] min-h-screen text-gray-900 pb-32">
@@ -78,7 +141,7 @@ const Home = () => {
                             {/* Visual effect for scroll list */}
                         </div>
                         {recentOrders.map((order, index) => (
-                            <div key={index} className="flex justify-between items-center px-4 py-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
+                            <div key={order.id || index} className="flex justify-between items-center px-4 py-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
                                 <div>
                                     <p className="text-gray-500 text-[13px] mb-1">{order.name}, <span className="text-pink-600 font-semibold text-[13px]">just purchase</span></p>
                                     <p className="text-gray-600 text-[13px] font-bold uppercase">{order.item} <span className="text-black ml-1">{order.price}</span></p>
