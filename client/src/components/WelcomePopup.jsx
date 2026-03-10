@@ -6,16 +6,12 @@ const WelcomePopup = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        const hasSeenPopup = sessionStorage.getItem('welcomePopupShown');
-        if (!hasSeenPopup) {
-            const timer = setTimeout(() => setIsOpen(true), 1500); // 1.5s delay
-            return () => clearTimeout(timer);
-        }
+        const timer = setTimeout(() => setIsOpen(true), 1500); // 1.5s delay
+        return () => clearTimeout(timer);
     }, []);
 
     const closePopup = () => {
         setIsOpen(false);
-        sessionStorage.setItem('welcomePopupShown', 'true');
     };
 
     return (

@@ -19,7 +19,6 @@ import AdminDashboard from './admin/AdminDashboard';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
-import WelcomePopup from './components/WelcomePopup';
 
 function App() {
     // Keep Render Backend Awake while the tab is open
@@ -51,7 +50,6 @@ function App() {
                                 },
                             }}
                         />
-                        <WelcomePopup />
                         <Navbar />
                         <main className="flex-grow">
                             <Routes>

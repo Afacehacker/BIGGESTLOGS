@@ -5,6 +5,7 @@ import ProductCard from '../components/ProductCard';
 import { AuthContext } from '../context/AuthContext';
 import { Send } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import WelcomePopup from '../components/WelcomePopup';
 
 const Home = () => {
     const { user } = useContext(AuthContext);
@@ -105,6 +106,7 @@ const Home = () => {
 
     return (
         <div className="bg-[#f8fafc] min-h-screen text-gray-900 pb-32">
+            <WelcomePopup />
             
             {/* Header Content */}
             <div className="px-5 pt-8 max-w-lg mx-auto">
