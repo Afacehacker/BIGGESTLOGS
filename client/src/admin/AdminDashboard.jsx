@@ -7,12 +7,14 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
+import AddListingModal from './AddListingModal';
 
 const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState('overview');
     const [orders, setOrders] = useState([]);
     const [accounts, setAccounts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -78,9 +80,10 @@ const AdminDashboard = () => {
                 <div className="lg:col-span-4 glass-card min-h-[600px]">
                     {activeTab === 'overview' && <OverviewTab orders={orders} accounts={accounts} />}
                     {activeTab === 'orders' && <OrdersTab orders={orders} onUpdate={handleStatusUpdate} />}
-                    {activeTab === 'accounts' && <AccountsTab accounts={accounts} onDelete={handleDeleteAccount} />}
+                    {activeTab === 'accounts' && <AccountsTab accounts={accounts} onDelete={handleDeleteAccount} onAdd={() => setIsAddModalOpen(true)} />}
                 </div>
             </div>
+            <AddListingModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onSuccess={fetchData} />
         </div>
     );
 };
@@ -162,11 +165,11 @@ const OrdersTab = ({ orders, onUpdate }) => (
     </div>
 );
 
-const AccountsTab = ({ accounts, onDelete }) => (
+const AccountsTab = ({ accounts, onDelete, onAdd }) => (
     <div className="p-6">
         <div className="flex justify-between items-center mb-8">
             <h2 className="text-xl font-bold">Inventory List</h2>
-            <button className="btn-primary flex items-center gap-2 py-2 px-6 text-sm"><Plus size={16} /> ADD LISTING</button>
+            <button onClick={onAdd} className="btn-primary flex items-center gap-2 py-2 px-6 text-sm"><Plus size={16} /> ADD LISTING</button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {accounts.map(acc => (
