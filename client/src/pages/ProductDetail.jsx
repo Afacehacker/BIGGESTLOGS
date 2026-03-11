@@ -120,14 +120,14 @@ const ProductDetail = () => {
                         </div>
 
                         {/* Price Details Block */}
-                        <div className="bg-[#f8fafc] rounded-[16px] p-4 border border-gray-200">
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm font-semibold text-gray-500">Unit Price</span>
-                                <span className="font-black text-2xl tracking-tight text-[#1f2231]">₦{account.price.toLocaleString()}</span>
+                        <div className="bg-[#1b2331] text-white rounded-2xl p-5 shadow-inner">
+                            <div className="flex justify-between items-center mb-3">
+                                <span className="text-sm font-semibold text-gray-400">Unit Price</span>
+                                <span className="font-black text-2xl tracking-tight text-white">₦{account.price.toLocaleString()}</span>
                             </div>
                             <div className="flex justify-between items-center">
-                                <span className="text-sm font-semibold text-gray-500">Available Stock</span>
-                                <span className={`font-bold text-sm px-2 py-0.5 rounded ${account.stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                <span className="text-sm font-semibold text-gray-400">Available Stock</span>
+                                <span className={`font-bold text-[12px] uppercase tracking-widest px-3 py-1 rounded ${account.stock > 0 ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-500 border border-red-500/30'}`}>
                                     {account.stock} Pcs
                                 </span>
                             </div>
