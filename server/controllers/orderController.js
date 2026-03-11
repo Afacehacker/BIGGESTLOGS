@@ -1,5 +1,6 @@
 const Order = require('../models/Order');
 const Account = require('../models/Account');
+const sendAdminNotification = require('../utils/sendEmail');
 
 const addOrderItems = async (req, res) => {
     const { accountId } = req.body;
@@ -45,6 +46,12 @@ const addOrderItems = async (req, res) => {
         status: 'completed',
         description: `Purchased ${account.title}`
     });
+
+    // Notify Admin asynchronously
+    sendAdminNotification(
+        'New Order Placed: ' + account.title,
+        `Hello Admin,\n\nA new order has just been placed!\n\nUser: ${user.name} (${user.email})\nItem: ${account.title}\nPrice: ₦${account.price}\nOrder ID: ${createdOrder.orderId}\nLog in to the admin panel for details.`
+    );
 
     res.status(201).json(createdOrder);
 };

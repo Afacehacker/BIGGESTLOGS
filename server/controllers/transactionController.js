@@ -1,5 +1,6 @@
 const Transaction = require('../models/Transaction');
 const User = require('../models/User');
+const sendAdminNotification = require('../utils/sendEmail');
 
 // @desc    Create a deposit request
 // @route   POST /api/transactions/deposit
@@ -20,6 +21,16 @@ const createDeposit = async (req, res) => {
     });
 
     const createdTransaction = await transaction.save();
+
+    // Fetch user to get name/email
+    const user = await User.findById(req.user._id);
+    
+    // Notify Admin asynchronously
+    sendAdminNotification(
+        'New Deposit Request: ₦' + amount,
+        `Hello Admin,\n\nA new wallet funding/deposit request has been submitted.\n\nUser: ${user.name} (${user.email})\nAmount: ₦${amount}\n\nPlease check the admin panel to view the proof of payment and approve or reject it.`
+    );
+
     res.status(201).json(createdTransaction);
 };
 
