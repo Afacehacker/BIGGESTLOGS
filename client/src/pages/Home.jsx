@@ -47,8 +47,8 @@ const Home = () => {
                 return {
                     id: Date.now() + i,
                     name: fakeNames[Math.floor(Math.random() * fakeNames.length)],
-                    item: (randomAccount.title).substring(0, 20) + '...',
-                    price: `₦${randomAccount.price.toLocaleString()}`,
+                    item: (randomAccount?.title || 'Account').substring(0, 20) + '...',
+                    price: `₦${randomAccount?.price?.toLocaleString() || '0'}`,
                     time: `${(i + 1) * 3} mins ago`
                 };
             });
@@ -65,7 +65,7 @@ const Home = () => {
         const intervalId = setInterval(() => {
             const randomAccount = accounts[Math.floor(Math.random() * accounts.length)];
             const newName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
-            const newItemTitle = (randomAccount.title).substring(0, 20) + '...';
+            const newItemTitle = (randomAccount?.title || 'Account').substring(0, 20) + '...';
             
             const newOrder = {
                 id: Date.now(),

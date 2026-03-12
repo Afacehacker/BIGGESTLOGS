@@ -75,9 +75,10 @@ const ProductDetail = () => {
 
     // Pick a quick color depending on platform
     let platColor = 'bg-blue-600';
-    if(account.platform.toLowerCase().includes('twitter')) platColor = 'bg-black';
-    if(account.platform.toLowerCase().includes('instagram')) platColor = 'bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600';
-    if(account.platform.toLowerCase().includes('tools')) platColor = 'bg-indigo-500';
+    const plat = (account?.platform || '').toLowerCase();
+    if(plat.includes('twitter')) platColor = 'bg-black';
+    if(plat.includes('instagram')) platColor = 'bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600';
+    if(plat.includes('tools')) platColor = 'bg-indigo-500';
 
     return (
         <div className="bg-[#f8fafc] min-h-screen text-gray-900 pb-32">

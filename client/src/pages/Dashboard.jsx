@@ -65,7 +65,7 @@ const Dashboard = () => {
                                         <div>
                                             <h3 className="font-bold text-[#1f2231] text-[15px] leading-snug line-clamp-1">{order.account?.title || 'Account Removed'}</h3>
                                             <p className="text-[11px] text-gray-400 font-bold uppercase tracking-widest mt-1">
-                                                ID: {order.orderId.substring(0, 8)}
+                                                ID: {order.orderId?.substring(0, 8) || '......'}
                                             </p>
                                         </div>
                                     </div>

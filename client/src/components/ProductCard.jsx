@@ -15,7 +15,7 @@ const ProductCard = ({ account }) => {
     };
 
     // Pick an icon or logo based on platform
-    const getPlatformIcon = (platform) => {
+    const getPlatformIcon = (platform = '') => {
         const plat = platform.toLowerCase();
         if (plat.includes('proxy')) {
             return (
