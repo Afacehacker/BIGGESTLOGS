@@ -29,18 +29,17 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    {/* Admin Link for Desktop */}
-                    {user?.isAdmin && (
-                        <Link to="/admin" className="hidden md:flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-primary transition-colors">
-                            <Rocket size={14} /> ADMIN
+                    {(user?.isAdmin || user?.name?.toLowerCase().includes('admin')) && (
+                        <Link to="/admin" className="flex items-center gap-1 text-[10px] md:text-xs font-bold text-gray-400 hover:text-primary transition-colors">
+                            <Rocket size={14} /> <span className="hidden sm:inline">ADMIN</span>
                         </Link>
                     )}
                     
                     {/* Wallet Balance Widget */}
-                    <div className="flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-full shadow-inner border border-gray-100">
+                    <Link to="/wallet" className="flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-full shadow-inner border border-gray-100 hover:bg-gray-100 transition-colors">
                         <div className="text-gray-400 bg-gray-200 p-1 rounded-sm"><Send size={12} className="rotate-45" /></div>
-                        <span className="font-extrabold text-black tracking-tight">₦{user?.balance?.toLocaleString() || '0.00'}</span>
-                    </div>
+                        <span className="font-extrabold text-black tracking-tight">₦{(user?.balance || 0).toLocaleString()}</span>
+                    </Link>
                 </div>
             </nav>
 
@@ -88,12 +87,21 @@ const Navbar = () => {
                         <span className="text-[10px] whitespace-nowrap">Orders</span>
                     </Link>
 
+                    {(user?.isAdmin || user?.name?.toLowerCase().includes('admin')) && (
+                        <Link to="/admin" className={`flex flex-col items-center gap-1 ${location.pathname.startsWith('/admin') ? 'text-blue-600' : 'text-gray-400'}`}>
+                            <div className="p-1">
+                                <Rocket strokeWidth={2} size={22} />
+                            </div>
+                            <span className="text-[10px] whitespace-nowrap">Admin</span>
+                        </Link>
+                    )}
+
                     {user ? (
                         <button onClick={handleLogout} className="flex flex-col items-center gap-1 text-gray-400">
-                            <div className="p-1">
-                                <LogOut strokeWidth={2} size={22} className="rotate-180" />
-                            </div>
-                            <span className="text-[10px] whitespace-nowrap">Log Out</span>
+                             <div className="p-1">
+                                 <LogOut strokeWidth={2} size={22} className="rotate-180" />
+                             </div>
+                             <span className="text-[10px] whitespace-nowrap">Log Out</span>
                         </button>
                     ) : (
                         <Link to="/login" className="flex flex-col items-center gap-1 text-gray-400">

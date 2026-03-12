@@ -70,23 +70,23 @@ const AdminDashboard = () => {
 
     return (
         <div className="pt-24 pb-32 px-6 max-w-7xl mx-auto bg-[#f8fafc] min-h-screen text-gray-900">
-            <div className="mb-12 flex justify-between items-center">
+            <div className="mb-8 md:mb-12 flex justify-between items-center">
                 <div>
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-900 to-blue-500 bg-clip-text text-transparent tracking-tight">Management Hub</h1>
-                    <p className="text-gray-500 font-medium">Total control over orders, assets, and deposits.</p>
+                    <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-900 to-blue-500 bg-clip-text text-transparent tracking-tight leading-tight">Admin Hub</h1>
+                    <p className="text-gray-500 font-medium text-sm">Control orders, assets, and deposits.</p>
                 </div>
                 <button onClick={fetchData} className="bg-white p-3 rounded-xl shadow-sm hover:text-blue-600 border border-gray-100 transition-colors">
                     <RefreshCw size={20} className={loading ? 'animate-spin border-blue-600' : ''} />
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                {/* Sidebar */}
-                <div className="lg:col-span-1 space-y-2">
-                    <TabButton id="overview" active={activeTab} set={setActiveTab} icon={<BarChart3 size={18} />} label="Overview" />
+            <div className="flex flex-col lg:grid lg:grid-cols-5 gap-6 md:gap-8">
+                {/* Sidebar / Tabs */}
+                <div className="lg:col-span-1 flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 no-scrollbar snap-x snap-mandatory">
+                    <TabButton id="overview" active={activeTab} set={setActiveTab} icon={<BarChart3 size={18} />} label="Stats" />
                     <TabButton id="orders" active={activeTab} set={setActiveTab} icon={<ShoppingCart size={18} />} label="Orders" count={orders.filter(o => o.status === 'pending').length} />
-                    <TabButton id="deposits" active={activeTab} set={setActiveTab} icon={<Users size={18} />} label="Deposits" count={transactions?.filter(t => t.status === 'pending').length} />
-                    <TabButton id="accounts" active={activeTab} set={setActiveTab} icon={<Tag size={18} />} label="Inventory" />
+                    <TabButton id="deposits" active={activeTab} set={setActiveTab} icon={<Users size={18} />} label="Payments" count={transactions?.filter(t => t.status === 'pending').length} />
+                    <TabButton id="accounts" active={activeTab} set={setActiveTab} icon={<Tag size={18} />} label="Products" />
                 </div>
 
                 {/* Content */}
@@ -105,13 +105,13 @@ const AdminDashboard = () => {
 const TabButton = ({ id, active, set, icon, label, count }) => (
     <button
         onClick={() => set(id)}
-        className={`w-full flex items-center justify-between px-6 py-4 rounded-2xl transition-all ${active === id ? 'bg-primary text-white shadow-xl shadow-primary/20 scale-105 z-10' : 'hover:bg-gray-100 dark:hover:bg-white/5 text-gray-600 dark:text-gray-400'}`}
+        className={`flex-shrink-0 lg:w-full flex items-center justify-between px-5 py-3 lg:px-6 lg:py-4 rounded-2xl transition-all snap-start ${active === id ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105 z-10' : 'bg-white lg:bg-transparent border border-gray-100 lg:border-none hover:bg-gray-100 text-gray-500'}`}
     >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 lg:gap-3">
             {icon}
-            <span className="font-bold">{label}</span>
+            <span className="font-bold text-sm lg:text-base whitespace-nowrap">{label}</span>
         </div>
-        {count > 0 && <span className="bg-red-500 text-[10px] text-white px-2 py-0.5 rounded-full font-bold">{count}</span>}
+        {count > 0 && <span className="bg-red-500 text-[10px] text-white px-2 py-0.5 rounded-full font-bold ml-2 lg:ml-0">{count}</span>}
     </button>
 );
 
@@ -180,10 +180,10 @@ const OrdersTab = ({ orders, onUpdate }) => (
 );
 
 const AccountsTab = ({ accounts, onDelete, onAdd }) => (
-    <div className="p-6">
-        <div className="flex justify-between items-center mb-8">
-            <h2 className="text-xl font-bold">Inventory List</h2>
-            <button onClick={onAdd} className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg flex items-center gap-2 py-3 px-6 text-sm font-bold transition-colors"><Plus size={16} /> ADD LISTING</button>
+    <div className="p-4 md:p-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+            <h2 className="text-xl font-bold">Product Inventory</h2>
+            <button onClick={onAdd} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg flex items-center justify-center gap-2 py-3.5 px-6 text-sm font-black transition-all active:scale-95"><Plus size={18} /> POST NEW PRODUCT</button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {accounts.map(acc => (
