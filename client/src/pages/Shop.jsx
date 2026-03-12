@@ -104,7 +104,7 @@ const Shop = () => {
                                 <div key={i} className="bg-white rounded-[20px] h-32 animate-pulse border border-gray-100" />
                             ))}
                         </div>
-                    ) : accounts.length > 0 ? (
+                    ) : (Array.isArray(accounts) && accounts.length > 0) ? (
                         <div className="space-y-4">
                             {accounts.map(account => (
                                 <ProductCard key={account._id} account={account} />

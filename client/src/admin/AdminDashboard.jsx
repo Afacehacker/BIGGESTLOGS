@@ -89,9 +89,9 @@ const AdminDashboard = () => {
                 {/* Sidebar / Tabs */}
                 <div className="lg:col-span-1 flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 no-scrollbar snap-x snap-mandatory">
                     <TabButton id="overview" active={activeTab} set={setActiveTab} icon={<BarChart3 size={18} />} label="Stats" />
-                    <TabButton id="orders" active={activeTab} set={setActiveTab} icon={<ShoppingCart size={18} />} label="Orders" count={orders.filter(o => o.status === 'pending').length} />
-                    <TabButton id="deposits" active={activeTab} set={setActiveTab} icon={<Users size={18} />} label="Payments" count={transactions?.filter(t => t.status === 'pending').length} />
-                    <TabButton id="support" active={activeTab} set={setActiveTab} icon={<MessageSquare size={18} />} label="Support" count={chats?.reduce((acc, curr) => acc + (curr.unreadCountAdmin || 0), 0)} />
+                    <TabButton id="orders" active={activeTab} set={setActiveTab} icon={<ShoppingCart size={18} />} label="Orders" count={(Array.isArray(orders) ? orders : []).filter(o => o.status === 'pending').length} />
+                    <TabButton id="deposits" active={activeTab} set={setActiveTab} icon={<Users size={18} />} label="Payments" count={(Array.isArray(transactions) ? transactions : []).filter(t => t.status === 'pending').length} />
+                    <TabButton id="support" active={activeTab} set={setActiveTab} icon={<MessageSquare size={18} />} label="Support" count={(Array.isArray(chats) ? chats : []).reduce((acc, curr) => acc + (curr.unreadCountAdmin || 0), 0)} />
                     <TabButton id="accounts" active={activeTab} set={setActiveTab} icon={<Tag size={18} />} label="Products" />
                 </div>
 
@@ -123,15 +123,15 @@ const TabButton = ({ id, active, set, icon, label, count }) => (
 );
 
 const OverviewTab = ({ orders, accounts }) => {
-    const revenue = orders.filter(o => o.status === 'completed').reduce((acc, curr) => acc + (curr.account?.price || 0), 0);
+    const revenue = (Array.isArray(orders) ? orders : []).filter(o => o.status === 'completed').reduce((acc, curr) => acc + (curr.account?.price || 0), 0);
 
     return (
         <div className="p-8">
             <h2 className="text-2xl font-bold mb-8">Performance Stats</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 <StatCard label="Total Revenue" value={`₦${revenue}`} color="text-green-400" />
-                <StatCard label="Pending Orders" value={orders.filter(o => o.status === 'pending').length} color="text-yellow-400" />
-                <StatCard label="Active Listings" value={accounts.length} color="text-primary-light" />
+                <StatCard label="Pending Orders" value={(Array.isArray(orders) ? orders : []).filter(o => o.status === 'pending').length} color="text-yellow-400" />
+                <StatCard label="Active Listings" value={(Array.isArray(accounts) ? accounts : []).length} color="text-primary-light" />
             </div>
         </div>
     );
@@ -157,7 +157,7 @@ const OrdersTab = ({ orders, onUpdate }) => (
                 </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-white/5">
-                {orders.map(order => (
+                {(Array.isArray(orders) ? orders : []).map(order => (
                     <tr key={order._id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                         <td className="px-6 py-4 font-mono text-sm">{order.orderId}</td>
                         <td className="px-6 py-4">
@@ -193,7 +193,7 @@ const AccountsTab = ({ accounts, onDelete, onAdd }) => (
             <button onClick={onAdd} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg flex items-center justify-center gap-2 py-3.5 px-6 text-sm font-black transition-all active:scale-95"><Plus size={18} /> POST NEW PRODUCT</button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {accounts.map(acc => (
+            {(Array.isArray(accounts) ? accounts : []).map(acc => (
                 <div key={acc._id} className="p-4 bg-[#f8fafc] rounded-xl border border-gray-100 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-center gap-4">
                         <img src={acc.image || 'https://via.placeholder.com/150'} className="w-12 h-12 rounded-lg object-cover border border-gray-200" />
@@ -225,7 +225,7 @@ const DepositsTab = ({ transactions, onUpdate }) => (
                 </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-                {transactions?.map(tx => (
+                {(Array.isArray(transactions) ? transactions : []).map(tx => (
                     <tr key={tx._id} className="hover:bg-gray-50 transition-colors">
                         <td className="px-6 py-4">
                             <p className="text-sm font-bold text-gray-900">{tx.user?.name}</p>

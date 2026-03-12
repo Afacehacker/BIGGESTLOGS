@@ -53,7 +53,7 @@ const Dashboard = () => {
                     <div className="space-y-4">
                         {[1, 2, 3].map(i => <div key={i} className="bg-white rounded-[20px] h-32 animate-pulse border border-gray-100" />)}
                     </div>
-                ) : orders.length > 0 ? (
+                ) : (Array.isArray(orders) && orders.length > 0) ? (
                     <div className="space-y-4">
                         {orders.map((order) => (
                             <div key={order._id} className="bg-white rounded-[20px] p-5 border border-gray-100 shadow-sm relative overflow-hidden">

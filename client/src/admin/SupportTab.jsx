@@ -94,7 +94,7 @@ const SupportTab = () => {
         }
     };
 
-    const filteredConversations = conversations.filter(c => 
+    const filteredConversations = (Array.isArray(conversations) ? conversations : []).filter(c => 
         c.user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         c.user?.email?.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -134,7 +134,7 @@ const SupportTab = () => {
                                         <span className="text-[10px] text-gray-400">{new Date(chat.lastMessage).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                     </div>
                                     <p className="text-xs text-gray-500 truncate mt-1">
-                                        {chat.messages[chat.messages.length - 1]?.message || 'No messages'}
+                                        {(Array.isArray(chat?.messages) && chat.messages.length > 0) ? chat.messages[chat.messages.length - 1]?.message : 'No messages'}
                                     </p>
                                 </div>
                                 {chat.unreadCountAdmin > 0 && (
@@ -182,7 +182,7 @@ const SupportTab = () => {
 
                     {/* Chat Messages */}
                     <div className="flex-1 overflow-y-auto p-8 space-y-6 bg-gray-50/30">
-                        {messages.map((msg, i) => (
+                        {Array.isArray(messages) && messages.map((msg, i) => (
                             <div key={i} className={`flex ${msg.sender === 'admin' ? 'justify-end' : 'justify-start'}`}>
                                 <div className={`max-w-[70%] group ${msg.sender === 'admin' ? 'items-end' : 'items-start'} flex flex-col gap-2`}>
                                     <div className={`p-4 rounded-2xl shadow-sm ${

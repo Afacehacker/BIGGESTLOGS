@@ -27,13 +27,13 @@ const Home = () => {
     }, []);
 
     // Group accounts by platform or type
-    const groupedAccounts = accounts.reduce((acc, current) => {
+    const groupedAccounts = Array.isArray(accounts) ? accounts.reduce((acc, current) => {
         // Group by platform using uppercase to match the blue bars
-        const group = current.platform.toUpperCase();
+        const group = current.platform?.toUpperCase() || 'OTHER';
         if (!acc[group]) acc[group] = [];
         acc[group].push(current);
         return acc;
-    }, {});
+    }, {}) : {};
 
 
     // Generate initial live orders based on actual products
@@ -142,7 +142,7 @@ const Home = () => {
                         <div className="animate-pulse absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10">
                             {/* Visual effect for scroll list */}
                         </div>
-                        {recentOrders.map((order, index) => (
+                        {Array.isArray(recentOrders) && recentOrders.map((order, index) => (
                             <div key={order.id || index} className="flex justify-between items-center px-4 py-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
                                 <div>
                                     <p className="text-gray-500 text-[13px] mb-1">{order.name}, <span className="text-pink-600 font-semibold text-[13px]">just purchase</span></p>
