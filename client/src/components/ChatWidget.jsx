@@ -36,15 +36,27 @@ const ChatWidget = () => {
 
         await sendMessage(text, null, 'admin');
 
-        // Simple Bot auto-responses if admin not joined
+        // Bot responses for options 1-4
         if (text === '1' || text.toLowerCase().includes('buy')) {
             setTimeout(() => {
-                sendMessage("To buy an account, simply browse our shop, select a product, and click 'Purchase'. Make sure your wallet is funded!", null, 'bot');
-            }, 1000);
+                sendMessage("To buy an account, simply browse our shop, select a product, and click 'Purchase'. Ensure your wallet is funded before buying! 🛒\n\nType 'menu' to see all categories again.", null, user._id, 'bot');
+            }, 800);
         } else if (text === '2' || text.toLowerCase().includes('deposit')) {
             setTimeout(() => {
-                sendMessage("For deposit issues, please upload a screenshot of your payment receipt here for admin verification.", null, 'bot');
-            }, 1000);
+                sendMessage("For deposit issues, please upload a screenshot of your payment receipt here. An admin will verify and fund your wallet shortly! 💸\n\nType 'menu' to see more options.", null, user._id, 'bot');
+            }, 800);
+        } else if (text === '3' || text.toLowerCase().includes('complaint')) {
+            setTimeout(() => {
+                sendMessage("We're sorry you're having issues. Please provide the Order ID and a detailed description of the problem. Our team will look into it immediately! ⚒️\n\nType 'menu' for more help.", null, user._id, 'bot');
+            }, 800);
+        } else if (text === '4' || text.toLowerCase().includes('admin')) {
+            setTimeout(() => {
+                sendMessage("Connecting you to a live admin... Please stay online. You can leave a message and we'll reply as soon as possible! 👨‍💻\n\nType 'menu' if you'd like to try automated support again.", null, user._id, 'bot');
+            }, 800);
+        } else if (text.toLowerCase() === 'menu' || text.toLowerCase() === 'help' || text === '0') {
+            setTimeout(() => {
+                sendMessage("Support Menu:\n\n1️⃣ Buy account\n2️⃣ Deposit issue\n3️⃣ Product complaint\n4️⃣ Talk to admin\n\nSimply reply with the number you need help with!", null, user._id, 'bot');
+            }, 500);
         }
     };
 
@@ -76,7 +88,7 @@ const ChatWidget = () => {
     };
 
     return (
-        <div className="fixed bottom-6 right-6 z-[999]">
+        <div className="fixed bottom-36 md:bottom-10 right-6 md:right-10 z-[999]">
             {/* Floating Icon */}
             <motion.button
                 whileHover={{ scale: 1.1 }}

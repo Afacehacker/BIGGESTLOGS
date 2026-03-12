@@ -52,14 +52,14 @@ export const ChatProvider = ({ children }) => {
         }
     }, []);
 
-    const sendMessage = useCallback(async (message, image, receiverId) => {
+    const sendMessage = useCallback(async (message, image, receiverId, senderType) => {
         try {
             const currentUserId = user?._id;
             const msgData = {
                 message,
                 image,
                 userId: receiverId,
-                senderType: user?.isAdmin ? 'admin' : 'user'
+                senderType: senderType || (user?.isAdmin ? 'admin' : 'user')
             };
 
             await API.post('/chats/message', msgData);
@@ -70,13 +70,14 @@ export const ChatProvider = ({ children }) => {
                     receiverId: receiverId || 'admin',
                     message,
                     image,
-                    isAdmin: user?.isAdmin
+                    isAdmin: user?.isAdmin,
+                    senderType: senderType || (user?.isAdmin ? 'admin' : 'user')
                 });
             }
 
             if (!user?.isAdmin || (user?.isAdmin && receiverId === activeChat?.user?._id)) {
                 setMessages(prev => [...prev, {
-                    sender: user?.isAdmin ? 'admin' : 'user',
+                    sender: senderType || (user?.isAdmin ? 'admin' : 'user'),
                     message,
                     image,
                     createdAt: new Date()

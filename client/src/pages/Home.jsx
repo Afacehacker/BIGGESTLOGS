@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import API from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { AuthContext } from '../context/AuthContext';
-import { Send } from 'lucide-react';
+import { Send, ChevronDown } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import WelcomePopup from '../components/WelcomePopup';
 
@@ -116,13 +116,16 @@ const Home = () => {
                 </h1>
 
                 {/* Categories Dropdown Filter */}
-                <div className="mt-3">
-                    <select className="w-full bg-[#1b2331] text-white text-[15px] rounded-[12px] px-4 py-4 appearance-none outline-none font-medium">
+                <div className="mt-3 relative">
+                    <select className="w-full bg-[#1b2331] text-white text-[15px] rounded-[12px] px-4 py-4 appearance-none outline-none font-medium cursor-pointer">
                         <option>Categories</option>
                         {Object.keys(groupedAccounts).map((cat, i) => (
                             <option key={i} value={cat}>{cat}</option>
                         ))}
                     </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                        <ChevronDown size={20} />
+                    </div>
                 </div>
 
                 {/* Recent Order Status */}
@@ -195,7 +198,7 @@ const Home = () => {
 
             {/* Floating Telegram Button */}
             <a href="https://t.me/everythinglogs10" target="_blank" rel="noopener noreferrer" 
-                className="fixed bottom-[110px] right-6 md:right-10 bg-[#0088cc] hover:bg-[#0077b5] transition-colors p-4 rounded-2xl shadow-lg z-50 flex items-center justify-center border-2 border-blue-50">
+                className="fixed bottom-36 left-6 md:left-auto md:right-32 bg-[#0088cc] hover:bg-[#0077b5] transition-colors p-4 rounded-2xl shadow-lg z-50 flex items-center justify-center border-2 border-blue-50">
                 <Send size={28} className="text-white -ml-1 mt-1" fill="currentColor" />
             </a>
             
