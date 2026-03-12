@@ -8,12 +8,15 @@ import {
 import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 import AddListingModal from './AddListingModal';
+import SupportTab from './SupportTab';
+import { MessageSquare } from 'lucide-react';
 
 const AdminDashboard = () => {
     const [activeTab, setActiveTab] = useState('overview');
     const [orders, setOrders] = useState([]);
     const [accounts, setAccounts] = useState([]);
     const [transactions, setTransactions] = useState([]);
+    const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
@@ -27,9 +30,11 @@ const AdminDashboard = () => {
             const { data: oData } = await API.get('/orders');
             const { data: aData } = await API.get('/accounts');
             const { data: tData } = await API.get('/transactions');
+            const { data: cData } = await API.get('/chats');
             setOrders(oData);
             setAccounts(aData);
             setTransactions(tData);
+            setChats(cData);
         } catch (error) {
             toast.error('Failed to fetch admin data');
         }
@@ -86,6 +91,7 @@ const AdminDashboard = () => {
                     <TabButton id="overview" active={activeTab} set={setActiveTab} icon={<BarChart3 size={18} />} label="Stats" />
                     <TabButton id="orders" active={activeTab} set={setActiveTab} icon={<ShoppingCart size={18} />} label="Orders" count={orders.filter(o => o.status === 'pending').length} />
                     <TabButton id="deposits" active={activeTab} set={setActiveTab} icon={<Users size={18} />} label="Payments" count={transactions?.filter(t => t.status === 'pending').length} />
+                    <TabButton id="support" active={activeTab} set={setActiveTab} icon={<MessageSquare size={18} />} label="Support" count={chats?.reduce((acc, curr) => acc + (curr.unreadCountAdmin || 0), 0)} />
                     <TabButton id="accounts" active={activeTab} set={setActiveTab} icon={<Tag size={18} />} label="Products" />
                 </div>
 
@@ -95,6 +101,7 @@ const AdminDashboard = () => {
                     {activeTab === 'orders' && <OrdersTab orders={orders} onUpdate={handleStatusUpdate} />}
                     {activeTab === 'deposits' && <DepositsTab transactions={transactions} onUpdate={handleDepositStatus} />}
                     {activeTab === 'accounts' && <AccountsTab accounts={accounts} onDelete={handleDeleteAccount} onAdd={() => setIsAddModalOpen(true)} />}
+                    {activeTab === 'support' && <SupportTab />}
                 </div>
             </div>
             <AddListingModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onSuccess={fetchData} />

@@ -5,18 +5,29 @@ const path = require('path');
 const connectDB = require('./config/db');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
+const http = require('http');
+const initSocket = require('./utils/socket');
+
 // Route files
 const accountRoutes = require('./routes/accountRoutes');
 const userRoutes = require('./routes/userRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
+const chatRoutes = require('./routes/chatRoutes');
 
 dotenv.config();
 
 connectDB();
 
 const app = express();
+const server = http.createServer(app);
+
+// Initialize Socket.io
+const io = initSocket(server);
+
+// Make io accessible in routes if needed
+app.set('socketio', io);
 
 app.use(cors({
     origin: ['https://biggestlogs.vercel.app', 'http://localhost:5173'],
@@ -31,6 +42,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/chats', chatRoutes);
 
 // Health check endpoint for keeping the server awake
 app.get('/api/ping', (req, res) => {
@@ -59,6 +71,6 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });

@@ -4,8 +4,10 @@ import API from './services/api';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { ChatProvider } from './context/ChatContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ChatWidget from './components/ChatWidget';
 
 // Pages
 import Home from './pages/Home';
@@ -38,45 +40,48 @@ function App() {
         <Router>
             <ThemeProvider>
                 <AuthProvider>
-                    <div className="min-h-screen bg-[#f8fafc] text-[#1f2231] flex flex-col">
-                        <Toaster
-                            position="top-right"
-                            toastOptions={{
-                                style: {
-                                    background: '#1e293b',
-                                    color: '#fff',
-                                    border: '1px solid rgba(255,255,255,0.1)',
-                                    backdropFilter: 'blur(10px)',
-                                },
-                            }}
-                        />
-                        <Navbar />
-                        <main className="flex-grow">
-                            <Routes>
-                                <Route path="/" element={<Home />} />
-                                <Route path="/shop" element={<Shop />} />
-                                <Route path="/shop/:id" element={<ProductDetail />} />
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/register" element={<Register />} />
-                                <Route path="/dashboard" element={
-                                    <ProtectedRoute>
-                                        <Dashboard />
-                                    </ProtectedRoute>
-                                } />
-                                <Route path="/wallet" element={
-                                    <ProtectedRoute>
-                                        <Wallet />
-                                    </ProtectedRoute>
-                                } />
-                                <Route path="/admin/*" element={
-                                    <AdminRoute>
-                                        <AdminDashboard />
-                                    </AdminRoute>
-                                } />
-                            </Routes>
-                        </main>
-                        <Footer />
-                    </div>
+                    <ChatProvider>
+                        <div className="min-h-screen bg-[#f8fafc] text-[#1f2231] flex flex-col">
+                            <Toaster
+                                position="top-right"
+                                toastOptions={{
+                                    style: {
+                                        background: '#1e293b',
+                                        color: '#fff',
+                                        border: '1px solid rgba(255,255,255,0.1)',
+                                        backdropFilter: 'blur(10px)',
+                                    },
+                                }}
+                            />
+                            <Navbar />
+                            <main className="flex-grow relative">
+                                <Routes>
+                                    <Route path="/" element={<Home />} />
+                                    <Route path="/shop" element={<Shop />} />
+                                    <Route path="/shop/:id" element={<ProductDetail />} />
+                                    <Route path="/login" element={<Login />} />
+                                    <Route path="/register" element={<Register />} />
+                                    <Route path="/dashboard" element={
+                                        <ProtectedRoute>
+                                            <Dashboard />
+                                        </ProtectedRoute>
+                                    } />
+                                    <Route path="/wallet" element={
+                                        <ProtectedRoute>
+                                            <Wallet />
+                                        </ProtectedRoute>
+                                    } />
+                                    <Route path="/admin/*" element={
+                                        <AdminRoute>
+                                            <AdminDashboard />
+                                        </AdminRoute>
+                                    } />
+                                </Routes>
+                                <ChatWidget />
+                            </main>
+                            <Footer />
+                        </div>
+                    </ChatProvider>
                 </AuthProvider>
             </ThemeProvider>
         </Router>
