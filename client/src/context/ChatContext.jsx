@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
+import React, { createContext, useContext, useEffect, useState, useRef, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import { AuthContext } from './AuthContext';
 import API from '../services/api';
@@ -12,10 +12,10 @@ export const ChatProvider = ({ children }) => {
     const [unreadCount, setUnreadCount] = useState(0);
     const [isTyping, setIsTyping] = useState(false);
     const socket = useRef();
-    const endpoint = import.meta.env.VITE_SOCKET_URL || 'https://biggestlogs-backend.onrender.com' || 'http://localhost:5000';
+    const endpoint = import.meta.env.VITE_SOCKET_URL || 'https://biggestlogs-backend.onrender.com';
 
     useEffect(() => {
-        if (user) {
+        if (user?._id) {
             socket.current = io(endpoint);
             socket.current.emit('addUser', { userId: user._id, isAdmin: user.isAdmin });
 
@@ -39,9 +39,9 @@ export const ChatProvider = ({ children }) => {
         return () => {
             if (socket.current) socket.current.disconnect();
         };
-    }, [user, endpoint]);
+    }, [user?._id, user?.isAdmin, endpoint]);
 
-    const fetchMyChat = async () => {
+    const fetchMyChat = useCallback(async () => {
         try {
             const { data } = await API.get('/chats/me');
             setMessages(data.messages);
@@ -50,30 +50,33 @@ export const ChatProvider = ({ children }) => {
         } catch (error) {
             console.error('Error fetching chat:', error);
         }
-    };
+    }, []);
 
-    const sendMessage = async (message, image, receiverId) => {
+    const sendMessage = useCallback(async (message, image, receiverId) => {
         try {
+            const currentUserId = user?._id;
             const msgData = {
                 message,
                 image,
                 userId: receiverId,
-                senderType: user.isAdmin ? 'admin' : 'user'
+                senderType: user?.isAdmin ? 'admin' : 'user'
             };
 
             await API.post('/chats/message', msgData);
 
-            socket.current.emit('sendMessage', {
-                senderId: user._id,
-                receiverId: receiverId || 'admin',
-                message,
-                image,
-                isAdmin: user.isAdmin
-            });
+            if (socket.current) {
+                socket.current.emit('sendMessage', {
+                    senderId: currentUserId,
+                    receiverId: receiverId || 'admin',
+                    message,
+                    image,
+                    isAdmin: user?.isAdmin
+                });
+            }
 
-            if (!user.isAdmin || (user.isAdmin && receiverId === activeChat?.user?._id)) {
+            if (!user?.isAdmin || (user?.isAdmin && receiverId === activeChat?.user?._id)) {
                 setMessages(prev => [...prev, {
-                    sender: user.isAdmin ? 'admin' : 'user',
+                    sender: user?.isAdmin ? 'admin' : 'user',
                     message,
                     image,
                     createdAt: new Date()
@@ -82,16 +85,16 @@ export const ChatProvider = ({ children }) => {
         } catch (error) {
             console.error('Error sending message:', error);
         }
-    };
+    }, [user?._id, user?.isAdmin, activeChat?.user?._id]);
 
-    const markSeen = async (userId) => {
+    const markSeen = useCallback(async (userId) => {
         try {
             await API.put('/chats/seen', { userId });
             setUnreadCount(0);
         } catch (error) {
             console.error('Error marking as seen:', error);
         }
-    };
+    }, []);
 
     return (
         <ChatContext.Provider value={{
