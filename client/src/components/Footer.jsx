@@ -33,7 +33,7 @@ const Footer = () => {
                     <h4 className="font-bold mb-8 text-[#1f2231] uppercase tracking-widest text-xs">Community</h4>
                     <p className="text-gray-500 text-sm mb-6 max-w-[200px] font-medium">For inquiries and support, join our Telegram:</p>
                     <div className="flex justify-center md:justify-start gap-4">
-                        <SocialIcon icon={<Send size={20} className="text-white -ml-0.5 mt-0.5" fill="currentColor" />} href="https://t.me/everythinglogs1" bg="bg-[#0088cc]" />
+                        <SocialIcon icon={<Send size={20} className="text-white -ml-0.5 mt-0.5" fill="currentColor" />} href="https://t.me/everythinglogs10" bg="bg-[#0088cc]" />
                     </div>
                 </div>
             </div>

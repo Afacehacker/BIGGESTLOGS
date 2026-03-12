@@ -32,7 +32,7 @@ const TelegramCommunity = () => {
 
                             <div className="flex flex-wrap gap-6 items-center">
                                 <a
-                                    href="https://t.me/everythinglogs1"
+                                    href="https://t.me/everythinglogs10"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="bg-[#0088cc] hover:bg-[#0077b5] text-white font-bold py-5 px-12 rounded-2xl flex items-center gap-3 transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-[#0088cc]/30 group"

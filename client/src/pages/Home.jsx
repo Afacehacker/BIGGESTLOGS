@@ -194,7 +194,7 @@ const Home = () => {
             </div>
 
             {/* Floating Telegram Button */}
-            <a href="https://t.me/everythinglogs1" target="_blank" rel="noopener noreferrer" 
+            <a href="https://t.me/everythinglogs10" target="_blank" rel="noopener noreferrer" 
                 className="fixed bottom-[110px] right-6 md:right-10 bg-[#0088cc] hover:bg-[#0077b5] transition-colors p-4 rounded-2xl shadow-lg z-50 flex items-center justify-center border-2 border-blue-50">
                 <Send size={28} className="text-white -ml-1 mt-1" fill="currentColor" />
             </a>

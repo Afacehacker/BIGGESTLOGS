@@ -48,7 +48,7 @@ const Navbar = () => {
                <Link to="/" className={`font-semibold ${location.pathname === '/' ? 'text-primary' : 'text-gray-500'}`}>Home</Link>
                <Link to="/shop" className={`font-semibold ${location.pathname === '/shop' ? 'text-primary' : 'text-gray-500'}`}>Marketplace</Link>
                <Link to="/dashboard" className={`font-semibold ${location.pathname === '/dashboard' ? 'text-primary' : 'text-gray-500'}`}>Orders</Link>
-               <a href="https://t.me/everythinglogs1" className="font-semibold text-gray-500">Contact</a>
+               <a href="https://t.me/everythinglogs10" className="font-semibold text-gray-500">Contact</a>
                {user ? (
                    <button onClick={handleLogout} className="font-semibold text-red-500">Log Out</button>
                ) : (
