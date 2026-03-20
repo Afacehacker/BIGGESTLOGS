@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import API from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { AuthContext } from '../context/AuthContext';
-import { Send, ChevronDown } from 'lucide-react';
+import { Send, ChevronDown, ShieldCheck } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import WelcomePopup from '../components/WelcomePopup';
 
@@ -125,6 +125,67 @@ const Home = () => {
                     </select>
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
                         <ChevronDown size={20} />
+                    </div>
+                </div>
+
+                {/* Important Update / Bank Details Banner */}
+                <div className="mt-8 relative overflow-hidden bg-white border border-blue-100 rounded-[24px] p-6 shadow-sm group">
+                    <div className="absolute -right-6 -top-6 w-24 h-24 bg-blue-50 rounded-full opacity-50 blur-2xl group-hover:bg-blue-100 transition-colors" />
+                    
+                    <div className="relative z-10">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="bg-blue-600 text-white p-2 rounded-xl shadow-md">
+                                <ShieldCheck size={20} fill="currentColor" />
+                            </div>
+                            <h3 className="font-extrabold text-[#1f2231] uppercase tracking-tight text-lg">Fast Funding Info</h3>
+                        </div>
+
+                        {/* Bank Box */}
+                        <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 mb-5">
+                            <div className="grid grid-cols-1 gap-2">
+                                <div className="flex justify-between items-center text-[13px] font-bold">
+                                    <span className="text-gray-400 uppercase tracking-widest text-[10px]">Bank</span>
+                                    <span className="text-blue-700 uppercase">Carbon</span>
+                                </div>
+                                <div className="flex justify-between items-center text-[13px] font-bold border-y border-blue-100/50 py-2">
+                                    <span className="text-gray-400 uppercase tracking-widest text-[10px]">Name</span>
+                                    <span className="text-gray-800">Afeez Salaudeen</span>
+                                </div>
+                                <div className="flex justify-between items-center text-[13px] font-bold pt-1">
+                                    <span className="text-gray-400 uppercase tracking-widest text-[10px]">Account</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-lg font-black text-blue-800 tracking-tighter">4966010729</span>
+                                        <button 
+                                            onClick={() => {
+                                                navigator.clipboard.writeText('4966010729');
+                                                toast.success('Account number copied!');
+                                            }}
+                                            className="p-1.5 bg-white text-blue-600 rounded-lg shadow-sm border border-blue-100 hover:bg-blue-600 hover:text-white transition-all transform active:scale-90"
+                                        >
+                                            <Send size={14} />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Notice Box */}
+                        <div className="bg-red-50 border-l-4 border-red-500 rounded-r-xl p-4">
+                            <div className="flex gap-3">
+                                <div className="text-red-600 shrink-0 mt-0.5">
+                                    <ShieldCheck size={18} />
+                                </div>
+                                <div>
+                                    <h4 className="text-[13px] font-black text-red-700 uppercase mb-1">Important Notice:</h4>
+                                    <p className="text-[12.5px] leading-relaxed text-red-900 font-medium italic">
+                                        To ensure your wallet is funded instantly, please <span className="underline font-black">DO NOT</span> use **OPAY** for transfers. OPAY transfers often take over 2 hours to confirm at our bank.
+                                    </p>
+                                    <p className="mt-2 text-[12px] text-red-800 font-bold">
+                                        ✅ Recommended: Palmpay, Moniepoint, Kuda, or any other bank for instant confirmation.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

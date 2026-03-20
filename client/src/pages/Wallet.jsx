@@ -16,9 +16,9 @@ const Wallet = () => {
 
     // Hardcoded Admin Details
     const adminBank = {
-        bankName: 'MOMO PSB',
-        accountName: 'boluwatife ogunmuyiwa',
-        accountNumber: '7025860259'
+        bankName: 'Carbon',
+        accountName: 'Afeez Salaudeen',
+        accountNumber: '4966010729'
     };
 
     const fetchTransactions = async () => {
