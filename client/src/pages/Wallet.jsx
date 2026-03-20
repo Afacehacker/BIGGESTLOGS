@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import API from '../services/api';
 import { toast } from 'react-hot-toast';
-import { Copy, PlusCircle, CheckCircle, Clock } from 'lucide-react';
+import { Copy, PlusCircle, CheckCircle, Clock, ShieldCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Wallet = () => {
@@ -97,25 +97,57 @@ const Wallet = () => {
                     <h2 className="text-4xl font-extrabold tracking-tight">₦{user.balance?.toLocaleString() || '0.00'}</h2>
                 </div>
 
-                {/* Deposit Details */}
-                <div className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm mb-8">
-                    <h3 className="font-bold text-lg mb-4 text-[#1f2231] border-b border-gray-100 pb-3">Admin Bank Details</h3>
-                    <div className="space-y-4 text-sm font-medium text-gray-700">
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-400">Bank Name</span>
-                            <span className="font-bold">{adminBank.bankName}</span>
+                {/* Desktop/Mobile Important Notice & Bank Details */}
+                <div className="bg-white border border-red-100 rounded-[24px] p-6 shadow-sm mb-8 relative overflow-hidden">
+                    <div className="absolute -right-6 -top-6 w-24 h-24 bg-red-50 rounded-full opacity-50 blur-2xl" />
+                    
+                    <div className="relative z-10">
+                        <div className="flex items-center gap-3 mb-5">
+                            <div className="bg-red-600 text-white p-2 rounded-xl shadow-md">
+                                <ShieldCheck size={20} fill="currentColor" />
+                            </div>
+                            <h3 className="font-extrabold text-[#1f2231] uppercase tracking-tight text-lg">Payment Guidelines</h3>
                         </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-400">Account Name</span>
-                            <span className="font-bold">{adminBank.accountName}</span>
+
+                        {/* Notice Box */}
+                        <div className="bg-red-50 border-l-4 border-red-500 rounded-r-xl p-4 mb-6">
+                            <div className="flex gap-3">
+                                <div>
+                                    <h4 className="text-[13px] font-black text-red-700 uppercase mb-1">⚠️ Important notice:</h4>
+                                    <p className="text-[12.5px] leading-relaxed text-red-900 font-medium italic">
+                                        Please <span className="underline font-black">DO NOT</span> send with **OPAY**. It takes our bank over 2 hours to receive money from OPAY.
+                                    </p>
+                                    <p className="mt-2 text-[12px] text-red-800 font-bold">
+                                        🚀 Use: Palmpay, Moniepoint, Kuda, or any other bank for instant funding.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-400">Account Number</span>
-                            <div className="flex items-center gap-2">
-                                <span className="font-bold text-lg text-primary">{adminBank.accountNumber}</span>
-                                <button onClick={() => copyToClipboard(adminBank.accountNumber)} className="p-1.5 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors">
-                                    <Copy size={16} />
-                                </button>
+
+                        {/* Bank Box */}
+                        <div className="bg-[#f8fafc] border border-gray-100 rounded-2xl p-4">
+                             <h4 className="text-[11px] font-black text-gray-400 uppercase mb-3 tracking-widest text-center">Transfer To:</h4>
+                            <div className="grid grid-cols-1 gap-3">
+                                <div className="flex justify-between items-center text-[13px] font-bold">
+                                    <span className="text-gray-400 uppercase tracking-widest text-[10px]">Bank Name</span>
+                                    <span className="text-blue-700 uppercase">{adminBank.bankName}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-[13px] font-bold border-y border-gray-100 py-3">
+                                    <span className="text-gray-400 uppercase tracking-widest text-[10px]">Account Name</span>
+                                    <span className="text-gray-800 uppercase">{adminBank.accountName}</span>
+                                </div>
+                                <div className="flex justify-between items-center text-[13px] font-bold">
+                                    <span className="text-gray-400 uppercase tracking-widest text-[10px]">Account Number</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-xl font-black text-blue-900 tracking-tighter">{adminBank.accountNumber}</span>
+                                        <button 
+                                            onClick={() => copyToClipboard(adminBank.accountNumber)}
+                                            className="p-1.5 bg-white text-blue-600 rounded-lg shadow-sm border border-blue-100 hover:bg-blue-600 hover:text-white transition-all transform active:scale-90"
+                                        >
+                                            <Copy size={16} />
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
