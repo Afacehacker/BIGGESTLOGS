@@ -16,9 +16,9 @@ const Wallet = () => {
 
     // Hardcoded Admin Details
     const adminBank = {
-        bankName: 'Carbon',
-        accountName: 'Afeez Salaudeen',
-        accountNumber: '4966010729'
+        bankName: 'Accion MFB',
+        accountName: 'AFEEZ SALAUDEEN',
+        accountNumber: '1108108264'
     };
 
     const fetchTransactions = async () => {
