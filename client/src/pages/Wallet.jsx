@@ -16,9 +16,9 @@ const Wallet = () => {
 
     // Hardcoded Admin Details
     const adminBank = {
-        bankName: 'Accion MFB',
-        accountName: 'AFEEZ SALAUDEEN',
-        accountNumber: '1108108264'
+        bankName: 'paystack Titan',
+        accountName: 'salaudeen afeez',
+        accountNumber: '9732836416'
     };
 
     const fetchTransactions = async () => {
