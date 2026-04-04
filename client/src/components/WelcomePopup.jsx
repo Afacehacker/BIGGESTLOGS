@@ -62,7 +62,7 @@ const WelcomePopup = () => {
                             </div>
 
                             <a 
-                                href="https://t.me/everythinglogs10" 
+                                href="https://t.me/everythinglogs109" 
                                 target="_blank" 
                                 rel="noopener noreferrer"
                                 className="w-full bg-[#0088cc] hover:bg-[#0077b5] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-md"
