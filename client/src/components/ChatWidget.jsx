@@ -4,6 +4,7 @@ import { MessageCircle, X, Send, Image as ImageIcon, Check, CheckCheck, Loader2 
 import { AuthContext } from '../context/AuthContext';
 import { useChat } from '../context/ChatContext';
 import API from '../services/api';
+import { toast } from 'react-hot-toast';
 
 const ChatWidget = () => {
     const { user } = useContext(AuthContext);
@@ -72,9 +73,11 @@ const ChatWidget = () => {
             const { data: imageUrl } = await API.post('/upload', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            await sendMessage("I just funded my wallet. Here is my receipt:", imageUrl, 'admin');
+            await sendMessage("", imageUrl, 'admin');
+            toast.success('Photo sent');
         } catch (error) {
             console.error('Upload failed', error);
+            toast.error('Failed to upload image');
         } finally {
             setUploading(false);
         }

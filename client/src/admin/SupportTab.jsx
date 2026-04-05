@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import API from '../services/api';
 import { useChat } from '../context/ChatContext';
-import { Send, Search, Filter, CheckCircle, Clock, AlertCircle, Image as ImageIcon, Check, X, Download } from 'lucide-react';
+import { Send, Search, Filter, CheckCircle, Clock, AlertCircle, Image as ImageIcon, Check, X, Download, Loader2, MessageCircle } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 
 const SupportTab = () => {
@@ -10,6 +10,7 @@ const SupportTab = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [adminInput, setAdminInput] = useState('');
+    const [uploading, setUploading] = useState(false);
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
@@ -43,13 +44,53 @@ const SupportTab = () => {
     };
 
     const handleSend = async (e) => {
-        e.preventDefault();
-        if (!adminInput.trim() || !activeChat) return;
+        if (e) e.preventDefault();
+        if ((!adminInput.trim() && !uploading) || !activeChat) return;
 
         const text = adminInput.trim();
         setAdminInput('');
 
         await sendMessage(text, null, activeChat.user._id);
+        
+        if (socket) {
+            socket.emit('typing', { senderId: 'admin', receiverId: activeChat.user._id, isTyping: false, isAdmin: true });
+        }
+    };
+
+    const handleImageUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file || !activeChat) return;
+
+        setUploading(true);
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const { data: imageUrl } = await API.post('/upload', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            await sendMessage("", imageUrl, activeChat.user._id);
+            toast.success('Photo sent');
+        } catch (error) {
+            console.error('Upload failed', error);
+            toast.error('Failed to send photo');
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const handleTyping = (e) => {
+        setAdminInput(e.target.value);
+        if (socket && activeChat) {
+            socket.emit('typing', { senderId: 'admin', receiverId: activeChat.user._id, isTyping: e.target.value.length > 0, isAdmin: true });
+        }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSend();
+        }
     };
 
     const updateStatus = async (status) => {
@@ -226,14 +267,19 @@ const SupportTab = () => {
 
                     {/* Chat Input */}
                     <form onSubmit={handleSend} className="p-6 bg-white border-t border-gray-100 flex items-center gap-4">
+                        <label className="cursor-pointer text-gray-400 hover:text-primary transition-colors p-2">
+                            <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} disabled={uploading || !activeChat} />
+                            {uploading ? <Loader2 size={24} className="animate-spin text-primary" /> : <ImageIcon size={24} />}
+                        </label>
                         <textarea 
                             rows="1"
                             value={adminInput}
-                            onChange={(e) => setAdminInput(e.target.value)}
+                            onChange={handleTyping}
+                            onKeyDown={handleKeyDown}
                             placeholder="Type a reply..."
                             className="flex-1 bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary/20 outline-none resize-none transition-all"
                         />
-                        <button type="submit" className="bg-primary text-white p-4 rounded-2xl shadow-xl shadow-primary/20 hover:bg-blue-600 transition-all active:scale-95">
+                        <button type="submit" disabled={!adminInput.trim() && !uploading} className="bg-primary text-white p-4 rounded-2xl shadow-xl shadow-primary/20 hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
                             <Send size={24} />
                         </button>
                     </form>
