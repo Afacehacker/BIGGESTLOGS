@@ -16,9 +16,9 @@ const Wallet = () => {
 
     // Hardcoded Admin Details
     const adminBank = {
-        bankName: 'PAGA',
-        accountName: 'AFEEZ SALAUDEEN',
-        accountNumber: '1444774676'
+        bankName: 'PAYSTACK TITAN',
+        accountName: 'SALAUDEEN AFEEZ',
+        accountNumber: '9732836416'
     };
 
     const fetchTransactions = async () => {
