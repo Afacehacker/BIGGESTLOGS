@@ -23,17 +23,21 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
+// Enable CORS
+app.use(cors({
+    origin: ['https://biggestlogs.vercel.app', 'http://localhost:5173', 'http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 200
+}));
+
 // Initialize Socket.io
 const io = initSocket(server);
 
 // Make io accessible in routes if needed
 app.set('socketio', io);
 
-app.use(cors({
-    origin: ['https://biggestlogs.vercel.app', 'http://localhost:5173'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
 app.use(express.json());
 
 // Routes

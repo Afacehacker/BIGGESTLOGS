@@ -3,8 +3,9 @@ const socketIO = require('socket.io');
 const initSocket = (server) => {
     const io = socketIO(server, {
         cors: {
-            origin: ['https://biggestlogs.vercel.app', 'http://localhost:5173'],
-            methods: ['GET', 'POST']
+            origin: ['https://biggestlogs.vercel.app', 'http://localhost:5173', 'http://localhost:3000'],
+            methods: ['GET', 'POST'],
+            credentials: true
         }
     });
 
