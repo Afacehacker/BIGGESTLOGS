@@ -16,9 +16,9 @@ const Wallet = () => {
 
     // Hardcoded Admin Details
     const adminBank = {
-        bankName: 'RUBBIES MICROFINANCE BANK',
-        accountName: 'AFEEZ SALAUDEEN',
-        accountNumber: '8025329616'
+        bankName: 'PAYSTACK TITAN',
+        accountName: 'SALAUDEEN AFEEZ',
+        accountNumber: '9732836416'
     };
 
     const fetchTransactions = async () => {
@@ -116,13 +116,7 @@ const Wallet = () => {
                                     <h4 className="text-[13px] font-black text-red-700 uppercase mb-1">⚠️ Important notice:</h4>
                                     <div className="space-y-3">
                                         <p className="text-[12.5px] leading-relaxed text-red-900 font-medium italic">
-                                            Please <span className="underline font-black">DO NOT</span> mistakenly send to **Moniepoint**, **Opay** or any other bank apart from **Rubbies MFB**.
-                                        </p>
-                                        <p className="text-[12.5px] leading-relaxed text-red-900 font-medium italic border-t border-red-100 pt-2">
                                             Please <span className="underline font-black">DO NOT</span> send with **OPAY**. It takes our bank over 2 hours to receive money from OPAY.
-                                        </p>
-                                        <p className="text-[12px] text-red-800 font-bold">
-                                            🚀 Ensure you select **RUBBIES MICROFINANCE BANK** as the destination bank for instant funding.
                                         </p>
                                     </div>
                                 </div>
