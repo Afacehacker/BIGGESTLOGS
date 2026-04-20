@@ -53,21 +53,15 @@ app.get('/api/ping', (req, res) => {
     res.status(200).json({ status: 'alive', time: new Date() });
 });
 
-// --- Production Setup ---
-if (process.env.NODE_ENV === 'production') {
-    const __dirname = path.resolve();
-    app.use(express.static(path.join(__dirname, '/client/dist')));
+// Root route
+app.get('/', (req, res) => {
+    res.send('BIGGESTLOGS API is running... ⚡');
+});
 
-    app.get('*', (req, res) =>
-        res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
-    );
-} else {
-    // Root route only in development
-    app.get('/', (req, res) => {
-        res.send('BIGGESTLOGS API is running...');
-    });
-}
+// --- Production Setup ---
+// The frontend is deployed separately on Vercel, so we don't serve static files here.
 // -----------------------
+
 
 // Error Middleware
 app.use(notFound);
