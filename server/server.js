@@ -21,33 +21,20 @@ dotenv.config();
 connectDB();
 
 const app = express();
-const server = http.createServer(app);
 
-// Enable CORS
+// 1. ABSOLUTE TOP - CORS Configuration
 app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl)
-        if (!origin) return callback(null, true);
-        
-        const allowedOrigins = [
-            'https://biggestlogs.vercel.app',
-            'http://localhost:5173',
-            'http://localhost:3000',
-            'http://localhost:5174'
-        ];
-        
-        if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
-            callback(null, true);
-        } else {
-            console.log('Origin not allowed by CORS:', origin);
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: 'https://biggestlogs.vercel.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
     credentials: true,
     optionsSuccessStatus: 200
 }));
+
+// 2. Handle Preflight for all routes
+app.options('*', cors());
+
+const server = http.createServer(app);
 
 // Initialize Socket.io
 const io = initSocket(server);
@@ -64,6 +51,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/chats', chatRoutes);
+
 
 // Health check endpoint for keeping the server awake
 app.get('/api/ping', (req, res) => {
