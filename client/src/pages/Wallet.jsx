@@ -16,9 +16,9 @@ const Wallet = () => {
 
     // Hardcoded Admin Details
     const adminBank = {
-        bankName: 'PAYSTACK TITAN',
-        accountName: 'SALAUDEEN AFEEZ',
-        accountNumber: '9732836416'
+        bankName: 'RUBIES MICROFINANCE BANK',
+        accountName: 'AFEEZ SALAUDEEN',
+        accountNumber: '8025329616'
     };
 
     const fetchTransactions = async () => {
@@ -117,6 +117,9 @@ const Wallet = () => {
                                     <div className="space-y-3">
                                         <p className="text-[12.5px] leading-relaxed text-red-900 font-medium italic">
                                             Please <span className="underline font-black">DO NOT</span> send with **OPAY**. It takes our bank over 2 hours to receive money from OPAY.
+                                        </p>
+                                        <p className="text-[12.5px] leading-relaxed text-red-900 font-medium italic">
+                                            Warning: <span className="underline font-black">DO NOT</span> send payments to Moniepoint or any other bank. Only use the bank details provided below.
                                         </p>
                                     </div>
                                 </div>
