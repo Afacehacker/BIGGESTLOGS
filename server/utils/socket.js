@@ -3,7 +3,13 @@ const socketIO = require('socket.io');
 const initSocket = (server) => {
     const io = socketIO(server, {
         cors: {
-            origin: ['https://biggestlogs.vercel.app', 'http://localhost:5173', 'http://localhost:3000'],
+            origin: function (origin, callback) {
+                if (!origin || origin.endsWith('.vercel.app') || origin.includes('localhost')) {
+                    callback(null, true);
+                } else {
+                    callback(new Error('Not allowed by CORS'));
+                }
+            },
             methods: ['GET', 'POST'],
             credentials: true
         }
