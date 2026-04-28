@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 import AddListingModal from './AddListingModal';
 import SupportTab from './SupportTab';
+import SettingsTab from './SettingsTab';
 import { MessageSquare } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -93,6 +94,7 @@ const AdminDashboard = () => {
                     <TabButton id="deposits" active={activeTab} set={setActiveTab} icon={<Users size={18} />} label="Payments" count={(Array.isArray(transactions) ? transactions : []).filter(t => t.status === 'pending').length} />
                     <TabButton id="support" active={activeTab} set={setActiveTab} icon={<MessageSquare size={18} />} label="Support" count={(Array.isArray(chats) ? chats : []).reduce((acc, curr) => acc + (curr.unreadCountAdmin || 0), 0)} />
                     <TabButton id="accounts" active={activeTab} set={setActiveTab} icon={<Tag size={18} />} label="Products" />
+                    <TabButton id="settings" active={activeTab} set={setActiveTab} icon={<Settings size={18} />} label="Settings" />
                 </div>
 
                 {/* Content */}
@@ -102,6 +104,7 @@ const AdminDashboard = () => {
                     {activeTab === 'deposits' && <DepositsTab transactions={transactions} onUpdate={handleDepositStatus} />}
                     {activeTab === 'accounts' && <AccountsTab accounts={accounts} onDelete={handleDeleteAccount} onAdd={() => setIsAddModalOpen(true)} />}
                     {activeTab === 'support' && <SupportTab />}
+                    {activeTab === 'settings' && <SettingsTab />}
                 </div>
             </div>
             <AddListingModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onSuccess={fetchData} />

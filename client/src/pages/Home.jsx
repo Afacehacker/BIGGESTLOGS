@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import API from '../services/api';
 import ProductCard from '../components/ProductCard';
 import { AuthContext } from '../context/AuthContext';
+import { SettingsContext } from '../context/SettingsContext';
 import { Send, ChevronDown, ShieldCheck } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import WelcomePopup from '../components/WelcomePopup';
 
 const Home = () => {
     const { user } = useContext(AuthContext);
+    const { settings } = useContext(SettingsContext);
     const [accounts, setAccounts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [recentOrders, setRecentOrders] = useState([]);
@@ -197,7 +199,7 @@ const Home = () => {
             </div>
 
             {/* Floating Telegram Button */}
-            <a href="https://t.me/boostnaija1" target="_blank" rel="noopener noreferrer" 
+            <a href={settings?.telegramLink || "https://t.me/boostnaija1"} target="_blank" rel="noopener noreferrer" 
                 className="fixed bottom-36 left-6 md:left-auto md:right-32 bg-[#0088cc] hover:bg-[#0077b5] transition-colors p-4 rounded-2xl shadow-lg z-50 flex items-center justify-center border-2 border-blue-50">
                 <Send size={28} className="text-white -ml-1 mt-1" fill="currentColor" />
             </a>

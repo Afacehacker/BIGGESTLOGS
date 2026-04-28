@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { SettingsContext } from '../context/SettingsContext';
 import API from '../services/api';
 import { toast } from 'react-hot-toast';
 import { Copy, PlusCircle, CheckCircle, Clock, ShieldCheck } from 'lucide-react';
@@ -14,12 +15,7 @@ const Wallet = () => {
     const [loading, setLoading] = useState(false);
     const [transactions, setTransactions] = useState([]);
 
-    // Hardcoded Admin Details
-    const adminBank = {
-        bankName: 'RUBIES MICROFINANCE BANK',
-        accountName: 'AFEEZ SALAUDEEN',
-        accountNumber: '8025329616'
-    };
+    const { settings } = useContext(SettingsContext);
 
     const fetchTransactions = async () => {
         try {
@@ -132,18 +128,18 @@ const Wallet = () => {
                             <div className="grid grid-cols-1 gap-3">
                                 <div className="flex justify-between items-center text-[13px] font-bold">
                                     <span className="text-gray-400 uppercase tracking-widest text-[10px]">Bank Name</span>
-                                    <span className="text-blue-700 uppercase">{adminBank.bankName}</span>
+                                    <span className="text-blue-700 uppercase">{settings?.bankName || 'Loading...'}</span>
                                 </div>
                                 <div className="flex justify-between items-center text-[13px] font-bold border-y border-gray-100 py-3">
                                     <span className="text-gray-400 uppercase tracking-widest text-[10px]">Account Name</span>
-                                    <span className="text-gray-800 uppercase">{adminBank.accountName}</span>
+                                    <span className="text-gray-800 uppercase">{settings?.accountName || 'Loading...'}</span>
                                 </div>
                                 <div className="flex justify-between items-center text-[13px] font-bold">
                                     <span className="text-gray-400 uppercase tracking-widest text-[10px]">Account Number</span>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-xl font-black text-blue-900 tracking-tighter">{adminBank.accountNumber}</span>
+                                        <span className="text-xl font-black text-blue-900 tracking-tighter">{settings?.accountNumber || 'Loading...'}</span>
                                         <button 
-                                            onClick={() => copyToClipboard(adminBank.accountNumber)}
+                                            onClick={() => copyToClipboard(settings?.accountNumber || '')}
                                             className="p-1.5 bg-white text-blue-600 rounded-lg shadow-sm border border-blue-100 hover:bg-blue-600 hover:text-white transition-all transform active:scale-90"
                                         >
                                             <Copy size={16} />

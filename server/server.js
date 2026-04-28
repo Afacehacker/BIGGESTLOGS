@@ -15,6 +15,7 @@ const orderRoutes = require('./routes/orderRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const chatRoutes = require('./routes/chatRoutes');
+const settingRoutes = require('./routes/settingRoutes');
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/chats', chatRoutes);
+app.use('/api/settings', settingRoutes);
 
 
 // Health check endpoint for keeping the server awake

@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ChatProvider } from './context/ChatContext';
+import { SettingsProvider } from './context/SettingsContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ChatWidget from './components/ChatWidget';
@@ -40,6 +41,7 @@ function App() {
         <Router>
             <ThemeProvider>
                 <AuthProvider>
+                    <SettingsProvider>
                     <ChatProvider>
                         <div className="min-h-screen bg-[#f8fafc] text-[#1f2231] flex flex-col">
                             <Toaster
@@ -82,6 +84,7 @@ function App() {
                             <Footer />
                         </div>
                     </ChatProvider>
+                    </SettingsProvider>
                 </AuthProvider>
             </ThemeProvider>
         </Router>

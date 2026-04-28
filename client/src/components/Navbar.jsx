@@ -1,10 +1,12 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import { SettingsContext } from '../context/SettingsContext';
 import { Clock, HelpCircle, LogOut, LayoutDashboard, Download, Rocket, Send } from 'lucide-react';
 
 const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
+    const { settings } = useContext(SettingsContext);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -48,7 +50,7 @@ const Navbar = () => {
                <Link to="/" className={`font-semibold ${location.pathname === '/' ? 'text-primary' : 'text-gray-500'}`}>Home</Link>
                <Link to="/shop" className={`font-semibold ${location.pathname === '/shop' ? 'text-primary' : 'text-gray-500'}`}>Marketplace</Link>
                <Link to="/dashboard" className={`font-semibold ${location.pathname === '/dashboard' ? 'text-primary' : 'text-gray-500'}`}>Orders</Link>
-               <a href="https://t.me/boostnaija1" className="font-semibold text-gray-500">Contact</a>
+               <a href={settings?.telegramLink || "https://t.me/boostnaija1"} className="font-semibold text-gray-500">Contact</a>
                {user ? (
                    <button onClick={handleLogout} className="font-semibold text-red-500">Log Out</button>
                ) : (

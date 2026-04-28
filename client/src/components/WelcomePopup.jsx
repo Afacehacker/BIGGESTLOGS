@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { SettingsContext } from '../context/SettingsContext';
 import { ShieldCheck, Send, X, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const WelcomePopup = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { settings } = useContext(SettingsContext);
 
     useEffect(() => {
         const timer = setTimeout(() => setIsOpen(true), 1500); // 1.5s delay
@@ -62,7 +64,7 @@ const WelcomePopup = () => {
                             </div>
 
                             <a 
-                                href="https://t.me/boostnaija1" 
+                                href={settings?.telegramLink || "https://t.me/boostnaija1"} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
                                 className="w-full bg-[#0088cc] hover:bg-[#0077b5] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-md"

@@ -1,7 +1,10 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { SettingsContext } from '../context/SettingsContext';
 import { ShieldCheck, Send, Twitter, Github, Rocket } from 'lucide-react';
 
 const Footer = () => {
+    const { settings } = useContext(SettingsContext);
     return (
         <footer className="hidden md:block bg-white border-t border-gray-100 pt-24 pb-12 px-6">
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20 text-center md:text-left">
@@ -33,7 +36,7 @@ const Footer = () => {
                     <h4 className="font-bold mb-8 text-[#1f2231] uppercase tracking-widest text-xs">Community</h4>
                     <p className="text-gray-500 text-sm mb-6 max-w-[200px] font-medium">For inquiries and support, join our Telegram:</p>
                     <div className="flex justify-center md:justify-start gap-4">
-                        <SocialIcon icon={<Send size={20} className="text-white -ml-0.5 mt-0.5" fill="currentColor" />} href="https://t.me/boostnaija1" bg="bg-[#0088cc]" />
+                        <SocialIcon icon={<Send size={20} className="text-white -ml-0.5 mt-0.5" fill="currentColor" />} href={settings?.telegramLink || "https://t.me/boostnaija1"} bg="bg-[#0088cc]" />
                     </div>
                 </div>
             </div>
