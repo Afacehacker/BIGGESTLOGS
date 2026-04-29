@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const connectDB = require('./config/db');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+const { checkBlockedIp } = require('./middleware/ipBlockMiddleware');
 
 const http = require('http');
 const initSocket = require('./utils/socket');
@@ -44,6 +45,7 @@ const io = initSocket(server);
 app.set('socketio', io);
 
 app.use(express.json());
+app.use(checkBlockedIp);
 
 // Routes
 app.use('/api/accounts', accountRoutes);

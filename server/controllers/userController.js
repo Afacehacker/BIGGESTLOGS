@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const BlockedIP = require('../models/BlockedIP');
 const jwt = require('jsonwebtoken');
 
 const generateToken = (id) => {
@@ -12,6 +13,8 @@ const authUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
+        user.lastIp = req.ip || req.connection.remoteAddress;
+        await user.save();
         res.json({
             _id: user._id,
             name: user.name,
@@ -36,7 +39,12 @@ const registerUser = async (req, res) => {
         return;
     }
 
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ 
+        name, 
+        email, 
+        password,
+        lastIp: req.ip || req.connection.remoteAddress
+    });
 
     if (user) {
         res.status(201).json({
@@ -70,4 +78,56 @@ const getUserProfile = async (req, res) => {
     }
 };
 
-module.exports = { authUser, registerUser, getUserProfile };
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Private/Admin
+const getUsers = async (req, res) => {
+    const users = await User.find({}).select('-password').sort({ createdAt: -1 });
+    res.json(users);
+};
+
+// @desc    Update user balance/info
+// @route   PUT /api/users/:id
+// @access  Private/Admin
+const updateUser = async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+        user.balance = req.body.balance !== undefined ? req.body.balance : user.balance;
+        user.isAdmin = req.body.isAdmin !== undefined ? req.body.isAdmin : user.isAdmin;
+
+        const updatedUser = await user.save();
+        res.json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+            balance: updatedUser.balance,
+        });
+    } else {
+        res.status(404).json({ message: 'User not found' });
+    }
+};
+
+// @desc    Delete user and block IP
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+const deleteUser = async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+        const { blockIp } = req.query; // If admin wants to block IP
+        if (blockIp === 'true' && user.lastIp) {
+            const alreadyBlocked = await BlockedIP.findOne({ ip: user.lastIp });
+            if (!alreadyBlocked) {
+                await BlockedIP.create({ ip: user.lastIp, reason: `Blocked when deleting user ${user.email}` });
+            }
+        }
+        await User.findByIdAndDelete(req.params.id);
+        res.json({ message: 'User removed' });
+    } else {
+        res.status(404).json({ message: 'User not found' });
+    }
+};
+
+module.exports = { authUser, registerUser, getUserProfile, getUsers, updateUser, deleteUser };

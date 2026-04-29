@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast';
 import AddListingModal from './AddListingModal';
 import SupportTab from './SupportTab';
 import SettingsTab from './SettingsTab';
+import UsersTab from './UsersTab';
 import { MessageSquare } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -92,6 +93,7 @@ const AdminDashboard = () => {
                     <TabButton id="overview" active={activeTab} set={setActiveTab} icon={<BarChart3 size={18} />} label="Stats" />
                     <TabButton id="orders" active={activeTab} set={setActiveTab} icon={<ShoppingCart size={18} />} label="Orders" count={(Array.isArray(orders) ? orders : []).filter(o => o.status === 'pending').length} />
                     <TabButton id="deposits" active={activeTab} set={setActiveTab} icon={<Users size={18} />} label="Payments" count={(Array.isArray(transactions) ? transactions : []).filter(t => t.status === 'pending').length} />
+                    <TabButton id="users" active={activeTab} set={setActiveTab} icon={<Users size={18} />} label="Users" />
                     <TabButton id="support" active={activeTab} set={setActiveTab} icon={<MessageSquare size={18} />} label="Support" count={(Array.isArray(chats) ? chats : []).reduce((acc, curr) => acc + (curr.unreadCountAdmin || 0), 0)} />
                     <TabButton id="accounts" active={activeTab} set={setActiveTab} icon={<Tag size={18} />} label="Products" />
                     <TabButton id="settings" active={activeTab} set={setActiveTab} icon={<Settings size={18} />} label="Settings" />
@@ -102,6 +104,7 @@ const AdminDashboard = () => {
                     {activeTab === 'overview' && <OverviewTab orders={orders} accounts={accounts} transactions={transactions} />}
                     {activeTab === 'orders' && <OrdersTab orders={orders} onUpdate={handleStatusUpdate} />}
                     {activeTab === 'deposits' && <DepositsTab transactions={transactions} onUpdate={handleDepositStatus} />}
+                    {activeTab === 'users' && <UsersTab />}
                     {activeTab === 'accounts' && <AccountsTab accounts={accounts} onDelete={handleDeleteAccount} onAdd={() => setIsAddModalOpen(true)} />}
                     {activeTab === 'support' && <SupportTab />}
                     {activeTab === 'settings' && <SettingsTab />}

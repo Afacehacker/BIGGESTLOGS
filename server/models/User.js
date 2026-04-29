@@ -8,6 +8,7 @@ const userSchema = mongoose.Schema(
         password: { type: String, required: true },
         isAdmin: { type: Boolean, required: true, default: false },
         balance: { type: Number, required: true, default: 0 },
+        lastIp: { type: String, default: null },
     },
     { timestamps: true }
 );
