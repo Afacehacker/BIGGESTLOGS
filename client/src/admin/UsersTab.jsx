@@ -16,8 +16,8 @@ const UsersTab = () => {
 
     const fetchUsers = async () => {
         try {
-            const { data } = await API.get('/admin/data');
-            setUsers(data.users || []);
+            const { data } = await API.get('/users');
+            setUsers(data);
         } catch (error) {
             console.error('Failed to fetch users:', error);
             toast.error('Failed to load users');
@@ -30,7 +30,7 @@ const UsersTab = () => {
         if (!window.confirm(`Are you sure you want to permanently delete this user?${blockIp ? ' Their IP will also be blocked.' : ''}`)) return;
         
         try {
-            await API.delete(`/admin/users/${userId}?blockIp=${blockIp}`);
+            await API.delete(`/users/${userId}?blockIp=${blockIp}`);
             toast.success(blockIp ? 'User deleted and IP blocked' : 'User deleted successfully');
             fetchUsers();
         } catch (error) {
@@ -46,7 +46,7 @@ const UsersTab = () => {
 
     const handleUpdateUser = async (userId) => {
         try {
-            await API.post('/admin/users/update', { userId, ...editForm });
+            await API.put(`/users/${userId}`, editForm);
             toast.success('User updated successfully');
             setEditingUser(null);
             fetchUsers();
