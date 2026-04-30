@@ -24,9 +24,25 @@ connectDB();
 
 const app = express();
 
+// Trust the reverse proxy (e.g., Render, Heroku) so req.ip has the client's real IP
+app.set('trust proxy', 1);
+
+const allowedOrigins = [
+    'https://biggestlogs.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://localhost:3000'
+];
+
 // 1. ABSOLUTE TOP - CORS Configuration
 app.use(cors({
-    origin: 'https://biggestlogs.vercel.app',
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(null, false); // Return false instead of throwing error to avoid unhandled rejections
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
     credentials: true,
