@@ -13,6 +13,7 @@ const ProductDetail = () => {
     const [account, setAccount] = useState(null);
     const [loading, setLoading] = useState(true);
     const [placingOrder, setPlacingOrder] = useState(false);
+    const [activeMediaIndex, setActiveMediaIndex] = useState(0);
     
     // User latest data to get exact balance
     const [currentUser, setCurrentUser] = useState(user);
@@ -96,21 +97,65 @@ const ProductDetail = () => {
                 
                 {/* Product Main Display */}
                 <div className="bg-white rounded-[20px] p-2 border border-gray-100 shadow-sm mb-6">
-                    <div className={`${platColor} w-full rounded-[14px] flex items-center justify-center relative overflow-hidden`}>
-                        <img 
-                            src={account.image || 'https://via.placeholder.com/600'} 
-                            alt={account.title} 
-                            className="w-full max-h-[350px] object-contain bg-black/10"
-                        />
-                        <div className="absolute inset-x-4 top-4 flex justify-between items-start drop-shadow-md">
-                            <span className="bg-white text-black font-extrabold text-[10px] px-2 py-1 rounded tracking-widest uppercase shadow-sm">
-                                {account.platform}
-                            </span>
-                            <span className="bg-green-500 text-white font-extrabold text-[10px] px-2 py-1 rounded tracking-normal flex items-center gap-1 shadow-sm border border-green-400">
-                                <CheckCircle size={12}/> {account.quality}%
-                            </span>
-                        </div>
-                    </div>
+                    {(() => {
+                        const mediaList = account.media && account.media.length > 0 ? account.media : [account.image || 'https://via.placeholder.com/600'];
+                        const activeMediaUrl = mediaList[activeMediaIndex] || mediaList[0];
+                        const isVideo = activeMediaUrl.includes('/video/upload/') || activeMediaUrl.match(/\.(mp4|mov|avi|webm)$/i);
+
+                        return (
+                            <>
+                                <div className={`${platColor} w-full rounded-[14px] flex items-center justify-center relative overflow-hidden aspect-video max-h-[350px] bg-black/10`}>
+                                    {isVideo ? (
+                                        <video 
+                                            src={activeMediaUrl} 
+                                            className="w-full h-full max-h-[350px] object-contain" 
+                                            controls 
+                                            autoPlay 
+                                            muted 
+                                            playsInline 
+                                        />
+                                    ) : (
+                                        <img 
+                                            src={activeMediaUrl} 
+                                            alt={account.title} 
+                                            className="w-full h-full max-h-[350px] object-contain"
+                                        />
+                                    )}
+                                    <div className="absolute inset-x-4 top-4 flex justify-between items-start drop-shadow-md z-10">
+                                        <span className="bg-white text-black font-extrabold text-[10px] px-2 py-1 rounded tracking-widest uppercase shadow-sm">
+                                            {account.platform}
+                                        </span>
+                                        <span className="bg-green-500 text-white font-extrabold text-[10px] px-2 py-1 rounded tracking-normal flex items-center gap-1 shadow-sm border border-green-400">
+                                            <CheckCircle size={12}/> {account.quality}%
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {mediaList.length > 1 && (
+                                    <div className="flex gap-2 overflow-x-auto py-3 px-1 no-scrollbar scrollbar-none snap-x mt-2">
+                                        {mediaList.map((url, idx) => {
+                                            const isUrlVideo = url.includes('/video/upload/') || url.match(/\.(mp4|mov|avi|webm)$/i);
+                                            return (
+                                                <button
+                                                    key={idx}
+                                                    onClick={() => setActiveMediaIndex(idx)}
+                                                    className={`w-14 h-14 rounded-xl overflow-hidden shrink-0 border-2 transition-all bg-black flex items-center justify-center snap-start ${
+                                                        activeMediaIndex === idx ? 'border-primary scale-105 shadow-md' : 'border-gray-200 opacity-60 hover:opacity-100'
+                                                    }`}
+                                                >
+                                                    {isUrlVideo ? (
+                                                        <video src={url} className="w-full h-full object-cover" muted playsInline />
+                                                    ) : (
+                                                        <img src={url} className="w-full h-full object-cover" />
+                                                    )}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </>
+                        );
+                    })()}
 
                     <div className="p-4 space-y-4">
                         <div className="flex justify-between items-start">

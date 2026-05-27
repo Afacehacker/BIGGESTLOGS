@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const BlockedIP = require('../models/BlockedIP');
 const jwt = require('jsonwebtoken');
+const { getClientIp, isPrivateIp } = require('../utils/ipHelper');
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
@@ -13,7 +14,7 @@ const authUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
-        user.lastIp = req.ip || req.connection.remoteAddress;
+        user.lastIp = getClientIp(req);
         await user.save();
         res.json({
             _id: user._id,
@@ -43,7 +44,7 @@ const registerUser = async (req, res) => {
         name, 
         email, 
         password,
-        lastIp: req.ip || req.connection.remoteAddress
+        lastIp: getClientIp(req)
     });
 
     if (user) {
@@ -117,10 +118,16 @@ const deleteUser = async (req, res) => {
 
     if (user) {
         const { blockIp } = req.query; // If admin wants to block IP
-        if (blockIp === 'true' && user.lastIp) {
-            const alreadyBlocked = await BlockedIP.findOne({ ip: user.lastIp });
-            if (!alreadyBlocked) {
-                await BlockedIP.create({ ip: user.lastIp, reason: `Blocked when deleting user ${user.email}` });
+        if (blockIp === 'true' && user.lastIp && !isPrivateIp(user.lastIp)) {
+            const adminIp = getClientIp(req);
+            // Prevent blocking if the user's IP is the same as the admin's IP
+            if (user.lastIp !== adminIp) {
+                const alreadyBlocked = await BlockedIP.findOne({ ip: user.lastIp });
+                if (!alreadyBlocked) {
+                    await BlockedIP.create({ ip: user.lastIp, reason: `Blocked when deleting user ${user.email}` });
+                }
+            } else {
+                console.log(`[WARNING] Admin attempted to block their own IP (${adminIp}). Skipped IP blocking.`);
             }
         }
         await User.findByIdAndDelete(req.params.id);

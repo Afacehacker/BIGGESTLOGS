@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'biggestlogs',
-        allowedFormats: ['jpg', 'png', 'jpeg'],
+        resource_type: 'auto', // Support both image and video uploads
     },
 });
 

@@ -35,9 +35,13 @@ const getAccountById = async (req, res) => {
 // @desc    Create an account listing (Admin)
 // @route   POST /api/accounts
 const createAccount = async (req, res) => {
-    const { platform, type, title, description, price, stock, image, credentials, badges } = req.body;
+    const { platform, type, title, description, price, stock, image, media, credentials, badges } = req.body;
+    
+    // Set image to the first media URL if it is not explicitly provided
+    const finalImage = image || (media && media.length > 0 ? media[0] : '');
+    
     const account = new Account({
-        platform, type, title, description, price, stock, image, credentials, badges,
+        platform, type, title, description, price, stock, image: finalImage, media: media || [], credentials, badges,
     });
 
     const createdAccount = await account.save();
@@ -54,9 +58,10 @@ const updateAccount = async (req, res) => {
         account.type = req.body.type || account.type;
         account.title = req.body.title || account.title;
         account.description = req.body.description || account.description;
-        account.price = req.body.price || account.price;
-        account.stock = req.body.stock || account.stock;
-        account.image = req.body.image || account.image;
+        account.price = req.body.price !== undefined ? req.body.price : account.price;
+        account.stock = req.body.stock !== undefined ? req.body.stock : account.stock;
+        account.media = req.body.media || account.media;
+        account.image = req.body.image || (account.media && account.media.length > 0 ? account.media[0] : account.image);
         account.credentials = req.body.credentials || account.credentials;
         account.badges = req.body.badges || account.badges;
 

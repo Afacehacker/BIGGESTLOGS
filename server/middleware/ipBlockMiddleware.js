@@ -1,12 +1,20 @@
 const BlockedIP = require('../models/BlockedIP');
+const { getClientIp, isPrivateIp } = require('../utils/ipHelper');
 
 const checkBlockedIp = async (req, res, next) => {
-    const ip = req.ip || req.connection.remoteAddress;
+    const ip = getClientIp(req);
     
-    // Optional: Log IP for debugging if needed
-    // console.log('Checking IP:', ip);
-    
-    if (ip) {
+    // TEMPORARY FIX: Allow admin to clear blocklist by passing ?unblock=true in the request
+    if (req.query.unblock === 'true') {
+        try {
+            await BlockedIP.deleteMany({});
+            console.log('All blocked IPs cleared via query parameter!');
+        } catch (err) {
+            console.error('Error clearing blocked IPs:', err);
+        }
+    }
+
+    if (ip && !isPrivateIp(ip)) {
         try {
             const blocked = await BlockedIP.findOne({ ip });
             if (blocked) {

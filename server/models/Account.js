@@ -8,7 +8,8 @@ const accountSchema = mongoose.Schema(
         description: { type: String, required: true },
         price: { type: Number, required: true },
         stock: { type: Number, required: true, default: 1 },
-        image: { type: String, required: true }, // URL to screenshot
+        image: { type: String }, // URL to screenshot
+        media: [{ type: String }], // Array of all uploaded images/videos
         credentials: { type: String, required: true }, // Encrypted or plain text for the buyer
         badges: [{ type: String }], // e.g., ['verified', 'aged', 'premium']
         quality: { type: Number, default: 100 }, // 0 to 100

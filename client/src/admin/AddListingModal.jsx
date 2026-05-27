@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, Trash } from 'lucide-react';
 import API from '../services/api';
 import { toast } from 'react-hot-toast';
 
-const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
+const AddListingModal = ({ isOpen, onClose, onSuccess, listing = null }) => {
     const [formData, setFormData] = useState({
         title: '',
         platform: 'Instagram',
@@ -12,17 +12,53 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
         price: '',
         stock: '1',
         credentials: '',
-        image: ''
+        image: '',
+        media: []
     });
     const [loading, setLoading] = useState(false);
     const [uploading, setUploading] = useState(false);
 
+    useEffect(() => {
+        if (isOpen) {
+            if (listing) {
+                setFormData({
+                    title: listing.title || '',
+                    platform: listing.platform || 'Instagram',
+                    type: listing.type || 'Aged',
+                    description: listing.description || '',
+                    price: listing.price || '',
+                    stock: listing.stock || '1',
+                    credentials: listing.credentials || '',
+                    image: listing.image || '',
+                    media: listing.media || []
+                });
+            } else {
+                setFormData({
+                    title: '',
+                    platform: 'Instagram',
+                    type: 'Aged',
+                    description: '',
+                    price: '',
+                    stock: '1',
+                    credentials: '',
+                    image: '',
+                    media: []
+                });
+            }
+        }
+    }, [listing, isOpen]);
+
     if (!isOpen) return null;
 
     const uploadFileHandler = async (e) => {
-        const file = e.target.files[0];
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+
         const uploadData = new FormData();
-        uploadData.append('image', file);
+        files.forEach(file => {
+            uploadData.append('files', file); // 'files' is handled by upload.any()
+        });
+
         setUploading(true);
 
         try {
@@ -32,13 +68,31 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
                 },
             });
 
-            setFormData({ ...formData, image: data });
-            toast.success('Image Uploaded');
+            // Handle both single string and array of strings
+            const newUrls = Array.isArray(data) ? data : [data];
+            const updatedMedia = [...(formData.media || []), ...newUrls];
+
+            setFormData({
+                ...formData,
+                media: updatedMedia,
+                image: updatedMedia[0] || '' // Fallback first image for compatibility
+            });
+            
+            toast.success(`${files.length} file(s) Uploaded`);
             setUploading(false);
         } catch (error) {
-            toast.error('Image upload failed');
+            toast.error('File upload failed');
             setUploading(false);
         }
+    };
+
+    const removeMediaItem = (idxToRemove) => {
+        const updatedMedia = (formData.media || []).filter((_, idx) => idx !== idxToRemove);
+        setFormData({
+            ...formData,
+            media: updatedMedia,
+            image: updatedMedia[0] || ''
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -46,17 +100,17 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
         setLoading(true);
 
         try {
-            await API.post('/accounts', formData);
-            toast.success('Listing added successfully!');
+            if (listing) {
+                await API.put(`/accounts/${listing._id}`, formData);
+                toast.success('Listing updated successfully!');
+            } else {
+                await API.post('/accounts', formData);
+                toast.success('Listing added successfully!');
+            }
             onSuccess();
             onClose();
-            // Reset form
-            setFormData({
-                title: '', platform: 'Instagram', type: 'Aged',
-                description: '', price: '', stock: '1', credentials: '', image: ''
-            });
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to add listing');
+            toast.error(error.response?.data?.message || 'Failed to save listing');
         } finally {
             setLoading(false);
         }
@@ -66,7 +120,9 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
             <div className="bg-[#faf9f6] dark:bg-[#1e293b] w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl animate-fade-in relative border border-gray-200 dark:border-white/10">
                 <div className="p-6 border-b border-gray-200 dark:border-white/10 flex justify-between items-center">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Add New Listing</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                        {listing ? 'Edit Product Listing' : 'Add New Listing'}
+                    </h2>
                     <button onClick={onClose} className="p-2 text-gray-500 hover:text-red-500 rounded-full hover:bg-red-500/10 transition-colors">
                         <X size={20} />
                     </button>
@@ -96,20 +152,24 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
                                 <option value="Twitter (X)">Twitter (X)</option>
                                 <option value="Facebook">Facebook</option>
                                 <option value="TikTok">TikTok</option>
+                                <option value="Snapchat">Snapchat</option>
+                                <option value="Discord">Discord</option>
                                 <option value="Tools">Tools</option>
                             </select>
                         </div>
 
                         <div>
                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Account Type</label>
-                            <input
-                                required
-                                type="text"
-                                className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
-                                placeholder="E.g., Aged, High Follower"
+                            <select
+                                className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-primary transition-colors cursor-pointer"
                                 value={formData.type}
                                 onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                            />
+                            >
+                                <option value="Aged">Aged</option>
+                                <option value="Verified">Verified</option>
+                                <option value="High Follower">High Follower</option>
+                                <option value="Premium">Premium</option>
+                            </select>
                         </div>
                         <div>
                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Price (₦)</label>
@@ -129,26 +189,55 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
                             <input
                                 required
                                 type="number"
-                                min="1"
+                                min="0"
                                 className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
                                 value={formData.stock}
                                 onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Image Upload</label>
+                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Upload Images/Videos (Select Multiple)</label>
                             <input
-                                required={!formData.image}
                                 type="file"
                                 id="image-file"
-                                accept="image/*"
+                                accept="image/*,video/*"
+                                multiple
                                 className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary transition-colors file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-primary file:text-white cursor-pointer"
                                 onChange={uploadFileHandler}
                             />
-                            {uploading && <p className="text-xs text-primary mt-1">Uploading image...</p>}
-                            {formData.image && <p className="text-xs text-green-500 mt-1">Image ready</p>}
+                            {uploading && <p className="text-xs text-primary mt-1">Uploading media...</p>}
                         </div>
                     </div>
+
+                    {/* Media Gallery Grid */}
+                    {formData.media && formData.media.length > 0 && (
+                        <div className="border-t border-gray-150 dark:border-white/10 pt-4">
+                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                                Product Gallery ({formData.media.length} items)
+                            </label>
+                            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 p-3 bg-gray-100 dark:bg-white/5 rounded-2xl">
+                                {formData.media.map((url, idx) => {
+                                    const isVideo = url.includes('/video/upload/') || url.match(/\.(mp4|mov|avi|webm)$/i);
+                                    return (
+                                        <div key={idx} className="relative group rounded-xl overflow-hidden aspect-square border border-gray-200 dark:border-white/10 bg-black flex items-center justify-center">
+                                            {isVideo ? (
+                                                <video src={url} className="w-full h-full object-cover" muted playsInline />
+                                            ) : (
+                                                <img src={url} className="w-full h-full object-cover" />
+                                            )}
+                                            <button
+                                                type="button"
+                                                onClick={() => removeMediaItem(idx)}
+                                                className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white transition-opacity font-extrabold text-xs rounded-xl gap-1"
+                                            >
+                                                <Trash size={12} /> Remove
+                                            </button>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
 
                     <div>
                         <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Credentials (For Buyer Only)</label>
@@ -177,7 +266,7 @@ const AddListingModal = ({ isOpen, onClose, onSuccess }) => {
                             Cancel
                         </button>
                         <button disabled={loading || uploading} type="submit" className="btn-primary py-3 px-8 text-sm">
-                            {(loading || uploading) ? 'Please wait...' : 'Add to Market'}
+                            {(loading || uploading) ? 'Please wait...' : (listing ? 'Save Changes' : 'Add to Market')}
                         </button>
                     </div>
                 </form>

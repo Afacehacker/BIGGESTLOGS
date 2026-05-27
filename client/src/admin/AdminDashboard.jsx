@@ -21,6 +21,17 @@ const AdminDashboard = () => {
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [listingToEdit, setListingToEdit] = useState(null);
+
+    const handleEditClick = (listing) => {
+        setListingToEdit(listing);
+        setIsAddModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsAddModalOpen(false);
+        setListingToEdit(null);
+    };
 
     useEffect(() => {
         fetchData();
@@ -105,12 +116,12 @@ const AdminDashboard = () => {
                     {activeTab === 'orders' && <OrdersTab orders={orders} onUpdate={handleStatusUpdate} />}
                     {activeTab === 'deposits' && <DepositsTab transactions={transactions} onUpdate={handleDepositStatus} />}
                     {activeTab === 'users' && <UsersTab />}
-                    {activeTab === 'accounts' && <AccountsTab accounts={accounts} onDelete={handleDeleteAccount} onAdd={() => setIsAddModalOpen(true)} />}
+                    {activeTab === 'accounts' && <AccountsTab accounts={accounts} onDelete={handleDeleteAccount} onAdd={() => setIsAddModalOpen(true)} onEdit={handleEditClick} />}
                     {activeTab === 'support' && <SupportTab />}
                     {activeTab === 'settings' && <SettingsTab />}
                 </div>
             </div>
-            <AddListingModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onSuccess={fetchData} />
+            <AddListingModal isOpen={isAddModalOpen} onClose={handleCloseModal} onSuccess={fetchData} listing={listingToEdit} />
         </div>
     );
 };
@@ -192,7 +203,7 @@ const OrdersTab = ({ orders, onUpdate }) => (
     </div>
 );
 
-const AccountsTab = ({ accounts, onDelete, onAdd }) => (
+const AccountsTab = ({ accounts, onDelete, onAdd, onEdit }) => (
     <div className="p-4 md:p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <h2 className="text-xl font-bold">Product Inventory</h2>
@@ -209,7 +220,8 @@ const AccountsTab = ({ accounts, onDelete, onAdd }) => (
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <button onClick={() => onDelete(acc._id)} className="p-2 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-colors"><Trash2 size={16} /></button>
+                        <button onClick={() => onEdit(acc)} className="p-2 bg-blue-50 text-blue-500 rounded-xl hover:bg-blue-50 hover:text-white transition-colors" title="Edit Listing"><Edit size={16} /></button>
+                        <button onClick={() => onDelete(acc._id)} className="p-2 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-colors" title="Delete Listing"><Trash2 size={16} /></button>
                     </div>
                 </div>
             ))}
