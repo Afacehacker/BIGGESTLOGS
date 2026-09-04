@@ -29,6 +29,10 @@ app.set('trust proxy', 1);
 
 const allowedOrigins = [
     'https://biggestlogs.vercel.app',
+    'https://biggestloggs.com',
+    'https://www.biggestloggs.com',
+    'http://biggestloggs.com',
+    'http://www.biggestloggs.com',
     'https://biggestloggs.com.ng',
     'https://www.biggestloggs.com.ng',
     'http://biggestloggs.com.ng',
