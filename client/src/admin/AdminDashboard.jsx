@@ -87,14 +87,14 @@ const AdminDashboard = () => {
     };
 
     return (
-        <div className="pt-24 pb-32 px-6 max-w-7xl mx-auto bg-[#f8fafc] min-h-screen text-gray-900">
+        <div className="pt-24 pb-32 px-4 sm:px-6 max-w-7xl mx-auto bg-slate-50 dark:bg-slate-950 min-h-screen text-slate-900 dark:text-white transition-colors duration-300">
             <div className="mb-8 md:mb-12 flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-900 to-blue-500 bg-clip-text text-transparent tracking-tight leading-tight">Admin Hub</h1>
-                    <p className="text-gray-500 font-medium text-sm">Control orders, assets, and deposits.</p>
+                    <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent tracking-tight leading-tight">Admin Hub</h1>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium text-sm">Control orders, assets, and deposits.</p>
                 </div>
-                <button onClick={fetchData} className="bg-white p-3 rounded-xl shadow-sm hover:text-blue-600 border border-gray-100 transition-colors">
-                    <RefreshCw size={20} className={loading ? 'animate-spin border-blue-600' : ''} />
+                <button onClick={fetchData} className="bg-white dark:bg-slate-900 p-3 rounded-xl shadow-sm hover:text-emerald-600 border border-slate-100 dark:border-slate-800 transition-colors">
+                    <RefreshCw size={20} className={loading ? 'animate-spin border-emerald-600' : ''} />
                 </button>
             </div>
 
@@ -207,21 +207,21 @@ const AccountsTab = ({ accounts, onDelete, onAdd, onEdit }) => (
     <div className="p-4 md:p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <h2 className="text-xl font-bold">Product Inventory</h2>
-            <button onClick={onAdd} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-lg flex items-center justify-center gap-2 py-3.5 px-6 text-sm font-black transition-all active:scale-95"><Plus size={18} /> POST NEW PRODUCT</button>
+            <button onClick={onAdd} className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 py-3.5 px-6 text-sm font-black transition-all active:scale-95"><Plus size={18} /> POST NEW PRODUCT</button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {(Array.isArray(accounts) ? accounts : []).map(acc => (
-                <div key={acc._id} className="p-4 bg-[#f8fafc] rounded-xl border border-gray-100 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
+                <div key={acc._id} className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-700/60 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-center gap-4">
-                        <img src={acc.image || 'https://via.placeholder.com/150'} className="w-12 h-12 rounded-lg object-cover border border-gray-200" />
+                        <img src={acc.image || 'https://via.placeholder.com/150'} className="w-12 h-12 rounded-lg object-cover border border-slate-200 dark:border-slate-700" />
                         <div>
-                            <p className="font-bold text-sm text-black line-clamp-1">{acc.title}</p>
-                            <p className="text-xs text-gray-500 font-medium">₦{acc.price} • Stock: {acc.stock}</p>
+                            <p className="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">{acc.title}</p>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">₦{acc.price} • Stock: {acc.stock}</p>
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <button onClick={() => onEdit(acc)} className="p-2 bg-blue-50 text-blue-500 rounded-xl hover:bg-blue-50 hover:text-white transition-colors" title="Edit Listing"><Edit size={16} /></button>
-                        <button onClick={() => onDelete(acc._id)} className="p-2 bg-red-50 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-colors" title="Delete Listing"><Trash2 size={16} /></button>
+                        <button onClick={() => onEdit(acc)} className="p-2 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 rounded-xl hover:bg-emerald-600 hover:text-white transition-colors" title="Edit Listing"><Edit size={16} /></button>
+                        <button onClick={() => onDelete(acc._id)} className="p-2 bg-red-50 dark:bg-red-950/40 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-colors" title="Delete Listing"><Trash2 size={16} /></button>
                     </div>
                 </div>
             ))}
@@ -232,8 +232,8 @@ const AccountsTab = ({ accounts, onDelete, onAdd, onEdit }) => (
 const DepositsTab = ({ transactions, onUpdate }) => (
     <div className="overflow-x-auto p-4">
         <h2 className="text-xl font-bold mb-6 px-2">Wallet Funding Requests</h2>
-        <table className="w-full text-left bg-white border border-gray-100 rounded-xl">
-            <thead className="bg-[#f8fafc] text-gray-400 uppercase text-[10px] font-bold tracking-widest border-b border-gray-100">
+        <table className="w-full text-left bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl">
+            <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-400 uppercase text-[10px] font-bold tracking-widest border-b border-slate-100 dark:border-slate-800">
                 <tr>
                     <th className="px-6 py-4 rounded-tl-xl">User</th>
                     <th className="px-6 py-4">Amount</th>
@@ -242,26 +242,26 @@ const DepositsTab = ({ transactions, onUpdate }) => (
                     <th className="px-6 py-4 rounded-tr-xl">Action</th>
                 </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {(Array.isArray(transactions) ? transactions : []).map(tx => (
-                    <tr key={tx._id} className="hover:bg-gray-50 transition-colors">
+                    <tr key={tx._id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
                         <td className="px-6 py-4">
-                            <p className="text-sm font-bold text-gray-900">{tx.user?.name}</p>
-                            <p className="text-[10px] text-gray-500 font-medium">{tx.user?.email}</p>
+                            <p className="text-sm font-bold text-slate-900 dark:text-white">{tx.user?.name}</p>
+                            <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{tx.user?.email}</p>
                         </td>
-                        <td className="px-6 py-4 font-bold text-gray-900 tracking-tight">₦{tx.amount.toLocaleString()}</td>
+                        <td className="px-6 py-4 font-bold text-slate-900 dark:text-white tracking-tight">₦{tx.amount.toLocaleString()}</td>
                         <td className="px-6 py-4">
-                            <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${tx.status === 'completed' || tx.status === 'approved' ? 'bg-green-100 text-green-700' : tx.status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'
+                            <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${tx.status === 'completed' || tx.status === 'approved' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300' : tx.status === 'rejected' ? 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300' : 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300'
                                 }`}>{tx.status}</span>
                         </td>
-                        <td className="px-6 py-4 text-blue-600 underline font-semibold text-sm">
-                            {tx.paymentProof ? <a href={tx.paymentProof} target="_blank" className="flex items-center gap-1 hover:text-blue-800"><ExternalLink size={14} /> View</a> : 'None'}
+                        <td className="px-6 py-4 text-emerald-600 dark:text-emerald-400 underline font-semibold text-sm">
+                            {tx.paymentProof ? <a href={tx.paymentProof} target="_blank" className="flex items-center gap-1 hover:text-emerald-800 dark:hover:text-emerald-300"><ExternalLink size={14} /> View</a> : 'None'}
                         </td>
                         <td className="px-6 py-4 flex gap-2">
                             {tx.status === 'pending' && (
                                 <>
-                                    <button onClick={() => onUpdate(tx._id, 'approved')} className="bg-green-100 text-green-600 p-2 rounded-lg hover:bg-green-500 hover:text-white transition-colors" title="Approve"><Check size={16} /></button>
-                                    <button onClick={() => onUpdate(tx._id, 'rejected')} className="bg-red-100 text-red-600 p-2 rounded-lg hover:bg-red-500 hover:text-white transition-colors" title="Reject"><X size={16} /></button>
+                                    <button onClick={() => onUpdate(tx._id, 'approved')} className="bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 p-2 rounded-lg hover:bg-emerald-600 hover:text-white transition-colors" title="Approve"><Check size={16} /></button>
+                                    <button onClick={() => onUpdate(tx._id, 'rejected')} className="bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-400 p-2 rounded-lg hover:bg-red-600 hover:text-white transition-colors" title="Reject"><X size={16} /></button>
                                 </>
                             )}
                         </td>

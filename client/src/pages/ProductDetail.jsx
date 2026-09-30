@@ -66,27 +66,27 @@ const ProductDetail = () => {
     };
 
     if (loading) {
-        return <div className="pt-32 pb-20 text-center font-extrabold text-blue-600 dark:text-blue-400 animate-pulse">Loading Product Details...</div>;
+        return <div className="pt-32 pb-20 text-center font-extrabold text-emerald-600 dark:text-emerald-400 animate-pulse">Loading Product Details...</div>;
     }
 
     if (!account) return null;
 
-    let platColor = 'bg-blue-600';
+    let platColor = 'bg-emerald-600';
     const plat = (account?.platform || '').toLowerCase();
     if(plat.includes('facebook')) platColor = 'bg-[#1877F2]';
     if(plat.includes('twitter')) platColor = 'bg-black dark:bg-slate-800';
     if(plat.includes('instagram')) platColor = 'bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-600';
-    if(plat.includes('tools')) platColor = 'bg-indigo-600';
+    if(plat.includes('tools')) platColor = 'bg-emerald-700';
 
     return (
-        <div className="bg-[#f8fafc] dark:bg-[#090d16] min-h-screen text-gray-900 dark:text-gray-100 transition-colors duration-300 pb-32">
+        <div className="bg-slate-50 dark:bg-slate-950 min-h-screen text-slate-900 dark:text-slate-100 transition-colors duration-300 pb-32">
             
             {/* Nav Header */}
             <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md px-4 py-3 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between sticky top-[60px] z-40">
-                <button onClick={() => navigate(-1)} className="p-2 rounded-xl bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-300 hover:bg-blue-100 transition-colors shrink-0">
+                <button onClick={() => navigate(-1)} className="p-2 rounded-xl bg-emerald-50 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 border border-emerald-100 dark:border-slate-700 transition-colors shrink-0">
                     <ArrowLeft size={18} />
                 </button>
-                <h2 className="font-black text-sm md:text-base text-[#1f2231] dark:text-white truncate px-4">{account.title}</h2>
+                <h2 className="font-black text-sm md:text-base text-slate-900 dark:text-white truncate px-4">{account.title}</h2>
                 <div className="w-9 shrink-0" />
             </div>
 
@@ -119,10 +119,10 @@ const ProductDetail = () => {
                                         />
                                     )}
                                     <div className="absolute inset-x-4 top-4 flex justify-between items-start drop-shadow-md z-10">
-                                        <span className="bg-white dark:bg-slate-900 text-[#1f2231] dark:text-white font-black text-[10px] px-2.5 py-1 rounded-full tracking-widest uppercase shadow-sm">
+                                        <span className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-black text-[10px] px-2.5 py-1 rounded-full tracking-widest uppercase shadow-sm">
                                             {account.platform}
                                         </span>
-                                        <span className="bg-emerald-500 text-white font-black text-[10px] px-2.5 py-1 rounded-full tracking-normal flex items-center gap-1 shadow-sm border border-emerald-400">
+                                        <span className="bg-emerald-600 text-white font-black text-[10px] px-2.5 py-1 rounded-full tracking-normal flex items-center gap-1 shadow-sm border border-emerald-400">
                                             <CheckCircle size={12}/> {account.quality || 99}% Quality
                                         </span>
                                     </div>
@@ -137,7 +137,7 @@ const ProductDetail = () => {
                                                     key={idx}
                                                     onClick={() => setActiveMediaIndex(idx)}
                                                     className={`w-14 h-14 rounded-xl overflow-hidden shrink-0 border-2 transition-all bg-black flex items-center justify-center snap-start ${
-                                                        activeMediaIndex === idx ? 'border-blue-600 scale-105 shadow-md' : 'border-gray-200 opacity-60 hover:opacity-100'
+                                                        activeMediaIndex === idx ? 'border-emerald-600 scale-105 shadow-md' : 'border-gray-200 opacity-60 hover:opacity-100'
                                                     }`}
                                                 >
                                                     {isUrlVideo ? (
@@ -156,19 +156,19 @@ const ProductDetail = () => {
 
                     <div className="p-4 space-y-4">
                         <div>
-                            <h1 className="text-xl font-black text-[#1f2231] dark:text-white leading-tight mb-2">{account.title}</h1>
-                            <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm leading-relaxed">{account.description}</p>
+                            <h1 className="text-xl font-black text-slate-900 dark:text-white leading-tight mb-2">{account.title}</h1>
+                            <p className="text-slate-600 dark:text-slate-300 text-xs md:text-sm leading-relaxed">{account.description}</p>
                         </div>
 
                         {/* Price Details Block */}
-                        <div className="bg-[#1b2331] text-white rounded-2xl p-5 shadow-md">
+                        <div className="bg-emerald-700 dark:bg-slate-800 text-white rounded-2xl p-5 shadow-md">
                             <div className="flex justify-between items-center mb-2">
-                                <span className="text-xs font-bold text-gray-400">Price Per Unit</span>
+                                <span className="text-xs font-bold text-emerald-100 dark:text-slate-400">Price Per Unit</span>
                                 <span className="font-black text-2xl tracking-tight text-white">₦{account.price.toLocaleString()}</span>
                             </div>
-                            <div className="flex justify-between items-center pt-2 border-t border-white/10">
-                                <span className="text-xs font-bold text-gray-400">Available Stock</span>
-                                <span className={`font-black text-[11px] uppercase tracking-widest px-3 py-1 rounded-full ${account.stock > 0 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'}`}>
+                            <div className="flex justify-between items-center pt-2 border-t border-white/20">
+                                <span className="text-xs font-bold text-emerald-100 dark:text-slate-400">Available Stock</span>
+                                <span className={`font-black text-[11px] uppercase tracking-widest px-3 py-1 rounded-full ${account.stock > 0 ? 'bg-white/20 text-white border border-white/30' : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'}`}>
                                     {account.stock} Pcs
                                 </span>
                             </div>
@@ -190,9 +190,9 @@ const ProductDetail = () => {
                         </div>
                     ) : !user ? (
                         <div className="text-center">
-                            <UserIcon className="mx-auto mb-2 text-blue-300 dark:text-slate-700" size={32} />
-                            <p className="text-gray-500 dark:text-gray-400 font-bold text-xs mb-4">Please log in to your account to complete purchase.</p>
-                            <Link to="/login" className="block w-full bg-[#1b2331] hover:bg-black text-white py-4 rounded-2xl font-black text-sm text-center shadow-lg">
+                            <UserIcon className="mx-auto mb-2 text-emerald-600 dark:text-emerald-400" size={32} />
+                            <p className="text-slate-500 dark:text-slate-400 font-bold text-xs mb-4">Please log in to your account to complete purchase.</p>
+                            <Link to="/login" className="block w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-2xl font-black text-sm text-center shadow-lg shadow-emerald-600/20">
                                 Login To Purchase
                             </Link>
                         </div>
@@ -201,15 +201,15 @@ const ProductDetail = () => {
                             {/* Wallet Info Summary */}
                             <div className="flex items-center justify-between mb-5 pb-4 border-b border-gray-100 dark:border-slate-800 cursor-pointer" onClick={() => navigate('/wallet')}>
                                 <div className="flex items-center gap-3">
-                                    <div className="bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 p-2.5 rounded-full border border-blue-200 dark:border-slate-700">
+                                    <div className="bg-emerald-50 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 p-2.5 rounded-full border border-emerald-100 dark:border-slate-700">
                                         <Wallet size={20} />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Wallet Balance</p>
-                                        <p className="font-black text-base text-[#1f2231] dark:text-white">₦{currentUser?.balance?.toLocaleString() || '0'}</p>
+                                        <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">Wallet Balance</p>
+                                        <p className="font-black text-base text-slate-900 dark:text-white">₦{currentUser?.balance?.toLocaleString() || '0'}</p>
                                     </div>
                                 </div>
-                                <ChevronRight size={18} className="text-gray-400" />
+                                <ChevronRight size={18} className="text-slate-400" />
                             </div>
 
                             {/* Buy Logic */}
@@ -218,7 +218,7 @@ const ProductDetail = () => {
                                     <div className="flex items-center justify-center gap-2 text-rose-600 dark:text-rose-400 font-extrabold mb-4 bg-rose-50 dark:bg-rose-950/40 py-3 rounded-xl border border-rose-200 dark:border-rose-900 text-xs">
                                         <HelpCircle size={16} /> Insufficient Balance for this item
                                     </div>
-                                    <Link to="/wallet" className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-wider shadow-lg shadow-blue-500/25">
+                                    <Link to="/wallet" className="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/25">
                                         Fund Wallet Now
                                     </Link>
                                 </div>
@@ -226,7 +226,7 @@ const ProductDetail = () => {
                                 <button
                                     onClick={handlePurchase}
                                     disabled={placingOrder}
-                                    className="w-full bg-[#1b2331] hover:bg-black transition-all text-white py-4 rounded-2xl font-black text-sm shadow-xl disabled:opacity-50 flex items-center justify-center gap-2 active:scale-95"
+                                    className="w-full bg-emerald-600 hover:bg-emerald-700 transition-all text-white py-4 rounded-2xl font-black text-sm shadow-xl shadow-emerald-600/20 disabled:opacity-50 flex items-center justify-center gap-2 active:scale-95"
                                 >
                                     {placingOrder ? 'Processing Order...' : `Buy Now • ₦${account.price.toLocaleString()}`}
                                     {!placingOrder && <ChevronRight size={18} />}
@@ -242,3 +242,4 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
+

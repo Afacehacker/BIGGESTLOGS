@@ -2,20 +2,20 @@ const LogoIcon = ({ className = "w-9 h-9" }) => {
     return (
         <div className={`relative flex items-center justify-center shrink-0 ${className} group`}>
             {/* Cyber Glow Backdrop */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-600 via-cyan-500 to-indigo-500 rounded-2xl blur-md opacity-75 group-hover:opacity-100 transition-opacity animate-pulse" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-emerald-600 via-teal-500 to-green-400 rounded-2xl blur-md opacity-75 group-hover:opacity-100 transition-opacity animate-pulse" />
             
             {/* Emblem Container */}
-            <div className="relative w-full h-full bg-slate-950 p-1.5 rounded-2xl border border-blue-400/40 shadow-xl flex items-center justify-center overflow-hidden">
+            <div className="relative w-full h-full bg-slate-950 p-1.5 rounded-2xl border border-emerald-400/40 shadow-xl flex items-center justify-center overflow-hidden">
                 <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full transform group-hover:scale-110 transition-transform duration-300">
                     <defs>
                         <linearGradient id="cyberGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#2563eb" />
-                            <stop offset="50%" stopColor="#3b82f6" />
-                            <stop offset="100%" stopColor="#06b6d4" />
+                            <stop offset="0%" stopColor="#059669" />
+                            <stop offset="50%" stopColor="#10b981" />
+                            <stop offset="100%" stopColor="#34d399" />
                         </linearGradient>
                         <linearGradient id="cyberGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#38bdf8" />
-                            <stop offset="100%" stopColor="#1d4ed8" />
+                            <stop offset="0%" stopColor="#6ee7b7" />
+                            <stop offset="100%" stopColor="#047857" />
                         </linearGradient>
                     </defs>
 
@@ -44,3 +44,4 @@ const LogoIcon = ({ className = "w-9 h-9" }) => {
 };
 
 export default LogoIcon;
+

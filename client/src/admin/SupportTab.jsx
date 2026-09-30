@@ -279,7 +279,7 @@ const SupportTab = () => {
                             placeholder="Type a reply..."
                             className="flex-1 bg-gray-50 border-none rounded-2xl px-6 py-4 text-sm focus:ring-2 focus:ring-primary/20 outline-none resize-none transition-all"
                         />
-                        <button type="submit" disabled={!adminInput.trim() && !uploading} className="bg-primary text-white p-4 rounded-2xl shadow-xl shadow-primary/20 hover:bg-blue-600 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <button type="submit" disabled={!adminInput.trim() && !uploading} className="bg-emerald-600 text-white p-4 rounded-2xl shadow-xl shadow-emerald-600/20 hover:bg-emerald-700 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
                             <Send size={24} />
                         </button>
                     </form>

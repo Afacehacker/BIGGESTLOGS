@@ -23,24 +23,24 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] flex flex-col items-center justify-center px-6 pb-20">
-            <div className="w-full max-w-md bg-white rounded-[20px] p-8 shadow-sm border border-gray-100">
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center px-4 sm:px-6 py-12 pb-24 md:pb-12 transition-colors duration-300">
+            <div className="w-full max-w-md bg-white dark:bg-slate-900 rounded-[24px] p-6 sm:p-8 shadow-xl border border-slate-100 dark:border-slate-800">
                 <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-blue-50 rounded-[14px] flex items-center justify-center mx-auto mb-4 border border-blue-100">
-                        <LogIn className="text-blue-600" size={32} />
+                    <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-950/50 rounded-[18px] flex items-center justify-center mx-auto mb-4 border border-emerald-100 dark:border-emerald-900/50 shadow-sm">
+                        <LogIn className="text-emerald-600 dark:text-emerald-400" size={32} />
                     </div>
-                    <h2 className="text-2xl font-black text-[#1f2231] tracking-tight mb-2">Welcome Back</h2>
-                    <p className="text-gray-500 text-sm font-medium">Access your digital vault and orders.</p>
+                    <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-2">Welcome Back</h2>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Access your digital vault and orders.</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-[#1f2231] mb-2">Email Address</label>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
                         <div className="relative">
-                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" size={18} />
                             <input
                                 type="email"
-                                className="w-full bg-[#f8fafc] border border-gray-200 rounded-[14px] pl-12 pr-4 py-4 text-black font-bold focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-[14px] pl-12 pr-4 py-3.5 text-slate-900 dark:text-white font-medium focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all placeholder:text-slate-400"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="yours@email.com"
@@ -50,12 +50,12 @@ const Login = () => {
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-[#1f2231] mb-2">Password</label>
+                        <label className="block text-xs font-bold uppercase tracking-widest text-slate-700 dark:text-slate-300 mb-2">Password</label>
                         <div className="relative">
-                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" size={18} />
                             <input
                                 type="password"
-                                className="w-full bg-[#f8fafc] border border-gray-200 rounded-[14px] pl-12 pr-4 py-4 text-black font-bold focus:outline-none focus:border-blue-500 transition-colors"
+                                className="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-[14px] pl-12 pr-4 py-3.5 text-slate-900 dark:text-white font-medium focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all placeholder:text-slate-400"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="••••••••"
@@ -64,13 +64,13 @@ const Login = () => {
                         </div>
                     </div>
 
-                    <button type="submit" className="w-full bg-[#1b2331] hover:bg-black text-white font-bold py-4 rounded-[14px] shadow-lg transition-colors flex items-center justify-center gap-2 mt-2">
+                    <button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-[14px] shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 mt-2 active:scale-[0.99]">
                         LOGIN TO PORTAL <ArrowRight size={18} />
                     </button>
                 </form>
 
-                <p className="text-center mt-8 text-gray-500 font-medium text-sm">
-                    Don't have an account? <Link to="/register" className="text-blue-600 font-bold hover:underline">Register now</Link>
+                <p className="text-center mt-8 text-slate-500 dark:text-slate-400 font-medium text-sm">
+                    Don't have an account? <Link to="/register" className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline">Register now</Link>
                 </p>
             </div>
         </div>

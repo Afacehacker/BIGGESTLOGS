@@ -37,15 +37,15 @@ const ProductPreviewModal = ({ account, onClose }) => {
     const displayImage = mediaUrl || getFallbackPlatformImage(account.platform);
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md animate-fade-in">
             <div 
-                className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl relative overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar"
+                className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-3xl max-w-lg w-full p-4 sm:p-6 shadow-2xl relative overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Close Button */}
                 <button 
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2.5 rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors z-20"
+                    className="absolute top-4 right-4 p-2.5 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors z-20"
                 >
                     <X size={18} />
                 </button>
@@ -70,7 +70,7 @@ const ProductPreviewModal = ({ account, onClose }) => {
                     )}
 
                     <div className="absolute top-3 left-3 flex items-center gap-2">
-                        <span className="bg-blue-600 text-white font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
+                        <span className="bg-emerald-600 text-white font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
                             {account.platform || 'Verified Log'}
                         </span>
                     </div>
@@ -85,47 +85,47 @@ const ProductPreviewModal = ({ account, onClose }) => {
                     </div>
                 </div>
 
-                <h3 className="text-lg sm:text-xl font-black text-[#1f2231] dark:text-white leading-snug mb-2">
+                <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white leading-snug mb-2">
                     {account.title}
                 </h3>
 
                 {/* Price & Stock info */}
                 <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-100 dark:border-slate-800">
-                    <span className="text-2xl font-black text-blue-600 dark:text-blue-400">
+                    <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
                         {formatCurrency(account.price)}
                     </span>
-                    <span className="text-xs bg-blue-50 dark:bg-slate-800 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-slate-700 font-bold px-3 py-1 rounded-full">
+                    <span className="text-xs bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-bold px-3 py-1 rounded-full">
                         {account.stock} Pcs Available
                     </span>
                 </div>
 
                 {/* Account Details / Specs */}
                 <div className="space-y-3 mb-5">
-                    <div className="bg-blue-50/60 dark:bg-slate-800/60 rounded-2xl p-4 text-xs space-y-2 text-gray-700 dark:text-slate-300 border border-blue-100/50 dark:border-slate-700/50">
+                    <div className="bg-emerald-50/50 dark:bg-slate-800/60 rounded-2xl p-4 text-xs space-y-2 text-slate-700 dark:text-slate-300 border border-emerald-100/60 dark:border-slate-700">
                         <div className="flex justify-between font-extrabold">
-                            <span className="text-gray-500 dark:text-gray-400">Category / Type:</span>
-                            <span className="text-[#1f2231] dark:text-white uppercase">{account.type || 'Aged Account'}</span>
+                            <span className="text-slate-500 dark:text-slate-400">Category / Type:</span>
+                            <span className="text-slate-900 dark:text-white uppercase">{account.type || 'Aged Account'}</span>
                         </div>
                         <div className="flex justify-between font-extrabold">
-                            <span className="text-gray-500 dark:text-gray-400">Format Structure:</span>
-                            <span className="text-[#1f2231] dark:text-white">Email : Password : Cookies/2FA</span>
+                            <span className="text-slate-500 dark:text-slate-400">Format Structure:</span>
+                            <span className="text-slate-900 dark:text-white">Email : Password : Cookies/2FA</span>
                         </div>
                         <div className="flex justify-between font-extrabold">
-                            <span className="text-gray-500 dark:text-gray-400">Replacement Guarantee:</span>
+                            <span className="text-slate-500 dark:text-slate-400">Replacement Guarantee:</span>
                             <span className="text-emerald-600 dark:text-emerald-400 font-black">24 Hours Auto Replacement</span>
                         </div>
                     </div>
 
                     {account.description && (
-                        <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
+                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                             {account.description}
                         </p>
                     )}
                 </div>
 
                 {/* Risk-free Guarantee Banner */}
-                <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 mb-5 bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20">
-                    <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+                <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300 mb-5 bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/20">
+                    <ShieldCheck size={18} className="text-emerald-600 dark:text-emerald-400 shrink-0" />
                     <span>Every log is pre-checked. Invalid credentials replaced within 24h.</span>
                 </div>
 
@@ -133,13 +133,13 @@ const ProductPreviewModal = ({ account, onClose }) => {
                 <div className="grid grid-cols-2 gap-3">
                     <button 
                         onClick={onClose}
-                        className="py-3.5 px-4 rounded-2xl border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-gray-300 font-extrabold text-xs hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+                        className="py-3.5 px-4 rounded-2xl border border-gray-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-extrabold text-xs hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                     >
                         Close Preview
                     </button>
                     <button 
                         onClick={handleBuyClick}
-                        className="py-3.5 px-4 rounded-2xl bg-[#1b2331] hover:bg-black text-white font-black text-xs shadow-lg shadow-blue-500/10 hover:opacity-95 transition-all flex items-center justify-center gap-2 active:scale-95"
+                        className="py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 active:scale-95"
                     >
                         <ShoppingCart size={15} /> Buy Now <ArrowRight size={15} />
                     </button>
@@ -150,3 +150,4 @@ const ProductPreviewModal = ({ account, onClose }) => {
 };
 
 export default ProductPreviewModal;
+

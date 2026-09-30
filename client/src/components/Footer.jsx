@@ -13,36 +13,36 @@ const Footer = () => {
                     <Link to="/" className="text-2xl md:text-3xl font-black mb-4 flex items-center gap-2.5 justify-center md:justify-start group">
                         <LogoIcon className="w-10 h-10" />
                         <div className="flex flex-col leading-none">
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-700 via-blue-600 to-cyan-500 font-black tracking-tighter text-xl md:text-2xl">
-                                BIGGEST<span className="text-[#1f2231] dark:text-white">LOGS</span>
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-400 font-black tracking-tighter text-xl md:text-2xl">
+                                BIGGEST<span className="text-slate-900 dark:text-white">LOGS</span>
                             </span>
                         </div>
                     </Link>
-                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm md:text-base max-w-sm font-medium mx-auto md:mx-0">
+                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm md:text-base max-w-sm font-medium mx-auto md:mx-0">
                         The world's premier marketplace for verified social media accounts, advertising logs, and digital tools. 1-Minute automated delivery guaranteed.
                     </p>
                 </div>
 
                 <div>
-                    <h4 className="font-extrabold mb-4 text-[#1f2231] dark:text-white uppercase tracking-widest text-xs">Marketplace</h4>
-                    <ul className="space-y-2.5 text-xs md:text-sm text-gray-600 dark:text-gray-400 font-semibold">
-                        <li><Link to="/shop" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">All Accounts</Link></li>
-                        <li><Link to="/shop?platform=instagram" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Instagram Logs</Link></li>
-                        <li><Link to="/shop?platform=twitter" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Twitter (X) Hub</Link></li>
-                        <li><Link to="/shop?platform=facebook" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Facebook Assets</Link></li>
+                    <h4 className="font-extrabold mb-4 text-slate-900 dark:text-white uppercase tracking-widest text-xs">Marketplace</h4>
+                    <ul className="space-y-2.5 text-xs md:text-sm text-slate-600 dark:text-slate-400 font-semibold">
+                        <li><Link to="/shop" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">All Accounts</Link></li>
+                        <li><Link to="/shop?platform=instagram" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Instagram Logs</Link></li>
+                        <li><Link to="/shop?platform=twitter" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Twitter (X) Hub</Link></li>
+                        <li><Link to="/shop?platform=facebook" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Facebook Assets</Link></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 className="font-extrabold mb-4 text-[#1f2231] dark:text-white uppercase tracking-widest text-xs">Support & Community</h4>
-                    <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm mb-4 font-medium">Need help or bulk orders? Join our official Telegram:</p>
+                    <h4 className="font-extrabold mb-4 text-slate-900 dark:text-white uppercase tracking-widest text-xs">Support & Community</h4>
+                    <p className="text-slate-600 dark:text-slate-400 text-xs md:text-sm mb-4 font-medium">Need help or bulk orders? Join our official Telegram:</p>
                     <div className="flex justify-center md:justify-start gap-4">
-                        <SocialIcon icon={<Send size={20} className="text-white -ml-0.5 mt-0.5" fill="currentColor" />} href={settings?.telegramLink || "https://t.me/boostnaija1"} bg="bg-[#0088cc]" />
+                        <SocialIcon icon={<Send size={20} className="text-white -ml-0.5 mt-0.5" fill="currentColor" />} href={settings?.telegramLink || "https://t.me/boostnaija1"} bg="bg-emerald-600 hover:bg-emerald-700" />
                     </div>
                 </div>
             </div>
 
-            <div className="max-w-7xl mx-auto border-t border-gray-100 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-400 dark:text-gray-500 text-xs font-bold">
+            <div className="max-w-7xl mx-auto border-t border-gray-100 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-400 dark:text-slate-500 text-xs font-bold">
                 <p>© BIGGESTLOGS®. All rights reserved.</p>
 
                 <div className="flex items-center gap-4">
@@ -60,10 +60,11 @@ const SocialIcon = ({ icon, href, bg }) => (
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={`w-11 h-11 rounded-2xl flex items-center justify-center shadow-lg transition-transform hover:scale-110 ${bg || 'bg-gray-100 text-gray-600'}`}
+        className={`w-11 h-11 rounded-2xl flex items-center justify-center shadow-lg transition-transform hover:scale-110 ${bg || 'bg-slate-100 text-slate-600'}`}
     >
         {icon}
     </a>
 );
 
 export default Footer;
+

@@ -31,25 +31,25 @@ const Dashboard = () => {
         setTimeout(() => setCopiedId(null), 2000);
     };
 
-    if (!user) return <div className="pt-32 text-center text-gray-500 dark:text-gray-400 font-bold">Please log in to view your order dashboard.</div>;
+    if (!user) return <div className="pt-32 text-center text-slate-500 dark:text-slate-400 font-bold">Please log in to view your order dashboard.</div>;
 
     return (
-        <div className="bg-[#f8fafc] dark:bg-[#090d16] min-h-screen text-gray-900 dark:text-gray-100 transition-colors duration-300 pb-32">
+        <div className="bg-slate-50 dark:bg-slate-950 min-h-screen text-slate-900 dark:text-slate-100 transition-colors duration-300 pb-32">
             
-            <div className="px-4 pt-8 max-w-2xl mx-auto">
+            <div className="px-4 pt-6 sm:pt-8 max-w-3xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
                     <div>
-                        <span className="text-xs font-bold uppercase tracking-widest text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
+                        <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">
                             Purchased Assets Vault
                         </span>
-                        <h1 className="text-2xl md:text-3xl font-black text-[#1f2231] dark:text-white tracking-tight mt-1 mb-1">
+                        <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight mt-2 mb-1">
                             My Orders 📦
                         </h1>
-                        <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm font-medium">
+                        <p className="text-slate-600 dark:text-slate-400 text-xs md:text-sm font-medium">
                             Access your purchased accounts and instant delivery vault.
                         </p>
                     </div>
-                    <div className="bg-blue-50 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 px-4 py-2 rounded-2xl flex items-center gap-2 shadow-xs">
+                    <div className="bg-emerald-50 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 px-4 py-2 rounded-2xl flex items-center gap-2 shadow-xs">
                         <Package size={18} />
                         <span className="font-extrabold text-sm">{orders.length}</span>
                     </div>
@@ -67,14 +67,14 @@ const Dashboard = () => {
                             <div key={order._id} className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-gray-100 dark:border-slate-800 shadow-sm relative overflow-hidden">
                                 <div className="flex justify-between items-start mb-3">
                                     <div className="flex gap-3 items-center">
-                                        <div className="w-11 h-11 bg-[#1b2331] text-white rounded-xl flex items-center justify-center font-black text-base uppercase shrink-0 shadow-sm">
+                                        <div className="w-11 h-11 bg-emerald-600 text-white rounded-xl flex items-center justify-center font-black text-base uppercase shrink-0 shadow-sm">
                                             {order.account?.platform ? order.account.platform[0] : 'L'}
                                         </div>
                                         <div>
-                                            <h3 className="font-extrabold text-[#1f2231] dark:text-white text-sm md:text-base leading-snug line-clamp-1">
+                                            <h3 className="font-extrabold text-slate-900 dark:text-white text-sm md:text-base leading-snug line-clamp-1">
                                                 {order.account?.title || 'Account Removed'}
                                             </h3>
-                                            <p className="text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest mt-0.5">
+                                            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest mt-0.5">
                                                 Order ID: {order.orderId?.substring(0, 8) || '......'}
                                             </p>
                                         </div>
@@ -87,22 +87,22 @@ const Dashboard = () => {
                                         }`}>
                                             {order.status}
                                         </span>
-                                        <p className="text-[11px] text-gray-400 dark:text-gray-500 font-bold">{new Date(order.createdAt).toLocaleDateString()}</p>
+                                        <p className="text-[11px] text-slate-400 dark:text-slate-500 font-bold">{new Date(order.createdAt).toLocaleDateString()}</p>
                                     </div>
                                 </div>
 
                                 {order.status === 'completed' && order.account && (
                                     <div className="mt-4 pt-4 border-t border-gray-100 dark:border-slate-800">
-                                        <p className="text-[11px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-2 flex items-center gap-1">
+                                        <p className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1">
                                             <ShieldCheck size={14} className="text-emerald-600 dark:text-emerald-400" /> Instant Delivery Vault
                                         </p>
-                                        <div className="flex items-center justify-between gap-3 bg-blue-50/50 dark:bg-slate-800/80 border border-blue-100 dark:border-slate-700/80 p-3 rounded-xl overflow-hidden shadow-inner">
-                                            <code className="text-[#1f2231] dark:text-slate-200 font-mono text-xs truncate select-all font-bold">
+                                        <div className="flex items-center justify-between gap-3 bg-emerald-50/50 dark:bg-slate-800/80 border border-emerald-100 dark:border-slate-700 p-3 rounded-xl overflow-hidden shadow-inner">
+                                            <code className="text-slate-900 dark:text-slate-200 font-mono text-xs truncate select-all font-bold">
                                                 {order.account.credentials}
                                             </code>
                                             <button
                                                 onClick={() => copyToClipboard(order.account.credentials, order._id)}
-                                                className="shrink-0 bg-white dark:bg-slate-700 border border-blue-200 dark:border-slate-600 p-2 rounded-lg text-blue-600 dark:text-blue-300 hover:bg-blue-600 hover:text-white transition-colors shadow-xs active:scale-95"
+                                                className="shrink-0 bg-white dark:bg-slate-700 border border-emerald-200 dark:border-slate-600 p-2 rounded-lg text-emerald-600 dark:text-emerald-300 hover:bg-emerald-600 hover:text-white transition-colors shadow-xs active:scale-95"
                                                 title="Copy Credentials"
                                             >
                                                 {copiedId === order._id ? <Check size={16} className="text-emerald-600" /> : <Copy size={16} />}
@@ -121,10 +121,10 @@ const Dashboard = () => {
                     </div>
                 ) : (
                     <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 p-6 shadow-sm">
-                        <Package size={48} className="mx-auto mb-4 text-gray-300 dark:text-slate-700" />
-                        <p className="text-[#1f2231] dark:text-white font-black text-base mb-1">No Orders Found</p>
-                        <p className="text-gray-500 dark:text-gray-400 text-xs mb-4">You haven't purchased any accounts or digital assets yet.</p>
-                        <Link to="/shop" className="text-white font-extrabold text-xs bg-[#1b2331] hover:bg-black px-6 py-3 rounded-xl inline-block shadow-md transition-all active:scale-95">
+                        <Package size={48} className="mx-auto mb-4 text-slate-300 dark:text-slate-700" />
+                        <p className="text-slate-900 dark:text-white font-black text-base mb-1">No Orders Found</p>
+                        <p className="text-slate-500 dark:text-slate-400 text-xs mb-4">You haven't purchased any accounts or digital assets yet.</p>
+                        <Link to="/shop" className="text-white font-extrabold text-xs bg-emerald-600 hover:bg-emerald-700 px-6 py-3 rounded-xl inline-block shadow-md shadow-emerald-600/20 transition-all active:scale-95">
                             Explore Marketplace Now
                         </Link>
                     </div>
@@ -135,3 +135,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

@@ -29,15 +29,15 @@ const FAQ = () => {
     const [selected, setSelected] = useState(0);
 
     return (
-        <section className="py-12 px-4 max-w-4xl mx-auto">
-            <div className="text-center mb-10">
-                <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-extrabold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider mb-3 border border-blue-100">
+        <section className="py-10 sm:py-12 px-4 max-w-4xl mx-auto">
+            <div className="text-center mb-8 sm:mb-10">
+                <div className="inline-flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-extrabold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider mb-3 border border-emerald-200 dark:border-emerald-800">
                     <HelpCircle size={14} /> Got Questions? We Have Answers
                 </div>
-                <h2 className="text-2xl md:text-3xl font-black text-[#1f2231] dark:text-white tracking-tight">
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                     Frequently Asked Questions
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 font-medium max-w-md mx-auto mt-2">
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium max-w-md mx-auto mt-2">
                     Everything you need to know about purchasing verified digital assets securely.
                 </p>
             </div>
@@ -46,16 +46,16 @@ const FAQ = () => {
                 {faqs.map((faq, i) => (
                     <div 
                         key={i} 
-                        className="bg-white dark:bg-slate-900/80 rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-800 shadow-sm transition-all"
+                        className="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-800 shadow-sm transition-all"
                     >
                         <button
                             onClick={() => setSelected(selected === i ? null : i)}
-                            className="w-full flex items-center justify-between p-5 text-left hover:bg-blue-50/50 dark:hover:bg-slate-800/50 transition-colors"
+                            className="w-full flex items-center justify-between p-4 sm:p-5 text-left hover:bg-emerald-50/50 dark:hover:bg-slate-800/50 transition-colors"
                         >
-                            <span className="font-extrabold text-sm md:text-base text-[#1f2231] dark:text-white pr-4">
+                            <span className="font-extrabold text-sm md:text-base text-slate-900 dark:text-white pr-4">
                                 {faq.q}
                             </span>
-                            <div className="p-2 rounded-xl bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-300 shrink-0">
+                            <div className="p-2 rounded-xl bg-emerald-50 dark:bg-slate-800 text-emerald-700 dark:text-emerald-300 shrink-0 border border-emerald-100 dark:border-slate-700">
                                 {selected === i ? <Minus size={18} /> : <Plus size={18} />}
                             </div>
                         </button>
@@ -66,7 +66,7 @@ const FAQ = () => {
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ height: 'auto', opacity: 1 }}
                                     exit={{ height: 0, opacity: 0 }}
-                                    className="px-5 pb-5 text-gray-600 dark:text-gray-300 text-xs md:text-sm leading-relaxed font-medium border-t border-gray-100 dark:border-slate-800/60 pt-4"
+                                    className="px-4 sm:px-5 pb-5 text-slate-600 dark:text-slate-300 text-xs md:text-sm leading-relaxed font-medium border-t border-gray-100 dark:border-slate-800/60 pt-4"
                                 >
                                     {faq.a}
                                 </motion.div>
@@ -80,3 +80,4 @@ const FAQ = () => {
 };
 
 export default FAQ;
+

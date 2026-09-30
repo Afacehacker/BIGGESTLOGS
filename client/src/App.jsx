@@ -43,20 +43,20 @@ function App() {
                 <AuthProvider>
                     <SettingsProvider>
                     <ChatProvider>
-                        <div className="min-h-screen bg-[#f8fafc] text-[#1f2231] flex flex-col">
+                        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
                             <Toaster
                                 position="top-right"
                                 toastOptions={{
                                     style: {
-                                        background: '#1e293b',
+                                        background: '#064e3b',
                                         color: '#fff',
-                                        border: '1px solid rgba(255,255,255,0.1)',
+                                        border: '1px solid rgba(16,185,129,0.2)',
                                         backdropFilter: 'blur(10px)',
                                     },
                                 }}
                             />
                             <Navbar />
-                            <main className="flex-grow relative">
+                            <main className="flex-grow relative pb-20 md:pb-0">
                                 <Routes>
                                     <Route path="/" element={<Home />} />
                                     <Route path="/shop" element={<Shop />} />

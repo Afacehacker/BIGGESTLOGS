@@ -3,18 +3,13 @@ import { createContext, useState, useEffect, useContext } from 'react';
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-    const [isDarkMode, setIsDarkMode] = useState(true);
-
-    useEffect(() => {
+    const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
-            setIsDarkMode(savedTheme === 'dark');
-        } else {
-            // Check system preference if no saved theme
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            setIsDarkMode(systemPrefersDark);
+            return savedTheme === 'dark';
         }
-    }, []);
+        return false; // Default to Light Mode as requested
+    });
 
     useEffect(() => {
         if (isDarkMode) {
@@ -26,7 +21,7 @@ export const ThemeProvider = ({ children }) => {
         }
     }, [isDarkMode]);
 
-    const toggleTheme = () => setIsDarkMode(!isDarkMode);
+    const toggleTheme = () => setIsDarkMode(prev => !prev);
 
     return (
         <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
@@ -36,3 +31,4 @@ export const ThemeProvider = ({ children }) => {
 };
 
 export const useTheme = () => useContext(ThemeContext);
+

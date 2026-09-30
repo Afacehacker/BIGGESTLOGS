@@ -9,18 +9,18 @@ export default {
         extend: {
             colors: {
                 primary: {
-                    light: '#60a5fa',
-                    DEFAULT: '#3b82f6',
-                    dark: '#2563eb',
+                    light: '#34d399',
+                    DEFAULT: '#059669',
+                    dark: '#047857',
                 },
                 secondary: '#ffffff',
                 accent: {
-                    neon: '#67e8f9',
-                    glow: '#00bcd4',
+                    neon: '#10b981',
+                    glow: '#059669',
                 },
                 dark: {
-                    bg: '#0f172a',
-                    card: '#1e293b',
+                    bg: '#022c22',
+                    card: '#064e3b',
                 }
             },
             animation: {
@@ -29,8 +29,8 @@ export default {
             },
             keyframes: {
                 'glow-pulse': {
-                    '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(34, 211, 238, 0.5)' },
-                    '50%': { opacity: 0.8, boxShadow: '0 0 40px rgba(34, 211, 238, 0.8)' },
+                    '0%, 100%': { opacity: 1, boxShadow: '0 0 20px rgba(16, 185, 129, 0.5)' },
+                    '50%': { opacity: 0.8, boxShadow: '0 0 40px rgba(16, 185, 129, 0.8)' },
                 },
                 'float': {
                     '0%, 100%': { transform: 'translateY(0)' },
@@ -41,3 +41,4 @@ export default {
     },
     plugins: [],
 }
+

@@ -32,24 +32,24 @@ const testimonials = [
 
 const Testimonials = () => {
     return (
-        <section className="py-12 px-4 max-w-6xl mx-auto">
-            <div className="text-center mb-10">
-                <div className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-extrabold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider mb-3 border border-blue-100">
+        <section className="py-10 sm:py-12 px-4 max-w-6xl mx-auto">
+            <div className="text-center mb-8 sm:mb-10">
+                <div className="inline-flex items-center gap-2 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-extrabold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider mb-3 border border-emerald-200 dark:border-emerald-800">
                     <ShieldCheck size={14} /> 100% Verified Feedback
                 </div>
-                <h2 className="text-2xl md:text-3xl font-black text-[#1f2231] dark:text-white tracking-tight">
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                     Trusted By Thousands Of Marketers ⭐️
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400 font-medium max-w-lg mx-auto mt-2">
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium max-w-lg mx-auto mt-2">
                     Here's what our daily active buyers have to say about our instant delivery & replacement policy.
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
                 {testimonials.map((item, idx) => (
                     <div 
                         key={idx} 
-                        className="bg-white dark:bg-slate-900/80 border border-gray-100 dark:border-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-xl dark:hover:shadow-blue-500/5 transition-all duration-300 flex flex-col justify-between"
+                        className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-xl hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-between"
                     >
                         <div>
                             {/* Rating Stars */}
@@ -59,10 +59,10 @@ const Testimonials = () => {
                                         <Star key={i} size={16} fill="currentColor" />
                                     ))}
                                 </div>
-                                <Quote size={24} className="text-blue-200 dark:text-slate-700" />
+                                <Quote size={24} className="text-emerald-200 dark:text-slate-700" />
                             </div>
 
-                            <p className="text-gray-700 dark:text-slate-300 text-sm font-medium leading-relaxed mb-6 italic">
+                            <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-medium leading-relaxed mb-6 italic">
                                 "{item.text}"
                             </p>
                         </div>
@@ -72,19 +72,19 @@ const Testimonials = () => {
                                 <img 
                                     src={item.avatar} 
                                     alt={item.name} 
-                                    className="w-10 h-10 rounded-full object-cover border-2 border-blue-500/30" 
+                                    className="w-10 h-10 rounded-full object-cover border-2 border-emerald-500/30" 
                                 />
                                 <div>
-                                    <h4 className="font-extrabold text-sm text-[#1f2231] dark:text-white flex items-center gap-1">
+                                    <h4 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-1">
                                         {item.name}
                                         {item.verified && (
-                                            <span className="text-blue-600 dark:text-blue-400 text-xs font-bold" title="Verified Buyer">✓</span>
+                                            <span className="text-emerald-600 dark:text-emerald-400 text-xs font-bold" title="Verified Buyer">✓</span>
                                         )}
                                     </h4>
-                                    <span className="text-[11px] text-gray-500 dark:text-gray-400 font-bold block">{item.role}</span>
+                                    <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold block">{item.role}</span>
                                 </div>
                             </div>
-                            <span className="text-[10px] text-gray-400 dark:text-gray-500 font-semibold">{item.date}</span>
+                            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold">{item.date}</span>
                         </div>
                     </div>
                 ))}
@@ -94,3 +94,4 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
+

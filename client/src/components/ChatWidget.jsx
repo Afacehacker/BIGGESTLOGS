@@ -91,17 +91,17 @@ const ChatWidget = () => {
     };
 
     return (
-        <div className="fixed bottom-36 md:bottom-10 right-6 md:right-10 z-[999]">
+        <div className="fixed bottom-20 md:bottom-8 right-3 md:right-8 z-[999]">
             {/* Floating Icon */}
             <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className="bg-primary hover:bg-blue-600 text-white p-4 rounded-full shadow-2xl relative"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white p-3.5 sm:p-4 rounded-full shadow-2xl relative shadow-emerald-600/30 flex items-center justify-center active:scale-95"
             >
-                {isOpen ? <X size={28} /> : <MessageCircle size={28} />}
+                {isOpen ? <X size={26} /> : <MessageCircle size={26} />}
                 {!isOpen && unreadCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-white">
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">
                         {unreadCount}
                     </span>
                 )}
@@ -114,34 +114,34 @@ const ChatWidget = () => {
                         initial={{ opacity: 0, scale: 0.8, y: 50 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.8, y: 50 }}
-                        className="absolute bottom-20 right-0 w-[350px] md:w-[400px] h-[550px] bg-white/80 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-white/20 flex flex-col overflow-hidden"
+                        className="absolute bottom-16 right-0 w-[calc(100vw-24px)] max-w-[380px] h-[500px] bg-white dark:bg-slate-900 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-gray-100 dark:border-slate-800 flex flex-col overflow-hidden"
                     >
                         {/* Header */}
-                        <div className="bg-primary p-6 text-white flex justify-between items-center group">
+                        <div className="bg-emerald-600 p-5 text-white flex justify-between items-center group">
                             <div>
-                                <h3 className="font-bold text-lg">Support Center</h3>
-                                <p className="text-xs text-blue-100 flex items-center gap-1">
-                                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                                <h3 className="font-bold text-base sm:text-lg">Support Center</h3>
+                                <p className="text-xs text-emerald-100 flex items-center gap-1.5">
+                                    <span className="w-2 h-2 bg-emerald-300 rounded-full animate-pulse" />
                                     Online • BIGGESTLOGS
                                 </p>
                             </div>
-                            <button onClick={() => setIsOpen(false)} className="hover:rotate-90 transition-transform">
+                            <button onClick={() => setIsOpen(false)} className="hover:rotate-90 transition-transform p-1">
                                 <X size={20} />
                             </button>
                         </div>
 
                         {/* Messages Area */}
-                        <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50/50">
+                        <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3.5 bg-slate-50/70 dark:bg-slate-950/60">
                             {messages.map((msg, i) => (
                                 <div key={i} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-[80%] rounded-2xl p-4 shadow-sm ${
+                                    <div className={`max-w-[85%] rounded-2xl p-3.5 shadow-xs ${
                                         msg.sender === 'user' 
-                                            ? 'bg-primary text-white rounded-tr-none' 
+                                            ? 'bg-emerald-600 text-white rounded-tr-none' 
                                             : msg.sender === 'bot' 
-                                                ? 'bg-blue-50 text-blue-800 border border-blue-100 rounded-tl-none font-medium text-sm'
-                                                : 'bg-white text-gray-800 rounded-tl-none'
+                                                ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800 rounded-tl-none font-medium text-xs sm:text-sm'
+                                                : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-gray-100 dark:border-slate-700 rounded-tl-none'
                                     }`}>
-                                        {msg.message && <p className="whitespace-pre-line text-sm">{msg.message}</p>}
+                                        {msg.message && <p className="whitespace-pre-line text-xs sm:text-sm">{msg.message}</p>}
                                         {msg.image && (
                                             <img src={msg.image} alt="Upload" className="mt-2 rounded-lg max-w-full cursor-pointer hover:opacity-90" onClick={() => window.open(msg.image)} />
                                         )}
@@ -158,10 +158,10 @@ const ChatWidget = () => {
                             ))}
                             {isTyping && (
                                 <div className="flex justify-start">
-                                    <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm flex gap-1">
-                                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" />
-                                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]" />
-                                        <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+                                    <div className="bg-white dark:bg-slate-800 p-3 rounded-2xl rounded-tl-none shadow-sm flex gap-1">
+                                        <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" />
+                                        <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]" />
+                                        <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]" />
                                     </div>
                                 </div>
                             )}
@@ -169,20 +169,20 @@ const ChatWidget = () => {
                         </div>
 
                         {/* Input Area */}
-                        <form onSubmit={handleSend} className="p-4 bg-white border-t border-gray-100 flex items-center gap-3">
-                            <label className="cursor-pointer text-gray-400 hover:text-primary transition-colors">
+                        <form onSubmit={handleSend} className="p-3 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 flex items-center gap-2">
+                            <label className="cursor-pointer text-slate-400 dark:text-slate-500 hover:text-emerald-600 transition-colors p-1">
                                 <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} disabled={uploading} />
-                                {uploading ? <Loader2 size={24} className="animate-spin" /> : <ImageIcon size={24} />}
+                                {uploading ? <Loader2 size={22} className="animate-spin" /> : <ImageIcon size={22} />}
                             </label>
                             <input
                                 type="text"
                                 value={input}
                                 onChange={handleTyping}
                                 placeholder="Type your message..."
-                                className="flex-1 bg-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                                className="flex-1 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl px-3.5 py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all placeholder-slate-400"
                             />
-                            <button type="submit" className="bg-primary text-white p-3 rounded-xl hover:bg-blue-600 transition-colors shadow-lg shadow-primary/20">
-                                <Send size={20} />
+                            <button type="submit" className="bg-emerald-600 hover:bg-emerald-700 text-white p-2.5 rounded-xl transition-colors shadow-md shadow-emerald-600/20">
+                                <Send size={18} />
                             </button>
                         </form>
                     </motion.div>
@@ -193,3 +193,4 @@ const ChatWidget = () => {
 };
 
 export default ChatWidget;
+

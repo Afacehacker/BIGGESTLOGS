@@ -20,7 +20,7 @@ const ProductCard = ({ account, onPreview }) => {
         
         if (mediaUrl) {
             return (
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-slate-800 border border-blue-100 dark:border-slate-700 overflow-hidden shrink-0 shadow-sm">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-slate-800 border border-emerald-100 dark:border-slate-700 overflow-hidden shrink-0 shadow-sm">
                     <img 
                         src={mediaUrl} 
                         alt={account.title || 'Product'} 
@@ -99,7 +99,7 @@ const ProductCard = ({ account, onPreview }) => {
 
         // Default Product Image container
         return (
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-slate-800 flex items-center justify-center shadow-sm overflow-hidden border border-blue-100 dark:border-slate-700 shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-slate-800 flex items-center justify-center shadow-sm overflow-hidden border border-emerald-100 dark:border-slate-700 shrink-0">
                 <img 
                     src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=150&q=80" 
                     alt="Digital Product" 
@@ -113,7 +113,7 @@ const ProductCard = ({ account, onPreview }) => {
 
     return (
         <div 
-            className="bg-white dark:bg-slate-900/90 rounded-[1.5rem] p-4 flex gap-3.5 items-center shadow-sm border border-gray-100 dark:border-slate-800 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 w-full mb-3 group relative overflow-hidden"
+            className="bg-white dark:bg-slate-900 rounded-[1.5rem] p-3.5 sm:p-4 flex gap-3 sm:gap-3.5 items-center shadow-sm border border-gray-100 dark:border-slate-800 hover:border-emerald-500/40 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 w-full mb-3 group relative overflow-hidden"
         >
             {/* Left Picture Icon Frame */}
             <div 
@@ -122,7 +122,7 @@ const ProductCard = ({ account, onPreview }) => {
             >
                 {getProductPicture()}
                 {account.quality && (
-                    <div className="absolute -bottom-1 -right-1 bg-green-500 text-white p-0.5 rounded-full border-2 border-white dark:border-slate-900 shadow-xs" title={`Quality: ${account.quality}%`}>
+                    <div className="absolute -bottom-1 -right-1 bg-emerald-600 text-white p-0.5 rounded-full border-2 border-white dark:border-slate-900 shadow-xs" title={`Quality: ${account.quality}%`}>
                         <CheckCircle2 size={11} strokeWidth={3} />
                     </div>
                 )}
@@ -134,20 +134,20 @@ const ProductCard = ({ account, onPreview }) => {
                 className="flex-grow flex flex-col justify-center min-w-0 pr-1 cursor-pointer"
             >
                 <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-[#1f2231] dark:text-white font-extrabold text-[14px] md:text-[15px] leading-snug line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h3 className="text-slate-900 dark:text-white font-extrabold text-[13px] sm:text-[15px] leading-snug line-clamp-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                         {account.title}
                     </h3>
                 </div>
                 
-                <div className="flex items-center gap-2 mt-auto flex-wrap">
-                    <span className="bg-[#1f2228] text-white text-xs font-extrabold px-3 py-1 rounded-[8px] tracking-wide whitespace-nowrap shadow-xs">
+                <div className="flex items-center gap-1.5 sm:gap-2 mt-auto flex-wrap">
+                    <span className="bg-emerald-600 text-white text-[11px] sm:text-xs font-extrabold px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-[8px] tracking-wide whitespace-nowrap shadow-xs">
                         {formatCurrency(account.price)}
                     </span>
                     <span className="text-gray-300 dark:text-slate-700 font-bold hidden sm:inline">|</span>
-                    <span className={`text-xs font-extrabold px-2.5 py-1 rounded-[8px] tracking-wide whitespace-nowrap ${
+                    <span className={`text-[11px] sm:text-xs font-extrabold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-[8px] tracking-wide whitespace-nowrap ${
                         isAvailable 
-                            ? 'bg-blue-50 dark:bg-slate-800 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-slate-700' 
-                            : 'bg-red-50 text-red-600 border border-red-100'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800' 
+                            : 'bg-red-50 text-red-600 dark:bg-red-950/40 dark:text-red-400 border border-red-100 dark:border-red-900'
                     }`}>
                         {isAvailable ? `${account.stock} Available` : 'Sold Out'}
                     </span>
@@ -155,7 +155,7 @@ const ProductCard = ({ account, onPreview }) => {
             </div>
 
             {/* Right Actions */}
-            <div className="shrink-0 flex items-center gap-2 pl-1">
+            <div className="shrink-0 flex items-center gap-1.5 sm:gap-2 pl-1">
                 {onPreview && (
                     <button
                         onClick={(e) => {
@@ -163,7 +163,7 @@ const ProductCard = ({ account, onPreview }) => {
                             onPreview(account);
                         }}
                         title="Quick Preview"
-                        className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-slate-700 flex items-center justify-center transition-colors border border-blue-100 dark:border-slate-700 active:scale-95"
+                        className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-xl bg-emerald-50 dark:bg-slate-800 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-slate-700 flex items-center justify-center transition-colors border border-emerald-100 dark:border-slate-700 active:scale-95"
                     >
                         <Eye size={17} />
                     </button>
@@ -171,7 +171,7 @@ const ProductCard = ({ account, onPreview }) => {
 
                 <button
                     onClick={() => navigate(`/shop/${account._id}`)}
-                    className="w-10 h-10 rounded-2xl bg-[#1b2331] hover:bg-black text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform active:scale-95"
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center shadow-md shadow-emerald-600/20 group-hover:scale-105 transition-transform active:scale-95"
                     title="Buy Now"
                 >
                     <ShoppingBag size={18} strokeWidth={2.5} />
@@ -182,3 +182,4 @@ const ProductCard = ({ account, onPreview }) => {
 };
 
 export default ProductCard;
+
