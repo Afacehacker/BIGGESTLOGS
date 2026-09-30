@@ -112,17 +112,24 @@ const Home = () => {
             
             {/* Header Content */}
             <div className="px-5 pt-8 max-w-lg mx-auto">
-                <h1 className="text-xl font-bold uppercase tracking-tight text-[#4f0c86]">
-                    <span className="text-blue-700">HI </span>
-                    {user ? user.name : 'GUEST'},
-                </h1>
+                <div className="flex items-center justify-between mb-4">
+                    <div>
+                        <span className="text-xs font-bold uppercase tracking-widest text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
+                            Verified Logs Platform
+                        </span>
+                        <h1 className="text-2xl font-black uppercase tracking-tight text-[#1f2231] mt-2">
+                            <span className="text-blue-600">HI </span>
+                            {user ? user.name : 'GUEST'},
+                        </h1>
+                    </div>
+                </div>
 
                 {/* Categories Dropdown Filter */}
-                <div className="mt-3 relative">
-                    <select className="w-full bg-[#1b2331] text-white text-[15px] rounded-[12px] px-4 py-4 appearance-none outline-none font-medium cursor-pointer">
-                        <option>Categories</option>
+                <div className="mt-3 relative shadow-sm">
+                    <select className="w-full bg-[#1b2331] hover:bg-black text-white text-[15px] rounded-[14px] px-5 py-4 appearance-none outline-none font-bold cursor-pointer transition-colors border border-gray-800">
+                        <option value="">Categories (All Platform Logs)</option>
                         {Object.keys(groupedAccounts).map((cat, i) => (
-                            <option key={i} value={cat}>{cat}</option>
+                            <option key={i} value={cat}>{cat} ({groupedAccounts[cat].length})</option>
                         ))}
                     </select>
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
@@ -131,53 +138,58 @@ const Home = () => {
                 </div>
 
                 {/* Recent Order Status */}
-                <div className="mt-6 mb-4">
-                    <div className="bg-[#596168] rounded-[10px] text-center py-3 text-white font-bold tracking-widest text-sm shadow-sm">
-                        RECENT ORDER
+                <div className="mt-6 mb-3">
+                    <div className="bg-[#596168] rounded-[12px] text-center py-3 text-white font-black tracking-widest text-xs shadow-sm uppercase flex items-center justify-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-green-400 animate-ping" />
+                        Live Recent Purchases Ticker
                     </div>
                 </div>
 
                 {/* Recent Order List */}
-                <div className="bg-white border border-gray-100 rounded-[14px] shadow-sm mb-10 overflow-hidden">
-                    <div className="flex justify-between px-5 py-4 border-b border-gray-100 font-bold text-lg">
-                        <span>Item</span>
+                <div className="bg-white border border-gray-100 rounded-[18px] shadow-sm mb-8 overflow-hidden">
+                    <div className="flex justify-between px-5 py-3.5 border-b border-gray-100 font-bold text-xs uppercase tracking-wider text-gray-400 bg-gray-50/50">
+                        <span>Item / Purchaser</span>
                         <span>Time</span>
                     </div>
-                    <div className="max-h-56 overflow-hidden relative p-1">
-                        <div className="animate-pulse absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10">
-                            {/* Visual effect for scroll list */}
-                        </div>
+                    <div className="max-h-56 overflow-hidden relative divide-y divide-gray-50">
                         {Array.isArray(recentOrders) && recentOrders.map((order, index) => (
-                            <div key={order.id || index} className="flex justify-between items-center px-4 py-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors">
-                                <div>
-                                    <p className="text-gray-500 text-[13px] mb-1">{order.name}, <span className="text-pink-600 font-semibold text-[13px]">just purchase</span></p>
-                                    <p className="text-gray-600 text-[13px] font-bold uppercase">{order.item} <span className="text-black ml-1">{order.price}</span></p>
+                            <div key={order.id || index} className="flex justify-between items-center px-4 py-3.5 hover:bg-blue-50/40 transition-colors">
+                                <div className="min-w-0 pr-2">
+                                    <p className="text-gray-500 text-[12px] mb-0.5 font-medium truncate">
+                                        <span className="font-bold text-gray-900">{order.name.replace('..', '')}</span> <span className="text-pink-600 font-extrabold text-[11px] uppercase tracking-wider ml-1">Bought!</span>
+                                    </p>
+                                    <p className="text-gray-800 text-[13px] font-bold uppercase truncate">
+                                        {order.item} <span className="text-blue-600 ml-1.5 font-black">{order.price}</span>
+                                    </p>
                                 </div>
-                                <span className="text-gray-400 text-sm whitespace-nowrap pl-4">{order.time}</span>
+                                <span className="text-gray-400 text-xs font-semibold whitespace-nowrap bg-gray-100 px-2.5 py-1 rounded-md shrink-0">{order.time}</span>
                             </div>
                         ))}
                     </div>
                 </div>
 
                 {/* Explore Product Tag */}
-                <h2 className="text-xl font-extrabold text-[#1f2231] tracking-tight mb-4 border-l-4 border-yellow-400 pl-3">
-                    Explore Product 👈
-                </h2>
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-extrabold text-[#1f2231] tracking-tight border-l-4 border-yellow-400 pl-3">
+                        Explore Available Products 👈
+                    </h2>
+                </div>
 
                 {/* Products Grouped */}
                 {loading ? (
-                    <div className="py-20 text-center text-gray-500">Loading products...</div>
+                    <div className="py-20 text-center text-gray-400 font-bold animate-pulse">Loading verified products...</div>
                 ) : (
                     <div className="space-y-8">
                         {Object.keys(groupedAccounts).map((groupName, idx) => (
                             <div key={idx}>
                                 {/* Group Header */}
-                                <div className="bg-[#3b427b] text-white rounded-[10px] px-4 py-3 font-semibold text-sm mb-4 uppercase tracking-wider shadow-sm">
-                                    {groupName} ACCOUNTS/TOOLS
+                                <div className="bg-[#3b427b] text-white rounded-[12px] px-4 py-3 font-bold text-xs mb-4 uppercase tracking-wider shadow-sm flex items-center justify-between">
+                                    <span>{groupName} ACCOUNTS / TOOLS</span>
+                                    <span className="bg-white/20 text-white px-2 py-0.5 rounded-full text-[10px] font-black">{groupedAccounts[groupName].length} Available</span>
                                 </div>
                                 
                                 {/* Products */}
-                                <div className="space-y-4">
+                                <div className="space-y-3">
                                     {groupedAccounts[groupName].slice(0, 5).map(acc => (
                                         <ProductCard key={acc._id} account={acc} />
                                     ))}
@@ -186,8 +198,8 @@ const Home = () => {
                                 {/* View All Button */}
                                 {groupedAccounts[groupName].length > 5 && (
                                     <div className="mt-4 mb-8">
-                                        <Link to="/shop" className="block w-full text-center bg-[#1b2331] hover:bg-black transition-colors text-white py-4 rounded-xl shadow-md font-black uppercase text-[13px] tracking-widest">
-                                            View All {groupName}
+                                        <Link to="/shop" className="block w-full text-center bg-[#1b2331] hover:bg-black transition-all duration-200 text-white py-3.5 rounded-xl shadow-md font-black uppercase text-[12px] tracking-widest active:scale-95">
+                                            View All {groupName} ({groupedAccounts[groupName].length})
                                         </Link>
                                     </div>
                                 )}
@@ -200,8 +212,8 @@ const Home = () => {
 
             {/* Floating Telegram Button */}
             <a href={settings?.telegramLink || "https://t.me/boostnaija1"} target="_blank" rel="noopener noreferrer" 
-                className="fixed bottom-36 left-6 md:left-auto md:right-32 bg-[#0088cc] hover:bg-[#0077b5] transition-colors p-4 rounded-2xl shadow-lg z-50 flex items-center justify-center border-2 border-blue-50">
-                <Send size={28} className="text-white -ml-1 mt-1" fill="currentColor" />
+                className="fixed bottom-24 left-6 md:left-auto md:right-32 bg-[#0088cc] hover:bg-[#0077b5] transition-all duration-300 p-3.5 rounded-2xl shadow-xl shadow-blue-500/20 z-50 flex items-center justify-center border-2 border-white hover:scale-110 active:scale-95" title="Telegram Support">
+                <Send size={24} className="text-white -ml-0.5" fill="currentColor" />
             </a>
             
         </div>
