@@ -1,8 +1,7 @@
-import { motion } from 'framer-motion';
-import { ShoppingBag, CheckCircle2 } from 'lucide-react';
+import { ShoppingBag, Eye, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const ProductCard = ({ account }) => {
+const ProductCard = ({ account, onPreview }) => {
     const navigate = useNavigate();
     
     // Formatter for Currency
@@ -11,58 +10,101 @@ const ProductCard = ({ account }) => {
             style: 'currency',
             currency: 'NGN',
             minimumFractionDigits: 2,
-        }).format(val).replace('NGN', '₦');
+        }).format(val || 0).replace('NGN', '₦');
     };
 
-    // Pick an icon or logo based on platform
-    const getPlatformIcon = (platform = '') => {
-        const plat = platform.toLowerCase();
-        if (plat.includes('proxy')) {
+    // Render Product Picture / Platform Brand Image in exact w-12 h-12 rounded-2xl shape
+    const getProductPicture = () => {
+        // Priority 1: User uploaded account image or media picture
+        const mediaUrl = account.image || (account.media && account.media.length > 0 ? account.media[0] : null);
+        
+        if (mediaUrl) {
             return (
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-md text-white font-black text-xl">
-                    9
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-slate-800 border border-blue-100 dark:border-slate-700 overflow-hidden shrink-0 shadow-sm">
+                    <img 
+                        src={mediaUrl} 
+                        alt={account.title || 'Product'} 
+                        className="w-full h-full object-cover" 
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=150&q=80';
+                        }}
+                    />
                 </div>
             );
         }
-        if (plat.includes('facebook')) {
-            return (
-                <div className="w-12 h-12 rounded-2xl bg-[#1877F2] flex items-center justify-center shadow-md text-white font-black text-xl">
-                    f
-                </div>
-            );
-        }
-        if (plat.includes('twitter') || plat.includes('x')) {
-            return (
-                <div className="w-12 h-12 rounded-2xl bg-black flex items-center justify-center shadow-md text-white font-black text-xl">
-                    X
-                </div>
-            );
-        }
-        if (plat.includes('instagram')) {
-            return (
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center shadow-md text-white font-black text-xl">
-                    Ig
-                </div>
-            );
-        }
+
+        // Priority 2: High-Quality Platform Brand Images in exact w-12 h-12 rounded-2xl container
+        const plat = (account.platform || '').toLowerCase();
+        
         if (plat.includes('tiktok')) {
             return (
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-black via-gray-900 to-red-500 flex items-center justify-center shadow-md text-white font-black text-xl">
-                    Tk
+                <div className="w-12 h-12 rounded-2xl bg-black overflow-hidden shrink-0 shadow-md border border-slate-700 flex items-center justify-center p-0.5">
+                    <img 
+                        src="https://images.unsplash.com/photo-1598128558393-70ff21433be0?auto=format&fit=crop&w=150&q=80" 
+                        alt="TikTok" 
+                        className="w-full h-full object-cover rounded-xl"
+                    />
                 </div>
             );
         }
+
+        if (plat.includes('facebook')) {
+            return (
+                <div className="w-12 h-12 rounded-2xl bg-[#1877F2] overflow-hidden shrink-0 shadow-md flex items-center justify-center p-0.5">
+                    <img 
+                        src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=150&q=80" 
+                        alt="Facebook" 
+                        className="w-full h-full object-cover rounded-xl"
+                    />
+                </div>
+            );
+        }
+
+        if (plat.includes('instagram')) {
+            return (
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-600 overflow-hidden shrink-0 shadow-md p-0.5">
+                    <img 
+                        src="https://images.unsplash.com/photo-1611262588024-d12430b98920?auto=format&fit=crop&w=150&q=80" 
+                        alt="Instagram" 
+                        className="w-full h-full object-cover rounded-xl"
+                    />
+                </div>
+            );
+        }
+
+        if (plat.includes('twitter') || plat.includes('x')) {
+            return (
+                <div className="w-12 h-12 rounded-2xl bg-black overflow-hidden shrink-0 shadow-md border border-slate-700 p-0.5">
+                    <img 
+                        src="https://images.unsplash.com/photo-1611605698335-8b1569810432?auto=format&fit=crop&w=150&q=80" 
+                        alt="Twitter X" 
+                        className="w-full h-full object-cover rounded-xl"
+                    />
+                </div>
+            );
+        }
+
         if (plat.includes('telegram')) {
             return (
-                <div className="w-12 h-12 rounded-2xl bg-[#0088cc] flex items-center justify-center shadow-md text-white font-black text-xl">
-                    Tg
+                <div className="w-12 h-12 rounded-2xl bg-[#0088cc] overflow-hidden shrink-0 shadow-md p-0.5">
+                    <img 
+                        src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=150&q=80" 
+                        alt="Telegram" 
+                        className="w-full h-full object-cover rounded-xl"
+                    />
                 </div>
             );
         }
-        // Default avatar/image
+
+        // Default Product Image container
         return (
-            <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm overflow-hidden border border-gray-100 shrink-0">
-                <img src={account.image || 'https://via.placeholder.com/150'} alt="Icon" className="w-full h-full object-cover" />
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-slate-800 flex items-center justify-center shadow-sm overflow-hidden border border-blue-100 dark:border-slate-700 shrink-0">
+                <img 
+                    src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=150&q=80" 
+                    alt="Digital Product" 
+                    className="w-full h-full object-cover" 
+                />
             </div>
         );
     };
@@ -70,52 +112,73 @@ const ProductCard = ({ account }) => {
     const isAvailable = (account.stock || 0) > 0;
 
     return (
-        <motion.div 
-            whileHover={{ y: -2, scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => navigate(`/shop/${account._id}`)}
-            className="bg-white rounded-[1.5rem] p-4 flex gap-4 items-center shadow-sm border border-gray-100 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 cursor-pointer w-full mb-3.5 group relative overflow-hidden"
+        <div 
+            className="bg-white dark:bg-slate-900/90 rounded-[1.5rem] p-4 flex gap-3.5 items-center shadow-sm border border-gray-100 dark:border-slate-800 hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 w-full mb-3 group relative overflow-hidden"
         >
-            {/* Left Icon */}
-            <div className="shrink-0 flex items-center justify-center relative">
-                {getPlatformIcon(account.platform)}
+            {/* Left Picture Icon Frame */}
+            <div 
+                onClick={() => navigate(`/shop/${account._id}`)}
+                className="shrink-0 flex items-center justify-center transform group-hover:scale-105 transition-transform cursor-pointer relative"
+            >
+                {getProductPicture()}
                 {account.quality && (
-                    <div className="absolute -bottom-1 -right-1 bg-green-500 text-white p-0.5 rounded-full border-2 border-white shadow-sm" title={`Quality: ${account.quality}%`}>
-                        <CheckCircle2 size={12} strokeWidth={3} />
+                    <div className="absolute -bottom-1 -right-1 bg-green-500 text-white p-0.5 rounded-full border-2 border-white dark:border-slate-900 shadow-xs" title={`Quality: ${account.quality}%`}>
+                        <CheckCircle2 size={11} strokeWidth={3} />
                     </div>
                 )}
             </div>
 
             {/* Middle Content */}
-            <div className="flex-grow flex flex-col justify-center min-w-0 pr-2">
-                <h3 className="text-gray-900 font-semibold text-[14.5px] leading-snug mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                    {account.title}
-                </h3>
+            <div 
+                onClick={() => navigate(`/shop/${account._id}`)}
+                className="flex-grow flex flex-col justify-center min-w-0 pr-1 cursor-pointer"
+            >
+                <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-[#1f2231] dark:text-white font-extrabold text-[14px] md:text-[15px] leading-snug line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {account.title}
+                    </h3>
+                </div>
                 
                 <div className="flex items-center gap-2 mt-auto flex-wrap">
-                    <span className="bg-[#1f2228] text-white text-[11px] font-bold px-3 py-1 rounded-[7px] tracking-wide whitespace-nowrap shadow-sm">
+                    <span className="bg-[#1f2228] text-white text-xs font-extrabold px-3 py-1 rounded-[8px] tracking-wide whitespace-nowrap shadow-xs">
                         {formatCurrency(account.price)}
                     </span>
-                    <span className="text-gray-200 font-light">|</span>
-                    <span className={`text-[11px] font-bold px-2.5 py-1 rounded-[7px] tracking-wide whitespace-nowrap transition-colors ${
+                    <span className="text-gray-300 dark:text-slate-700 font-bold hidden sm:inline">|</span>
+                    <span className={`text-xs font-extrabold px-2.5 py-1 rounded-[8px] tracking-wide whitespace-nowrap ${
                         isAvailable 
-                            ? 'bg-[#1f2228] text-white' 
+                            ? 'bg-blue-50 dark:bg-slate-800 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-slate-700' 
                             : 'bg-red-50 text-red-600 border border-red-100'
                     }`}>
-                        {isAvailable ? `${account.stock} Pcs` : 'Sold Out'}
+                        {isAvailable ? `${account.stock} Available` : 'Sold Out'}
                     </span>
                 </div>
             </div>
 
-            {/* Right Action */}
-            <div className="shrink-0 pl-1">
-                <button className="bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white transition-all duration-200 p-2.5 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-105 active:scale-90">
-                    <ShoppingBag size={20} strokeWidth={2.2} />
+            {/* Right Actions */}
+            <div className="shrink-0 flex items-center gap-2 pl-1">
+                {onPreview && (
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onPreview(account);
+                        }}
+                        title="Quick Preview"
+                        className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-slate-700 flex items-center justify-center transition-colors border border-blue-100 dark:border-slate-700 active:scale-95"
+                    >
+                        <Eye size={17} />
+                    </button>
+                )}
+
+                <button
+                    onClick={() => navigate(`/shop/${account._id}`)}
+                    className="w-10 h-10 rounded-2xl bg-[#1b2331] hover:bg-black text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform active:scale-95"
+                    title="Buy Now"
+                >
+                    <ShoppingBag size={18} strokeWidth={2.5} />
                 </button>
             </div>
-        </motion.div>
+        </div>
     );
 };
 
 export default ProductCard;
-
