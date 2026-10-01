@@ -3,7 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import { SettingsContext } from '../context/SettingsContext';
 import API from '../services/api';
 import { toast } from 'react-hot-toast';
-import { Copy, PlusCircle, CheckCircle, ShieldCheck } from 'lucide-react';
+import { Copy, PlusCircle, CheckCircle, ShieldCheck, AlertTriangle, AlertOctagon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Wallet = () => {
@@ -104,6 +104,27 @@ const Wallet = () => {
                             <h3 className="font-black text-slate-900 dark:text-white uppercase tracking-tight text-base">Deposit Guidelines</h3>
                         </div>
 
+                        {/* OPay Warning Card */}
+                        <div className="bg-rose-500/10 dark:bg-rose-500/20 border-2 border-rose-500/50 rounded-2xl p-4 mb-5 shadow-sm">
+                            <div className="flex items-start gap-3">
+                                <div className="bg-rose-600 text-white p-2 rounded-xl shrink-0 mt-0.5 shadow-md shadow-rose-600/30">
+                                    <AlertOctagon size={20} />
+                                </div>
+                                <div className="space-y-1">
+                                    <h4 className="text-xs font-black text-rose-700 dark:text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
+                                        ⛔ WARNING: DO NOT PAY WITH OPAY
+                                    </h4>
+                                    <p className="text-xs text-rose-950 dark:text-rose-200 font-bold leading-relaxed">
+                                        Please <span className="underline underline-offset-2 font-black text-rose-600 dark:text-rose-400">DO NOT</span> send payments or wallet funding deposits using <span className="font-black text-rose-900 dark:text-rose-100 bg-rose-200/80 dark:bg-rose-900/60 px-1.5 py-0.5 rounded">OPay</span>. 
+                                        OPay transfers are currently experiencing severe network delays and gateway rejections.
+                                    </p>
+                                    <p className="text-[11px] text-rose-800 dark:text-rose-300 font-extrabold italic">
+                                        💡 Recommended: Use Kuda, Moniepoint, PalmPay, GTBank, Access, Zenith, or any other standard commercial bank.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                         {/* Notice Box */}
                         <div className="bg-emerald-50/70 dark:bg-emerald-950/40 border-l-4 border-emerald-500 rounded-r-xl p-4 mb-5">
                             <h4 className="text-xs font-black text-emerald-700 dark:text-emerald-300 uppercase mb-1">⚠️ Important notice:</h4>
@@ -136,6 +157,12 @@ const Wallet = () => {
                                         </button>
                                     </div>
                                 </div>
+                            </div>
+
+                            {/* OPay Warning Bar */}
+                            <div className="mt-3 pt-2.5 border-t border-rose-200/60 dark:border-rose-900/40 flex items-center justify-center gap-1.5 text-rose-600 dark:text-rose-400 text-[11px] font-black uppercase tracking-tight">
+                                <AlertTriangle size={14} className="shrink-0" />
+                                <span>No OPay Transfers Allowed • Use Other Banks</span>
                             </div>
                         </div>
                     </div>
