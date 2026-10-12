@@ -140,13 +140,10 @@ const TabButton = ({ id, active, set, icon, label, count }) => (
 );
 
 const OverviewTab = ({ orders, accounts }) => {
-    const revenue = (Array.isArray(orders) ? orders : []).filter(o => o.status === 'completed').reduce((acc, curr) => acc + (curr.account?.price || 0), 0);
-
     return (
         <div className="p-8">
             <h2 className="text-2xl font-bold mb-8">Performance Stats</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <StatCard label="Total Revenue" value={`₦${revenue}`} color="text-green-400" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
                 <StatCard label="Pending Orders" value={(Array.isArray(orders) ? orders : []).filter(o => o.status === 'pending').length} color="text-yellow-400" />
                 <StatCard label="Active Listings" value={(Array.isArray(accounts) ? accounts : []).length} color="text-primary-light" />
             </div>
