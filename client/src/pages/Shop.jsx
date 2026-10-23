@@ -25,7 +25,39 @@ const Shop = () => {
         setLoading(true);
         try {
             const { data } = await API.get('/accounts', { params: filters });
-            setAccounts(data);
+
+            // Platform priority: TikTok first, Facebook second, rest as-is
+            const PLATFORM_ORDER = ['tiktok', 'facebook'];
+            const platformRank = (acc) => {
+                const p = acc.platform?.toLowerCase();
+                const idx = PLATFORM_ORDER.indexOf(p);
+                return idx === -1 ? PLATFORM_ORDER.length : idx;
+            };
+
+            // Within TikTok: ₦10,000 items first → Verified sorted by price asc → rest
+            const tikTokSort = (a, b) => {
+                const aIs10k = a.price === 10000;
+                const bIs10k = b.price === 10000;
+                if (aIs10k && !bIs10k) return -1;
+                if (!aIs10k && bIs10k) return 1;
+                const aIsVerified = a.type?.toLowerCase() === 'verified';
+                const bIsVerified = b.type?.toLowerCase() === 'verified';
+                if (aIsVerified && !bIsVerified) return -1;
+                if (!aIsVerified && bIsVerified) return 1;
+                return a.price - b.price;
+            };
+
+            const sorted = [...data].sort((a, b) => {
+                const rankDiff = platformRank(a) - platformRank(b);
+                if (rankDiff !== 0) return rankDiff;
+                // Both on same platform — apply TikTok sort if both are TikTok
+                if (a.platform?.toLowerCase() === 'tiktok' && b.platform?.toLowerCase() === 'tiktok') {
+                    return tikTokSort(a, b);
+                }
+                return 0; // keep original server order for other platforms
+            });
+
+            setAccounts(sorted);
         } catch (error) {
             console.error("Failed to fetch accounts:", error);
         }

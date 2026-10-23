@@ -56,6 +56,31 @@ const Home = () => {
         return acc;
     }, {});
 
+    // Platform display priority: TikTok first, Facebook second, rest alphabetical
+    const PLATFORM_ORDER = ['TIKTOK', 'FACEBOOK'];
+    const sortedGroupKeys = Object.keys(groupedAccounts).sort((a, b) => {
+        const ai = PLATFORM_ORDER.indexOf(a);
+        const bi = PLATFORM_ORDER.indexOf(b);
+        if (ai !== -1 && bi !== -1) return ai - bi;
+        if (ai !== -1) return -1;
+        if (bi !== -1) return 1;
+        return a.localeCompare(b);
+    });
+
+    // Within TikTok: ₦10,000 items first → Verified sorted by price asc → rest
+    const sortTikTokProducts = (items) =>
+        [...items].sort((a, b) => {
+            const aIs10k = a.price === 10000;
+            const bIs10k = b.price === 10000;
+            if (aIs10k && !bIs10k) return -1;
+            if (!aIs10k && bIs10k) return 1;
+            const aIsVerified = a.type?.toLowerCase() === 'verified';
+            const bIsVerified = b.type?.toLowerCase() === 'verified';
+            if (aIsVerified && !bIsVerified) return -1;
+            if (!aIsVerified && bIsVerified) return 1;
+            return a.price - b.price;
+        });
+
     // All available platform categories for pill filter
     const categoriesList = ['ALL', ...Array.from(new Set(accounts.map(a => a.platform?.toUpperCase()).filter(Boolean)))];
 
@@ -294,28 +319,33 @@ const Home = () => {
                         </div>
                     ) : (
                         <div className="space-y-8">
-                            {Object.keys(groupedAccounts).map((groupName, idx) => (
-                                <div key={idx}>
-                                    {/* Group Header */}
-                                    <div className="bg-emerald-700 dark:bg-slate-800 text-white rounded-xl px-4 py-3 font-black text-xs md:text-sm mb-3 uppercase tracking-wider shadow-sm flex items-center justify-between">
-                                        <span>{groupName} LOGS / TOOLS</span>
-                                        <span className="text-[11px] bg-white/20 text-white px-2.5 py-0.5 rounded-full font-bold">
-                                            {groupedAccounts[groupName].length} items
-                                        </span>
+                            {sortedGroupKeys.map((groupName, idx) => {
+                                const groupItems = groupName === 'TIKTOK'
+                                    ? sortTikTokProducts(groupedAccounts[groupName])
+                                    : groupedAccounts[groupName];
+                                return (
+                                    <div key={idx}>
+                                        {/* Group Header */}
+                                        <div className="bg-emerald-700 dark:bg-slate-800 text-white rounded-xl px-4 py-3 font-black text-xs md:text-sm mb-3 uppercase tracking-wider shadow-sm flex items-center justify-between">
+                                            <span>{groupName} LOGS / TOOLS</span>
+                                            <span className="text-[11px] bg-white/20 text-white px-2.5 py-0.5 rounded-full font-bold">
+                                                {groupItems.length} items
+                                            </span>
+                                        </div>
+                                        
+                                        {/* Product Cards Grid */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            {groupItems.map(acc => (
+                                                <ProductCard 
+                                                    key={acc._id} 
+                                                    account={acc} 
+                                                    onPreview={(item) => setPreviewAccount(item)}
+                                                />
+                                            ))}
+                                        </div>
                                     </div>
-                                    
-                                    {/* Product Cards Grid */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                        {groupedAccounts[groupName].map(acc => (
-                                            <ProductCard 
-                                                key={acc._id} 
-                                                account={acc} 
-                                                onPreview={(item) => setPreviewAccount(item)}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     )}
                 </div>
