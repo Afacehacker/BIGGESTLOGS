@@ -29,14 +29,10 @@ app.set('trust proxy', 1);
 
 const allowedOrigins = [
     'https://biggestlogs.vercel.app',
-    'https://biggestloggs.com',
-    'https://www.biggestloggs.com',
-    'http://biggestloggs.com',
-    'http://www.biggestloggs.com',
-    'https://biggestloggs.com.ng',
-    'https://www.biggestloggs.com.ng',
-    'http://biggestloggs.com.ng',
-    'http://www.biggestloggs.com.ng',
+    'https://biggestlogg.com.ng',
+    'https://www.biggestlogg.com.ng',
+    'http://biggestlogg.com.ng',
+    'http://www.biggestlogg.com.ng',
     'http://localhost:5173',
     'http://localhost:5174',
     'http://localhost:3000'
