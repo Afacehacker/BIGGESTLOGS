@@ -7,7 +7,44 @@ const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 const { checkBlockedIp } = require('./middleware/ipBlockMiddleware');
 
 const http = require('http');
+const https = require('https');
 const initSocket = require('./utils/socket');
+
+// ── Keep-alive: prevent Render / free-tier hosts from sleeping ──────────────
+// Pings the server's own /api/ping endpoint every 4 minutes so the dyno never
+// goes idle. Falls back gracefully if RENDER_EXTERNAL_URL is not set.
+function startKeepAlive(port) {
+    const PING_INTERVAL_MS = 4 * 60 * 1000; // 4 minutes
+
+    // Render sets this env var automatically; fall back to localhost for local dev
+    const baseUrl =
+        process.env.RENDER_EXTERNAL_URL ||
+        `http://localhost:${port}`;
+
+    const pingUrl = `${baseUrl}/api/ping`;
+    const transport = pingUrl.startsWith('https') ? https : http;
+
+    setInterval(() => {
+        transport.get(pingUrl, (res) => {
+            console.log(`[keep-alive] ping → ${pingUrl} | status: ${res.statusCode}`);
+        }).on('error', (err) => {
+            console.error('[keep-alive] ping failed:', err.message);
+        });
+    }, PING_INTERVAL_MS);
+
+    console.log(`[keep-alive] Self-ping scheduled every ${PING_INTERVAL_MS / 60000} min → ${pingUrl}`);
+}
+
+// ── Global crash guards ─────────────────────────────────────────────────────
+process.on('uncaughtException', (err) => {
+    console.error('[uncaughtException]', err);
+    // Keep the process alive; log the error but don't exit
+});
+
+process.on('unhandledRejection', (reason) => {
+    console.error('[unhandledRejection]', reason);
+    // Keep the process alive; log the reason but don't exit
+});
 
 // Route files
 const accountRoutes = require('./routes/accountRoutes');
@@ -100,4 +137,5 @@ const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+    startKeepAlive(PORT);
 });

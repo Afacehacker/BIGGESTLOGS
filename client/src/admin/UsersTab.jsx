@@ -84,6 +84,7 @@ const UsersTab = () => {
                     <thead className="bg-slate-50 dark:bg-slate-800/50 text-slate-400 uppercase text-[10px] font-bold tracking-widest border-b border-slate-100 dark:border-slate-800">
                         <tr>
                             <th className="px-6 py-4">User</th>
+                            <th className="px-6 py-4">Registered</th>
                             <th className="px-6 py-4">Role</th>
                             <th className="px-6 py-4">Balance</th>
                             <th className="px-6 py-4 text-right">Actions</th>
@@ -95,6 +96,14 @@ const UsersTab = () => {
                                 <td className="px-6 py-4">
                                     <p className="font-bold text-sm text-slate-900 dark:text-white">{user.name}</p>
                                     <p className="text-[11px] text-slate-500 dark:text-slate-400">{user.email}</p>
+                                </td>
+                                <td className="px-6 py-4">
+                                    <p className="text-sm text-slate-700 dark:text-slate-300 font-medium">
+                                        {new Date(user.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                    </p>
+                                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                                        {new Date(user.createdAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: true })}
+                                    </p>
                                 </td>
                                 <td className="px-6 py-4">
                                     {editingUser === user._id ? (
@@ -142,7 +151,7 @@ const UsersTab = () => {
                         ))}
                         {filteredUsers.length === 0 && (
                             <tr>
-                                <td colSpan="4" className="text-center py-8 text-slate-500 dark:text-slate-400 font-medium">No users found.</td>
+                                <td colSpan="5" className="text-center py-8 text-slate-500 dark:text-slate-400 font-medium">No users found.</td>
                             </tr>
                         )}
                     </tbody>
